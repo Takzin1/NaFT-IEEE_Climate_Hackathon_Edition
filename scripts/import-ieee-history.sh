@@ -32,8 +32,8 @@ ACTUAL="$(git rev-parse "$SOURCE_REF")"
 umask 077
 AUDIT="$(mktemp -d /tmp/naft-ieee-secret-scan.XXXXXXXX)"
 echo "Auditing complete reachable Git history for secrets..."
-if ! gitleaks git --source . --log-opts="--all" --redact --no-banner \
-  --report-format json --report-path "$AUDIT/gitleaks-redacted.json"; then
+if ! gitleaks git --log-opts="--all" --redact --no-banner \
+  --report-format json --report-path "$AUDIT/gitleaks-redacted.json" .; then
   stop "Gitleaks flagged a secret or could not scan. DO NOT PUBLISH. Inspect $AUDIT/gitleaks-redacted.json"
 fi
 git rev-list --objects "$SOURCE_REF" | grep -Ei \
