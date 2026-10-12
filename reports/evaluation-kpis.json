@@ -1,0 +1,70 @@
+{
+  "schema": "naft-corpus-kpi-1",
+  "scope": "Synthetic conformance corpus: 36 labeled synthetic engineering cases; no field, production, institutional or real-world MRV accuracy claim",
+  "cases": 36,
+  "confusion": {
+    "missing": {
+      "tp": 9,
+      "fp": 0,
+      "fn": 0,
+      "tn": 27
+    },
+    "tamper": {
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "tn": 33
+    },
+    "mismatch": {
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "tn": 33
+    },
+    "duplicate": {
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "tn": 33
+    }
+  },
+  "missing": {
+    "synthetic_conformance_rate": 1,
+    "synthetic_precision": 1,
+    "synthetic_recall": 1
+  },
+  "tamper": {
+    "synthetic_conformance_rate": 1,
+    "synthetic_precision": 1,
+    "synthetic_recall": 1
+  },
+  "mismatch": {
+    "synthetic_conformance_rate": 1,
+    "synthetic_precision": 1,
+    "synthetic_recall": 1
+  },
+  "duplicate": {
+    "synthetic_conformance_rate": 1,
+    "synthetic_precision": 1,
+    "synthetic_recall": 1
+  },
+  "calculation_reproducibility": {
+    "matched": 36,
+    "total": 36
+  },
+  "deterministic_reevaluation": {
+    "matched": 36,
+    "total": 36
+  },
+  "impact_analysis_coverage": {
+    "covered": 3,
+    "required": 3,
+    "ratio": 1
+  },
+  "future_field_poc_kpis": {
+    "mrv_cost_reduction": null,
+    "human_review_time_reduction": null,
+    "income_increase": null,
+    "verifier_acceptance": null
+  }
+}

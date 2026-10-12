@@ -1,0 +1,19 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# secrets / env（このプロジェクトは外部APIを使わない方針だが、誤コミット防止）
+.env
+.env.*
+*.pem
+*.key
+
+# node（tests/ で将来使う場合に備える）
+node_modules/
+npm-debug.log*
+
+# ClimateChain local signing output
+.climatechain-output/

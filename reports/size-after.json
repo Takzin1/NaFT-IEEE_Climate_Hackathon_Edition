@@ -1,0 +1,36 @@
+{
+  "baseline_commit": "8747ca889cb2412778e47ee6115bda3ff060574e",
+  "loc_definition": "physical lines including blank/comments; tracked JS/HTML/shell/Python; excludes docs and JSON fixtures",
+  "runtime_loc": 743,
+  "code_test_tooling_loc": 1086,
+  "executable_routes": [
+    "methodologies",
+    "evidence",
+    "readiness",
+    "exceptions",
+    "review",
+    "packages"
+  ],
+  "domain_collections": [
+    "users",
+    "programs",
+    "farmers",
+    "fields",
+    "activities",
+    "evidence_manifests",
+    "evidence_content_checks",
+    "evaluations",
+    "exception_decisions",
+    "pack_releases",
+    "attestations",
+    "compiler_runs",
+    "compiler_decisions",
+    "compiler_attestations",
+    "audit_events"
+  ],
+  "roles": [
+    "operator",
+    "reviewer",
+    "maintainer"
+  ]
+}

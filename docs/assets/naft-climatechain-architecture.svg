@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 760" width="1600" height="760" role="img" aria-labelledby="title desc">
+<title id="title">NaFT: version-aware MRV evidence and lineage architecture</title>
+<desc id="desc">A five-stage deterministic off-chain process takes versioned evidence through evidence compilation, impact analysis, selective re-verification, and provenance package lineage. Only hashes and lineage go to an Ethereum Sepolia contract. All claims shown are synthetic.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#112f2b"/><stop offset="1" stop-color="#061c1a"/></linearGradient>
+  <linearGradient id="node" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#1b4940"/><stop offset="1" stop-color="#11362f"/></linearGradient>
+  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z" fill="#bde69b"/></marker>
+</defs>
+<rect width="1600" height="760" fill="url(#bg)"/>
+<text x="70" y="62" fill="#c9f2a0" font-family="Arial,sans-serif" font-size="21" font-weight="700" letter-spacing="2">NaFT / IEEE ClimateChain</text>
+<text x="70" y="110" fill="#f0fbf3" font-family="Arial,sans-serif" font-size="37" font-weight="700">Evidence semantics first. Lineage witness second.</text>
+<rect x="68" y="142" width="1464" height="393" rx="22" fill="#0c2925" stroke="#478875" stroke-width="2"/>
+<text x="98" y="187" fill="#95d9b7" font-family="Arial,sans-serif" font-weight="700" letter-spacing="2" font-size="18">OFF-CHAIN / DETERMINISTIC EVALUATION + HUMAN REVIEW</text>
+<g font-family="Arial,sans-serif">
+<g fill="url(#node)" stroke="#598c77" stroke-width="2">
+<rect x="95" y="230" width="244" height="239" rx="15"/>
+<rect x="387" y="230" width="244" height="239" rx="15"/>
+<rect x="679" y="230" width="244" height="239" rx="15"/>
+<rect x="971" y="230" width="244" height="239" rx="15"/>
+<rect x="1263" y="230" width="244" height="239" rx="15"/>
+</g>
+<g fill="#bde69b" font-size="18" font-weight="700">
+<text x="116" y="268">01 / INPUT</text><text x="408" y="268">02 / COMPILE</text><text x="700" y="268">03 / IMPACT</text><text x="992" y="268">04 / RE-VERIFY</text><text x="1284" y="268">05 / LINEAGE</text>
+</g>
+<g fill="#ffffff" font-size="24" font-weight="700">
+<text x="116" y="315">Evidence +</text><text x="116" y="344">rule versions</text>
+<text x="408" y="315">Evidence</text><text x="408" y="344">Compiler</text>
+<text x="700" y="315">Dependency</text><text x="700" y="344">Impact Analyzer</text>
+<text x="992" y="315">Selective</text><text x="992" y="344">re-verification</text>
+<text x="1284" y="315">MRV packages</text><text x="1284" y="344">P1 → P2</text>
+</g>
+<g fill="#b1cbbd" font-size="17">
+<text x="116" y="391">Evidence bindings,</text><text x="116" y="413">methodology version</text><text x="408" y="391">Deterministic rules,</text><text x="408" y="413">reproducible hashes</text>
+<text x="700" y="391">Identify changed</text><text x="700" y="413">claim dependencies</text>
+<text x="992" y="391">Evaluate or request</text><text x="992" y="413">missing evidence</text>
+<text x="1284" y="391">Immutable version</text><text x="1284" y="413">succession record</text>
+</g>
+<g stroke="#bde69b" stroke-width="4" fill="none" marker-end="url(#arrow)">
+<path d="M341 348H375"/><path d="M633 348H667"/><path d="M925 348H959"/><path d="M1217 348H1251"/>
+</g>
+</g>
+<path d="M1386 473V557" stroke="#bde69b" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+<rect x="68" y="568" width="1464" height="127" rx="20" fill="#173d35" stroke="#8bba83" stroke-width="2"/>
+<text x="98" y="607" fill="#c9f2a0" font-family="Arial,sans-serif" font-size="19" font-weight="700" letter-spacing="1">ON-CHAIN / ETHEREUM SEPOLIA</text>
+<text x="98" y="649" fill="#fff" font-family="Arial,sans-serif" font-size="25" font-weight="700">NaFTMRVAnchor  •  package hashes + parentage only</text>
+<text x="98" y="675" fill="#afcdbb" font-family="Arial,sans-serif" font-size="16">No raw evidence, no automatic climate certification, no credit issuance</text>
+<rect x="1148" y="597" width="344" height="60" rx="12" fill="#d0f1a8"/>
+<text x="1320" y="619" fill="#12362e" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="700">Verified public-testnet</text>
+<text x="1320" y="642" fill="#12362e" text-anchor="middle" font-family="Arial,sans-serif" font-size="19" font-weight="700">P1 → P2 provenance</text>
+<text x="70" y="731" fill="#88ac9d" font-family="Arial,sans-serif" font-size="15">Architecture illustration  •  research prototype  •  synthetic workload ≠ measured field impact</text>
+</svg>
