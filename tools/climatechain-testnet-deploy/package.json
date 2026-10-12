@@ -1,0 +1,15 @@
+{
+  "name": "naft-climatechain-testnet-deploy",
+  "private": true,
+  "version": "0.0.0",
+  "description": "One-shot human-signed deployment helper for NaFT ClimateChain",
+  "scripts": {
+    "deploy": "node deploy.mjs",
+    "deploy:sepolia": "bash deploy-sepolia.sh",
+    "verify:generated": "node verify-generated.mjs"
+  },
+  "dependencies": {
+    "ethers": "6.15.0",
+    "solc": "0.8.24"
+  }
+}

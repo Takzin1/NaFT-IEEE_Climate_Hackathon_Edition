@@ -1,0 +1,2407 @@
+{
+  "schema": "naft-evaluation-corpus-1",
+  "origin_types": [
+    "public",
+    "synthetic",
+    "derived"
+  ],
+  "cases": [
+    {
+      "id": "normal-1",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "normal",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-normal-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 2,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "normal-1",
+          "field_id": "FIELD-normal-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 10,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "normal-1-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"normal-1\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "536ce68b67250eb4f822824003533dcb337296e46571e4880254432005010509",
+            "activity_id": "normal-1",
+            "field_id": "FIELD-normal-1",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "AUTO_REEVALUATED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 40
+      }
+    },
+    {
+      "id": "missing_evidence-1",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "missing_evidence",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-missing_evidence-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 2,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "missing_evidence-1",
+          "field_id": "FIELD-missing_evidence-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 10,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [],
+        "peers": []
+      },
+      "expected": {
+        "status": "EVIDENCE_REQUIRED",
+        "missing_evidence": true,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 40
+      }
+    },
+    {
+      "id": "tampered_evidence-1",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "tampered_evidence",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-tampered_evidence-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 2,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "tampered_evidence-1",
+          "field_id": "FIELD-tampered_evidence-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 10,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "tampered_evidence-1-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"tampered_evidence-1\",\"category\":\"record\",\"observation\":\"engineering fixture\"} MODIFIED",
+            "expected_hash": "ac79dd528c8c23c3226d8acb391f16ee1e9b8a08c4a886c3d9af9bcb5580aef1",
+            "activity_id": "tampered_evidence-1",
+            "field_id": "FIELD-tampered_evidence-1",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "UNSUPPORTED",
+        "missing_evidence": true,
+        "tamper": true,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 40
+      }
+    },
+    {
+      "id": "duplicate_field-1",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "duplicate_field",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-duplicate_field-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 2,
+          "ambiguous": true
+        },
+        "activity": {
+          "id": "duplicate_field-1",
+          "field_id": "FIELD-duplicate_field-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 10,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "duplicate_field-1-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"duplicate_field-1\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "50fe13198bb7ea03d856bb70de6ec957d878693aca71726d2e22af578007e29b",
+            "activity_id": "duplicate_field-1",
+            "field_id": "FIELD-duplicate_field-1",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 40
+      }
+    },
+    {
+      "id": "overlapping_activity-1",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "overlapping_activity",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-overlapping_activity-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 2,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "overlapping_activity-1",
+          "field_id": "FIELD-overlapping_activity-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 10,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "overlapping_activity-1-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"overlapping_activity-1\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "6a08b9dafb914f0b0af4b4b1028ceb79770346474c71438066bbe0d0e29f71b4",
+            "activity_id": "overlapping_activity-1",
+            "field_id": "FIELD-overlapping_activity-1",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": [
+          {
+            "id": "other-overlapping_activity-1",
+            "field_id": "FIELD-overlapping_activity-1",
+            "farmer_id": "FARMER-DEMO",
+            "program_id": "SYNTHETIC-PROGRAM",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "type": "synthetic_observation",
+            "start": "2026-06-01",
+            "end": "2026-06-30",
+            "days": 10,
+            "stratum": "standard",
+            "sensitive": false
+          }
+        ]
+      },
+      "expected": {
+        "status": "UNSUPPORTED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": true,
+        "expected_arithmetic_preview": 40
+      }
+    },
+    {
+      "id": "outdated_methodology-1",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "outdated_methodology",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-outdated_methodology-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 2,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "outdated_methodology-1",
+          "field_id": "FIELD-outdated_methodology-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2025-06-01",
+          "end": "2026-06-30",
+          "days": 10,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "outdated_methodology-1-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"outdated_methodology-1\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "fd940d0aef1e668dc44b9692cfc14dbc17622d9b08f12593900a4faa3b906eca",
+            "activity_id": "outdated_methodology-1",
+            "field_id": "FIELD-outdated_methodology-1",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "UNSUPPORTED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 40
+      }
+    },
+    {
+      "id": "methodology_version_mismatch-1",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "methodology_version_mismatch",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-methodology_version_mismatch-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 2,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "methodology_version_mismatch-1",
+          "field_id": "FIELD-methodology_version_mismatch-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 10,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "methodology_version_mismatch-1-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"methodology_version_mismatch-1\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "0ab038f524bd4b0f65c08fe7ecd5b2b208a8e4d114949ff0cdfdbd8d72339c89",
+            "activity_id": "methodology_version_mismatch-1",
+            "field_id": "FIELD-methodology_version_mismatch-1",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "UNKNOWN",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "UNSUPPORTED",
+        "missing_evidence": true,
+        "tamper": false,
+        "methodology_mismatch": true,
+        "duplicate": false,
+        "expected_arithmetic_preview": 40
+      }
+    },
+    {
+      "id": "changed_parameter-1",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "changed_parameter",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-changed_parameter-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 2,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "changed_parameter-1",
+          "field_id": "FIELD-changed_parameter-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 10,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "changed_parameter-1-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"changed_parameter-1\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "62966f8b65b590f5745a06114d51be117f6c3c27457a0e7ece5255b3421ee766",
+            "activity_id": "changed_parameter-1",
+            "field_id": "FIELD-changed_parameter-1",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": [],
+        "parameter_overrides": {
+          "factor": 5
+        }
+      },
+      "expected": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 100
+      }
+    },
+    {
+      "id": "unsupported_exception-1",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "unsupported_exception",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-unsupported_exception-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 2,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "unsupported_exception-1",
+          "field_id": "FIELD-unsupported_exception-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 10,
+          "stratum": "standard",
+          "sensitive": false,
+          "special_process": true
+        },
+        "evidence": [
+          {
+            "id": "unsupported_exception-1-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"unsupported_exception-1\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "435ed723066dba5f20446faf8165cbe076c91e84b0d76b348cea986a3571e76a",
+            "activity_id": "unsupported_exception-1",
+            "field_id": "FIELD-unsupported_exception-1",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "UNSUPPORTED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 40
+      }
+    },
+    {
+      "id": "human_judgement_required-1",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "human_judgement_required",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-human_judgement_required-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 2,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "human_judgement_required-1",
+          "field_id": "FIELD-human_judgement_required-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 10,
+          "stratum": "standard",
+          "sensitive": false,
+          "expert_case": true
+        },
+        "evidence": [
+          {
+            "id": "human_judgement_required-1-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"human_judgement_required-1\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "f500d14bf6bc7f4fb32dba715053c1c6a8de347a8ac72a28e019576670cb374d",
+            "activity_id": "human_judgement_required-1",
+            "field_id": "FIELD-human_judgement_required-1",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 40
+      }
+    },
+    {
+      "id": "contradictory_evidence-1",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "contradictory_evidence",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-contradictory_evidence-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 2,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "contradictory_evidence-1",
+          "field_id": "FIELD-contradictory_evidence-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 10,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "contradictory_evidence-1-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"contradictory_evidence-1\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "2102b0df0fd29f339e5868b16dc170f7114f7ac1ea15699bfa40c65947d2a2c5",
+            "activity_id": "contradictory_evidence-1",
+            "field_id": "FIELD-contradictory_evidence-1",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          },
+          {
+            "id": "contradictory_evidence-1-record-conflict",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"observation\":\"different synthetic record\"}",
+            "expected_hash": "92ae575e693c05efa15eaf77b1d5d94cd7ec3e3bbcc8e804b901ace2173266cd",
+            "activity_id": "contradictory_evidence-1",
+            "field_id": "FIELD-contradictory_evidence-1",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 40
+      }
+    },
+    {
+      "id": "invalid_period-1",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "invalid_period",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-invalid_period-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 2,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "invalid_period-1",
+          "field_id": "FIELD-invalid_period-1",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-05-01",
+          "days": 10,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "invalid_period-1-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"invalid_period-1\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "a638be0abef73472cb87b3f060d04bce7cf7d6d2d74cad75bb5efed186e7176f",
+            "activity_id": "invalid_period-1",
+            "field_id": "FIELD-invalid_period-1",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "UNSUPPORTED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 40
+      }
+    },
+    {
+      "id": "normal-2",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "normal",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-normal-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 3,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "normal-2",
+          "field_id": "FIELD-normal-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 11,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "normal-2-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"normal-2\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "6db7f650f6e341450679f72832b401868a026dbbcae01fac537054e4caed040b",
+            "activity_id": "normal-2",
+            "field_id": "FIELD-normal-2",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "AUTO_REEVALUATED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 66
+      }
+    },
+    {
+      "id": "missing_evidence-2",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "missing_evidence",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-missing_evidence-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 3,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "missing_evidence-2",
+          "field_id": "FIELD-missing_evidence-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 11,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [],
+        "peers": []
+      },
+      "expected": {
+        "status": "EVIDENCE_REQUIRED",
+        "missing_evidence": true,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 66
+      }
+    },
+    {
+      "id": "tampered_evidence-2",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "tampered_evidence",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-tampered_evidence-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 3,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "tampered_evidence-2",
+          "field_id": "FIELD-tampered_evidence-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 11,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "tampered_evidence-2-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"tampered_evidence-2\",\"category\":\"record\",\"observation\":\"engineering fixture\"} MODIFIED",
+            "expected_hash": "337c81705eed5b354496bfa39ea2a9bb51e75dc8afbfba6a6505cbbf4b3c1d61",
+            "activity_id": "tampered_evidence-2",
+            "field_id": "FIELD-tampered_evidence-2",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "UNSUPPORTED",
+        "missing_evidence": true,
+        "tamper": true,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 66
+      }
+    },
+    {
+      "id": "duplicate_field-2",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "duplicate_field",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-duplicate_field-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 3,
+          "ambiguous": true
+        },
+        "activity": {
+          "id": "duplicate_field-2",
+          "field_id": "FIELD-duplicate_field-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 11,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "duplicate_field-2-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"duplicate_field-2\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "07f956078118ba2f845783f1163594611dbdce918c712b3d963a82ef56deb5b4",
+            "activity_id": "duplicate_field-2",
+            "field_id": "FIELD-duplicate_field-2",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 66
+      }
+    },
+    {
+      "id": "overlapping_activity-2",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "overlapping_activity",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-overlapping_activity-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 3,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "overlapping_activity-2",
+          "field_id": "FIELD-overlapping_activity-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 11,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "overlapping_activity-2-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"overlapping_activity-2\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "b0b2ad45fd2311bc94b5238be7526726469cb200bba42faeb2f0ca76a0d8ee82",
+            "activity_id": "overlapping_activity-2",
+            "field_id": "FIELD-overlapping_activity-2",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": [
+          {
+            "id": "other-overlapping_activity-2",
+            "field_id": "FIELD-overlapping_activity-2",
+            "farmer_id": "FARMER-DEMO",
+            "program_id": "SYNTHETIC-PROGRAM",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "type": "synthetic_observation",
+            "start": "2026-06-01",
+            "end": "2026-06-30",
+            "days": 11,
+            "stratum": "standard",
+            "sensitive": false
+          }
+        ]
+      },
+      "expected": {
+        "status": "UNSUPPORTED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": true,
+        "expected_arithmetic_preview": 66
+      }
+    },
+    {
+      "id": "outdated_methodology-2",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "outdated_methodology",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-outdated_methodology-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 3,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "outdated_methodology-2",
+          "field_id": "FIELD-outdated_methodology-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2025-06-01",
+          "end": "2026-06-30",
+          "days": 11,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "outdated_methodology-2-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"outdated_methodology-2\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "2416b373fced73f2bef087d5303e93173e0f311cea9a94338b8d268db40b6c92",
+            "activity_id": "outdated_methodology-2",
+            "field_id": "FIELD-outdated_methodology-2",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "UNSUPPORTED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 66
+      }
+    },
+    {
+      "id": "methodology_version_mismatch-2",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "methodology_version_mismatch",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-methodology_version_mismatch-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 3,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "methodology_version_mismatch-2",
+          "field_id": "FIELD-methodology_version_mismatch-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 11,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "methodology_version_mismatch-2-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"methodology_version_mismatch-2\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "cbaa8aa855d183f6f96e6bf70f992c768e8e0a470db9334f04c4840de8515be2",
+            "activity_id": "methodology_version_mismatch-2",
+            "field_id": "FIELD-methodology_version_mismatch-2",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "UNKNOWN",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "UNSUPPORTED",
+        "missing_evidence": true,
+        "tamper": false,
+        "methodology_mismatch": true,
+        "duplicate": false,
+        "expected_arithmetic_preview": 66
+      }
+    },
+    {
+      "id": "changed_parameter-2",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "changed_parameter",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-changed_parameter-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 3,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "changed_parameter-2",
+          "field_id": "FIELD-changed_parameter-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 11,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "changed_parameter-2-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"changed_parameter-2\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "a7294b34b5c8a557264b613366e3530855bdb8648278473ba849f9d0d7c2a339",
+            "activity_id": "changed_parameter-2",
+            "field_id": "FIELD-changed_parameter-2",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": [],
+        "parameter_overrides": {
+          "factor": 6
+        }
+      },
+      "expected": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 198
+      }
+    },
+    {
+      "id": "unsupported_exception-2",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "unsupported_exception",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-unsupported_exception-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 3,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "unsupported_exception-2",
+          "field_id": "FIELD-unsupported_exception-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 11,
+          "stratum": "standard",
+          "sensitive": false,
+          "special_process": true
+        },
+        "evidence": [
+          {
+            "id": "unsupported_exception-2-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"unsupported_exception-2\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "2476852208108ddfbaa1cbeef6a7c3311109908eb7cff8c04d7abe9c8fb7fcd8",
+            "activity_id": "unsupported_exception-2",
+            "field_id": "FIELD-unsupported_exception-2",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "UNSUPPORTED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 66
+      }
+    },
+    {
+      "id": "human_judgement_required-2",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "human_judgement_required",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-human_judgement_required-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 3,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "human_judgement_required-2",
+          "field_id": "FIELD-human_judgement_required-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 11,
+          "stratum": "standard",
+          "sensitive": false,
+          "expert_case": true
+        },
+        "evidence": [
+          {
+            "id": "human_judgement_required-2-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"human_judgement_required-2\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "e870cd00a95dd61640568d178ed7a19e450736176141169c312b316b336caa75",
+            "activity_id": "human_judgement_required-2",
+            "field_id": "FIELD-human_judgement_required-2",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 66
+      }
+    },
+    {
+      "id": "contradictory_evidence-2",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "contradictory_evidence",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-contradictory_evidence-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 3,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "contradictory_evidence-2",
+          "field_id": "FIELD-contradictory_evidence-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 11,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "contradictory_evidence-2-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"contradictory_evidence-2\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "debf08194cf29ca90489a0d864c74d8bd4caf94809d60118fd30f864a03a9144",
+            "activity_id": "contradictory_evidence-2",
+            "field_id": "FIELD-contradictory_evidence-2",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          },
+          {
+            "id": "contradictory_evidence-2-record-conflict",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"observation\":\"different synthetic record\"}",
+            "expected_hash": "92ae575e693c05efa15eaf77b1d5d94cd7ec3e3bbcc8e804b901ace2173266cd",
+            "activity_id": "contradictory_evidence-2",
+            "field_id": "FIELD-contradictory_evidence-2",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 66
+      }
+    },
+    {
+      "id": "invalid_period-2",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "invalid_period",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-invalid_period-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 3,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "invalid_period-2",
+          "field_id": "FIELD-invalid_period-2",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-05-01",
+          "days": 11,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "invalid_period-2-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"invalid_period-2\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "0e4c047bd8af66edb29f79b8aed20c3395977046bf533d657de01d7652e524d2",
+            "activity_id": "invalid_period-2",
+            "field_id": "FIELD-invalid_period-2",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "UNSUPPORTED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 66
+      }
+    },
+    {
+      "id": "normal-3",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "normal",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-normal-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 4,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "normal-3",
+          "field_id": "FIELD-normal-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 12,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "normal-3-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"normal-3\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "4bd6626f24c017bcc3993c612314fcd604f6292ad3077c179ac1b25a7142b936",
+            "activity_id": "normal-3",
+            "field_id": "FIELD-normal-3",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "AUTO_REEVALUATED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 96
+      }
+    },
+    {
+      "id": "missing_evidence-3",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "missing_evidence",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-missing_evidence-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 4,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "missing_evidence-3",
+          "field_id": "FIELD-missing_evidence-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 12,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [],
+        "peers": []
+      },
+      "expected": {
+        "status": "EVIDENCE_REQUIRED",
+        "missing_evidence": true,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 96
+      }
+    },
+    {
+      "id": "tampered_evidence-3",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "tampered_evidence",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-tampered_evidence-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 4,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "tampered_evidence-3",
+          "field_id": "FIELD-tampered_evidence-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 12,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "tampered_evidence-3-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"tampered_evidence-3\",\"category\":\"record\",\"observation\":\"engineering fixture\"} MODIFIED",
+            "expected_hash": "8f6543bbb75c6c10172019e2a2edd57756b76912bca8297d3f3a98e276dc14fa",
+            "activity_id": "tampered_evidence-3",
+            "field_id": "FIELD-tampered_evidence-3",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "UNSUPPORTED",
+        "missing_evidence": true,
+        "tamper": true,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 96
+      }
+    },
+    {
+      "id": "duplicate_field-3",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "duplicate_field",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-duplicate_field-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 4,
+          "ambiguous": true
+        },
+        "activity": {
+          "id": "duplicate_field-3",
+          "field_id": "FIELD-duplicate_field-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 12,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "duplicate_field-3-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"duplicate_field-3\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "addc0d06eb4ebe2097fbac18c2a3f8ec430341d438b84f54c3b7b68a54d21f7c",
+            "activity_id": "duplicate_field-3",
+            "field_id": "FIELD-duplicate_field-3",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 96
+      }
+    },
+    {
+      "id": "overlapping_activity-3",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "overlapping_activity",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-overlapping_activity-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 4,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "overlapping_activity-3",
+          "field_id": "FIELD-overlapping_activity-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 12,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "overlapping_activity-3-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"overlapping_activity-3\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "702db43bf44b7c04e062106a37e1895aa51c1ec05bbf71f007f3be3437f64b61",
+            "activity_id": "overlapping_activity-3",
+            "field_id": "FIELD-overlapping_activity-3",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": [
+          {
+            "id": "other-overlapping_activity-3",
+            "field_id": "FIELD-overlapping_activity-3",
+            "farmer_id": "FARMER-DEMO",
+            "program_id": "SYNTHETIC-PROGRAM",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "type": "synthetic_observation",
+            "start": "2026-06-01",
+            "end": "2026-06-30",
+            "days": 12,
+            "stratum": "standard",
+            "sensitive": false
+          }
+        ]
+      },
+      "expected": {
+        "status": "UNSUPPORTED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": true,
+        "expected_arithmetic_preview": 96
+      }
+    },
+    {
+      "id": "outdated_methodology-3",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "outdated_methodology",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-outdated_methodology-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 4,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "outdated_methodology-3",
+          "field_id": "FIELD-outdated_methodology-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2025-06-01",
+          "end": "2026-06-30",
+          "days": 12,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "outdated_methodology-3-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"outdated_methodology-3\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "98c122e781473c44c571d25432f6489c500e83d2f09b15f8824cc11cf8655dad",
+            "activity_id": "outdated_methodology-3",
+            "field_id": "FIELD-outdated_methodology-3",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "UNSUPPORTED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 96
+      }
+    },
+    {
+      "id": "methodology_version_mismatch-3",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "methodology_version_mismatch",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-methodology_version_mismatch-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 4,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "methodology_version_mismatch-3",
+          "field_id": "FIELD-methodology_version_mismatch-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 12,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "methodology_version_mismatch-3-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"methodology_version_mismatch-3\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "3383fead0a2b012f1a22b57805a5ce520e2c62a692488c1cbd3889ea5241d150",
+            "activity_id": "methodology_version_mismatch-3",
+            "field_id": "FIELD-methodology_version_mismatch-3",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "UNKNOWN",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "UNSUPPORTED",
+        "missing_evidence": true,
+        "tamper": false,
+        "methodology_mismatch": true,
+        "duplicate": false,
+        "expected_arithmetic_preview": 96
+      }
+    },
+    {
+      "id": "changed_parameter-3",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "changed_parameter",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-changed_parameter-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 4,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "changed_parameter-3",
+          "field_id": "FIELD-changed_parameter-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 12,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "changed_parameter-3-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"changed_parameter-3\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "5dfd26ee7b1921bb631fbe1e34a7c130507aa405560ef288d033a98ec8947de7",
+            "activity_id": "changed_parameter-3",
+            "field_id": "FIELD-changed_parameter-3",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": [],
+        "parameter_overrides": {
+          "factor": 7
+        }
+      },
+      "expected": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 336
+      }
+    },
+    {
+      "id": "unsupported_exception-3",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "unsupported_exception",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-unsupported_exception-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 4,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "unsupported_exception-3",
+          "field_id": "FIELD-unsupported_exception-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 12,
+          "stratum": "standard",
+          "sensitive": false,
+          "special_process": true
+        },
+        "evidence": [
+          {
+            "id": "unsupported_exception-3-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"unsupported_exception-3\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "43720b4cb26e52156e0d18b09ba93750a72b1fadc0c05a125f76a398e286d920",
+            "activity_id": "unsupported_exception-3",
+            "field_id": "FIELD-unsupported_exception-3",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "UNSUPPORTED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 96
+      }
+    },
+    {
+      "id": "human_judgement_required-3",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "human_judgement_required",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-human_judgement_required-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 4,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "human_judgement_required-3",
+          "field_id": "FIELD-human_judgement_required-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 12,
+          "stratum": "standard",
+          "sensitive": false,
+          "expert_case": true
+        },
+        "evidence": [
+          {
+            "id": "human_judgement_required-3-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"human_judgement_required-3\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "3cd152435b117ce6889ab2e94a95828cafe928ea8af63b05ee2f3395ecab5efe",
+            "activity_id": "human_judgement_required-3",
+            "field_id": "FIELD-human_judgement_required-3",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 96
+      }
+    },
+    {
+      "id": "contradictory_evidence-3",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "contradictory_evidence",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-contradictory_evidence-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 4,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "contradictory_evidence-3",
+          "field_id": "FIELD-contradictory_evidence-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "days": 12,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "contradictory_evidence-3-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"contradictory_evidence-3\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "d1c2ecbe721892360aa845805b8f1e9ce1d2d6fa12ac5588306379bf5967ba12",
+            "activity_id": "contradictory_evidence-3",
+            "field_id": "FIELD-contradictory_evidence-3",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          },
+          {
+            "id": "contradictory_evidence-3-record-conflict",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"observation\":\"different synthetic record\"}",
+            "expected_hash": "92ae575e693c05efa15eaf77b1d5d94cd7ec3e3bbcc8e804b901ace2173266cd",
+            "activity_id": "contradictory_evidence-3",
+            "field_id": "FIELD-contradictory_evidence-3",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 96
+      }
+    },
+    {
+      "id": "invalid_period-3",
+      "metadata": {
+        "origin": "synthetic",
+        "category": "invalid_period",
+        "real_farmer_data": false,
+        "description": "Engineered boundary case; no field measurements."
+      },
+      "pack_key": "NAFT-SYNTHETIC@1",
+      "input": {
+        "provenance": "synthetic",
+        "program": {
+          "id": "SYNTHETIC-PROGRAM"
+        },
+        "field": {
+          "id": "FIELD-invalid_period-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "area_ha": 4,
+          "ambiguous": false
+        },
+        "activity": {
+          "id": "invalid_period-3",
+          "field_id": "FIELD-invalid_period-3",
+          "farmer_id": "FARMER-DEMO",
+          "program_id": "SYNTHETIC-PROGRAM",
+          "methodology_id": "NAFT-SYNTHETIC",
+          "methodology_version": "1",
+          "type": "synthetic_observation",
+          "start": "2026-06-01",
+          "end": "2026-05-01",
+          "days": 12,
+          "stratum": "standard",
+          "sensitive": false
+        },
+        "evidence": [
+          {
+            "id": "invalid_period-3-record",
+            "category": "record",
+            "adapter": "farm-log-json-v1",
+            "content": "{\"provenance\":\"synthetic\",\"claim\":\"invalid_period-3\",\"category\":\"record\",\"observation\":\"engineering fixture\"}",
+            "expected_hash": "02cc105280b7216ffb869082837d1241200df8831476c367aa11bbfdc2cbac27",
+            "activity_id": "invalid_period-3",
+            "field_id": "FIELD-invalid_period-3",
+            "methodology_id": "NAFT-SYNTHETIC",
+            "methodology_version": "1",
+            "period": {
+              "start": "2026-06-01",
+              "end": "2026-06-30"
+            },
+            "source": "urn:naft:synthetic-fixture",
+            "provenance": "synthetic"
+          }
+        ],
+        "peers": []
+      },
+      "expected": {
+        "status": "UNSUPPORTED",
+        "missing_evidence": false,
+        "tamper": false,
+        "methodology_mismatch": false,
+        "duplicate": false,
+        "expected_arithmetic_preview": 96
+      }
+    }
+  ]
+}

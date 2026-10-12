@@ -1,0 +1,123 @@
+name: NaFT MRV Compiler CI
+on:
+  push:
+    branches: [main, "staging/ieee-code-snapshot"]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  core-and-security:
+    concurrency:
+      group: naft-core-${{ github.ref }}
+      cancel-in-progress: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Compile ClimateChain provenance contract
+        run: npx --yes solc@0.8.24 --abi --bin contracts/NaFTMRVAnchor.sol --output-dir /tmp/naft-solc
+      - name: Check ClimateChain signing tool syntax
+        run: |
+          node --check tools/climatechain-testnet-deploy/deploy.mjs
+          node --check tools/climatechain-testnet-deploy/verify-generated.mjs
+          bash -n tools/climatechain-testnet-deploy/deploy-sepolia.sh
+          bash -n scripts/verify-live-sepolia.sh
+          node -e "JSON.parse(require('fs').readFileSync('tools/climatechain-testnet-deploy/package.json','utf8'))"
+      - name: Run Core regression, Compiler Corpus, syntax and security checks
+        run: bash tests/run.sh
+      - name: Execute ClimateChain contract behavior on local EVM
+        run: node tests/climatechain-contract-behavior.test.mjs
+      - name: Browser Reviewer, Evidence file, six-route and Compiler role-flow checks
+        shell: bash
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/naft-http.log 2>&1 &
+          server_pid=$!
+          chrome="$(command -v google-chrome-stable || command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          test -n "$chrome"
+          cleanup() {
+            kill ${chrome_pid:-} ${server_pid:-} 2>/dev/null || true
+          }
+          trap cleanup EXIT
+
+          server_ready=false
+          for i in {1..40}; do
+            if curl -fsS http://127.0.0.1:4173/naft-app.html >/dev/null; then
+              server_ready=true
+              break
+            fi
+            sleep 0.25
+          done
+          if [ "$server_ready" != true ]; then
+            echo "::error::Static HTTP server did not become ready"
+            cat /tmp/naft-http.log || true
+            exit 1
+          fi
+
+          "$chrome" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage             --no-first-run --no-default-browser-check             --remote-debugging-address=127.0.0.1 --remote-debugging-port=9222             --user-data-dir=/tmp/naft-chrome             "http://127.0.0.1:4173/naft-app.html#/reviewer-demo" >/tmp/naft-chrome.log 2>&1 &
+          chrome_pid=$!
+
+          cdp_ready=false
+          for i in {1..80}; do
+            if curl -fsS http://127.0.0.1:9222/json/list >/dev/null; then
+              cdp_ready=true
+              break
+            fi
+            if ! kill -0 "$chrome_pid" 2>/dev/null; then
+              break
+            fi
+            sleep 0.25
+          done
+          if [ "$cdp_ready" != true ]; then
+            echo "::error::Chrome DevTools endpoint did not become ready"
+            echo "--- Chrome log ---"
+            cat /tmp/naft-chrome.log || true
+            echo "--- HTTP log ---"
+            cat /tmp/naft-http.log || true
+            exit 1
+          fi
+
+          node tests/browser-reviewer-smoke.mjs
+      - name: Verify reproducible Corpus KPI report
+        run: git diff --exit-code -- reports/evaluation-kpis.json reports/mitou-impact-experiment.json reports/impact-proof.json
+      - name: Check branch whitespace
+        shell: bash
+        run: |
+          if [ "$GITHUB_REF_NAME" = "main" ]; then
+            git diff --check HEAD^ HEAD
+          else
+            base="$(git merge-base HEAD origin/main)"
+            git diff --check "$base"...HEAD
+          fi
+
+  deploy-pages:
+    name: deploy-pages
+    needs: core-and-security
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.event.repository.private == false
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

@@ -1,0 +1,33 @@
+{
+  "schema": "naft-mitou-impact-experiment-1",
+  "title": "Selective re-verification under a synthetic methodology revision",
+  "boundary": "Synthetic engineering experiment only. This is not an AG-005 revision, field validation, measured runtime saving, MRV cost reduction, or verifier acceptance result.",
+  "corpus": {
+    "total_claims": 100,
+    "methodology": "NAFT-SYNTHETIC",
+    "from_version": "1",
+    "to_version": "2",
+    "composition": {
+      "standard_claims": 70,
+      "intensive_missing_new_sensor_evidence": 15,
+      "intensive_complete_for_new_requirements": 15
+    }
+  },
+  "result": {
+    "potentially_affected_candidates": 100,
+    "require_reverification": 30,
+    "unaffected": 70,
+    "auto_reevaluated": 15,
+    "evidence_required": 15,
+    "human_review_required": 0,
+    "unsupported": 0,
+    "count_based_scope_reduction_ratio": 0.7
+  },
+  "interpretation": "All 100 claims reference the changed methodology version, but per-claim active dependency projections limit actual re-verification to 30 claims. The remaining 70 claims are not recompiled as successors. The 70% figure is a count-based scope reduction, not a measured time, cost, or accuracy improvement.",
+  "invariants": {
+    "deterministic_replay": true,
+    "source_claims_immutable": true,
+    "reverified_successors_link_previous_package": true,
+    "unaffected_claims_have_no_successor": true
+  }
+}

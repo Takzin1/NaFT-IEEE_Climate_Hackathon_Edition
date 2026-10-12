@@ -1,0 +1,102 @@
+{
+  "schema": "naft-impact-proof-1",
+  "research_question": "Within NaFT's explicitly supported rule interpreter and evidence model, can selective re-verification avoid false negatives when compared with an independent full re-computation oracle across deterministic adversarial changes?",
+  "boundary": "Synthetic deterministic adversarial engineering cases only. No universal proof, institutional-methodology proof, field accuracy, runtime saving, cost reduction, or verifier acceptance is asserted.",
+  "oracle": {
+    "name": "full-recomputation-semantic-view-v1",
+    "independence": "The oracle compiles before/after states directly and compares an independently normalized verification-semantic view. It does not call analyzeImpact or activeProjection.",
+    "semantics": [
+      "active rule results",
+      "active evidence obligations",
+      "missing evidence",
+      "issue code/status",
+      "used parameter values",
+      "calculation operation/inputs/parameters/unit",
+      "calculation values/arithmetic preview",
+      "evaluation status"
+    ],
+    "ignored_metadata": [
+      "methodology version identifier",
+      "rule-pack version identifier",
+      "source URL/hash/check timestamp",
+      "scope text"
+    ]
+  },
+  "matrix": {
+    "methodology_mutations": [
+      "metadata_only",
+      "rule_threshold",
+      "rule_operation",
+      "rule_add_unconditional",
+      "rule_add_conditional",
+      "rule_removed",
+      "rule_condition_changed",
+      "rule_input_changed",
+      "rule_metadata_only",
+      "parameter_used_calculation",
+      "parameter_used_rule",
+      "parameter_unused",
+      "calculation_unit",
+      "calculation_inputs",
+      "calculation_parameters",
+      "calculation_operation",
+      "requirement_add_unconditional",
+      "requirement_add_conditional",
+      "requirement_removed",
+      "requirement_category_changed",
+      "requirement_required_changed",
+      "exception_add_inactive",
+      "exception_add_conditional",
+      "exception_disposition",
+      "unsupported_condition_changed",
+      "effective_period",
+      "pack_status",
+      "pack_provenance_metadata",
+      "unknown_condition_rule",
+      "interaction_rule_parameter",
+      "interaction_rule_requirement",
+      "interaction_calculation_parameter",
+      "interaction_condition_parameter",
+      "interaction_multi_category"
+    ],
+    "claim_variants": [
+      "standard",
+      "intensive",
+      "intensive_complete",
+      "sensitive",
+      "expert",
+      "ambiguous",
+      "unsupported",
+      "low_days",
+      "zero_area",
+      "missing_record",
+      "tamper",
+      "unknown_stratum"
+    ],
+    "groups": {
+      "methodology_cases": 408,
+      "parameter_cases": 24,
+      "field_cases": 24,
+      "activity_cases": 48,
+      "evidence_cases": 110
+    }
+  },
+  "result": {
+    "total_cases": 614,
+    "oracle_changed": 429,
+    "oracle_unchanged": 185,
+    "analyzer_reverify": 536,
+    "analyzer_unaffected": 78,
+    "true_positive": 429,
+    "true_negative": 78,
+    "false_positive": 107,
+    "false_negative": 0,
+    "soundness_within_tested_space": true,
+    "false_negative_rate": 0,
+    "conservative_oververification_rate": 0.5783783783783784
+  },
+  "interpretation": "No false negatives found in 614 deterministic adversarial cases within the currently supported interpreter and change APIs.",
+  "counterexamples": {
+    "false_negatives": []
+  }
+}
