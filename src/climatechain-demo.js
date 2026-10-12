@@ -187,7 +187,10 @@ function runClimateChainTamperChallenge() {
   var original=compileEvidence(input,pack);
   var tampered=clone(input);
   var evidenceId=tampered.evidence[0].id;
-  tampered.evidence[0].content+=' [SYNTHETIC TAMPER TEST]';
+  // Change exactly one printable byte while preserving valid JSON syntax.
+  var originalContent=tampered.evidence[0].content;
+  tampered.evidence[0].content=originalContent.replace('engineering fixture','engineering fixturf');
+  if(originalContent===tampered.evidence[0].content) throw new Error('TAMPER_FIXTURE_MISSING');
   var challenged=compileEvidence(tampered,pack);
   var rejection=challenged.document.evaluation.issues.some(function(issue) {
     return issue.code==='content_hash:'+evidenceId&&issue.status==='UNSUPPORTED';
@@ -200,6 +203,7 @@ function runClimateChainTamperChallenge() {
     original:{status:original.document.evaluation.status,package_hash:original.package_hash},
     modified:{status:challenged.document.evaluation.status,package_hash:challenged.package_hash,issues:clone(challenged.document.evaluation.issues)},
     hash_mismatch_detected:rejection,
+    parse_preserved:!challenged.document.evaluation.issues.some(function(issue){return issue.code==='evidence_parse:'+evidenceId;}),
     fail_closed:rejection&&challenged.document.evaluation.status==='UNSUPPORTED'&&original.package_hash!==challenged.package_hash
   };
 }
