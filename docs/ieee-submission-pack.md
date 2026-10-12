@@ -6,7 +6,7 @@
 
 > **Release gate:** Original IEEE Git history has been preserved in the independent repository. The repository is still Private and independent public Pages is not yet confirmed. See [migration status](DESTINATION_MIGRATION_STATUS.md).
 
-**Target demo URL (not yet deployed):** https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain
+**Independent demo URL (opens after public Pages deployment):** https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain
 
 **Independent repository (private until release):** https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/tree/main
 
@@ -61,7 +61,7 @@ P2 package hash: `0xe5ee259abdc624bd6fd8cdf72fa72eef11397ba54556c01f2ce294824d70
 
 ## Read-only reproduction
 
-From a clone of the **IEEE hackathon branch**, run:
+From a clone of this independent repository's **`main` branch**, run:
 
 ```bash
 bash scripts/verify-live-sepolia.sh

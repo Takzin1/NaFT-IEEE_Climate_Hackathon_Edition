@@ -93,3 +93,10 @@ The `deploy-pages` GitHub Actions job is **deliberately skipped while Private**;
 ## 6. Release decision
 
 **GO for code and independent proof validation. NO-GO for final public submission until visibility, Pages and external video/Devpost actions are complete.**
+
+
+## 7. Public Pages smoke gate (configured, not yet executed)
+
+An independent `smoke-public-pages` GitHub Actions job runs **only if** `deploy-pages` succeeds. It checks the destination's 8 critical HTTPS assets, real Chrome navigation from `/#/climatechain`, English metadata, verified public-testnet badge, dynamically computed 100/30/70/15/15 and 30/70 scenario, SVG, Etherscan links, browser exceptions, and mobile/desktop horizontal overflow. It retries during Pages CDN propagation.
+
+This job cannot run while the repository is **Private**, because public Pages deployment is gated off. Neither a skipped smoke job nor a skipped Pages job is proof of a published site.

@@ -47,6 +47,10 @@ bash scripts/verify-live-sepolia.sh
 
 Solidity local EVM and browser CI run in GitHub Actions. The source IEEE and independently integrated destination `main` have passed **1,234 original assertions + four Keccak-vector checks**. See [latest destination core CI #12](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189786229) and [latest live Sepolia verification #6](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189786240), both successful on destination commit `051514e84bff01b7a8f71dc83dd5593b00e0a1d0`. Subsequent release SHAs require their own green checks.
 
+### Standalone publication gate
+
+GitHub Actions includes a public-only `deploy-pages` job and a **post-deploy real-Chrome HTTP/UI smoke test**. These intentionally skip while the repository remains **Private**; the independent Pages URL is **not yet published**. After visibility becomes Public, the workflow can validate the destination URL, 100/30/70/15/15 demo, SVG and real P1/P2 links. No keys or chain transactions are required.
+
 ### Independent verification evidence
 
 [Full IEEE migration and destination verification report](docs/INDEPENDENT_VERIFICATION_REPORT.md) summarizes Git ancestry, the 257-commit history scan, contract/EVM/Chrome checks, actual P1/P2 RPC validation and remaining publication steps.

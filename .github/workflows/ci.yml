@@ -30,6 +30,7 @@ jobs:
           node --check tools/climatechain-testnet-deploy/verify-generated.mjs
           bash -n tools/climatechain-testnet-deploy/deploy-sepolia.sh
           bash -n scripts/verify-live-sepolia.sh
+          node --check tests/public-pages-smoke.mjs
           node -e "JSON.parse(require('fs').readFileSync('tools/climatechain-testnet-deploy/package.json','utf8'))"
       - name: Run Core regression, Compiler Corpus, syntax and security checks
         run: bash tests/run.sh
@@ -125,3 +126,19 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+  smoke-public-pages:
+    name: smoke-public-pages
+    needs: deploy-pages
+    if: ${{ needs.deploy-pages.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Verify public Pages, live browser rendering and P1/P2 proof links
+        run: node tests/public-pages-smoke.mjs

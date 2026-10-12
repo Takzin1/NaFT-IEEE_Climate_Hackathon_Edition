@@ -63,3 +63,6 @@ workflow = (root / '.github/workflows/ci.yml').read_text()
 assert '  public:' in workflow, 'make-public event must trigger full CI gate'
 assert "github.event.repository.private == false" in workflow, 'Pages must remain off in Private repo'
 assert "github.event_name == 'public'" in workflow, 'Pages must auto-activate on publication event'
+assert '  smoke-public-pages:' in workflow and "needs: deploy-pages" in workflow, 'real public Pages smoke gate missing'
+assert 'tests/public-pages-smoke.mjs' in workflow, 'public Pages smoke script not wired to CI'
+assert (root / 'tests/public-pages-smoke.mjs').is_file(), 'public Pages smoke verifier missing'
