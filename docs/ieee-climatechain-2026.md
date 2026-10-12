@@ -49,6 +49,14 @@ The demo is designed to make the value legible in under four minutes:
 6. **Blockchain** — only package provenance hashes are anchored; climate truth remains off-chain.
 7. **Adoption** — project aggregators, MRV/verification operators and registries/programs each get a concrete role.
 
+## Interactive source-bound Impact Explorer
+
+After running the synthetic 100-claim experiment, the judge UI renders 100 keyboard-accessible claim tiles. Filter by all, affected, unchanged, automatically re-evaluated or evidence-needed results. Selecting a tile displays the active methodology projections, actual changes in active rules and requirements, old dependency-graph node IDs reported by the analyzer, predecessor and optional successor package hashes, and any missing evidence. A machine-readable selected-claim JSON trace can be downloaded.
+
+Three representative claims show the real distinction: `CLIMATE-001` (unaffected), `CLIMATE-071` (EVIDENCE_REQUIRED), `CLIMATE-086` (AUTO_REEVALUATED). Trace generation checks that recomputed active semantic projections agree with the real analyzer's `requires_reverification` decision. This is source-bound implementation consistency, **not** a separately implemented institutional semantic oracle, official AG-005 change, field validation or blockchain attestation.
+
+Node regression and real Chrome clicks cover the filter/selection UI; a mobile horizontal-overflow check is included.
+
 ## 3–5 minute demo path
 
 1. Open `naft-app.html#/climatechain`.
