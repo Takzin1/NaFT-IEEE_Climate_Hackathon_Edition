@@ -18,6 +18,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
+      - name: Verify preserved original IEEE Git ancestry
+        if: github.ref == 'refs/heads/main'
+        run: git merge-base --is-ancestor c87b534877293133ad92ac398b95936608bfd91b HEAD
       - name: Compile ClimateChain provenance contract
         run: npx --yes solc@0.8.24 --abi --bin contracts/NaFTMRVAnchor.sol --output-dir /tmp/naft-solc
       - name: Check ClimateChain signing tool syntax

@@ -17,9 +17,10 @@ Do not add new product scope after the freeze starts.
 
 For the intended submission SHA, require:
 
-- push CI success;
-- the **hackathon-branch push CI** succeeds (the redundant pull-request CI for this exact branch is intentionally skipped; Skip is expected);
-- GitHub Pages deploy success;
+- **destination main** push CI success, on the intended submission SHA;
+- the exact original IEEE source commit remains an ancestor of destination main;
+- repository visibility confirmed **Public** (only after the owner's security approval);
+- the independent **deploy-pages** job completed SUCCESS on the same SHA; Private-repo Skip is not a deployment;
 - Solidity ABI + bytecode compilation success;
 - browser ClimateChain flow success;
 - committed report reproducibility success.
@@ -68,7 +69,8 @@ Submission timestamp:
 
 After the final green SHA is known:
 
-- keep PR #20 open/draft unless explicitly instructed to mark ready or merge;
+- keep the *source* NaFT PR #20 open/draft unless explicitly instructed to change it;
+- freeze the **destination** main HEAD, without changing or deleting the source IEEE branch;
 - create a dedicated release/tag or frozen release branch from the exact submission SHA;
 - do not move that frozen ref after submission.
 

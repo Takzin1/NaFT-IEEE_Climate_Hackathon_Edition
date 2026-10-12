@@ -72,6 +72,13 @@ Keccak-256 signature hashing is performed locally using tested Ethereum vectors.
 
 **Trust boundary:** chain data witnesses package hashes and lineage only, **not climate truth, environmental performance, method eligibility, formal verifier approval, registry acceptance or credit issuance**.
 
+### Latest confirmation on private release candidate
+
+- [Core CI #12 — SUCCESS](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189786229)
+- [Independent real-Sepolia verification #6 — SUCCESS](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189786240)
+- Exact verified destination SHA: `051514e84bff01b7a8f71dc83dd5593b00e0a1d0`.
+- Publication is still blocked: `deploy-pages` is skipped while the repository is Private.
+
 ## 5. Still incomplete — publication gate
 
 - [ ] Repository visibility changed from **Private** to **Public** after final visibility approval/review

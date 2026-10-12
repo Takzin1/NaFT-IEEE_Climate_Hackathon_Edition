@@ -45,7 +45,7 @@ node tests/climatechain-contract-behavior.test.mjs
 bash scripts/verify-live-sepolia.sh
 ```
 
-Solidity local EVM and browser CI run in GitHub Actions. The source IEEE and independently integrated destination `main` have passed **1,234 original assertions + four Keccak-vector checks**. See [destination core CI #10](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189397298) and [live independent Sepolia verification #4](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189397313). These are real executions on destination commit `847b626e931c4305116dcd32559bcc69a4a637e1`; future release SHAs still require new checks.
+Solidity local EVM and browser CI run in GitHub Actions. The source IEEE and independently integrated destination `main` have passed **1,234 original assertions + four Keccak-vector checks**. See [latest destination core CI #12](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189786229) and [latest live Sepolia verification #6](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189786240), both successful on destination commit `051514e84bff01b7a8f71dc83dd5593b00e0a1d0`. Subsequent release SHAs require their own green checks.
 
 ### Independent verification evidence
 

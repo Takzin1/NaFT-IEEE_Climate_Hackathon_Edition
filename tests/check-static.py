@@ -41,3 +41,21 @@ assert 'src/reviewer-demo.js' in html and '#/reviewer-demo' in (root / 'src/mrv-
     'Reviewer Demo route/module wiring is incomplete'
 )
 print('local document, favicon/script references and reviewer route wiring: OK')
+
+# Destination-release regression: prevent stale source-branch and testnet claims.
+expected_demo = 'https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain'
+for path in ['README.md','docs/ieee-submission-pack.md','docs/submission-freeze.md']:
+    data = (root / path).read_text()
+    assert expected_demo in data, f'{path}: destination demo URL missing'
+    assert 'https://takzin1.github.io/NaFT/#/climatechain' not in data, f'{path}: stale source Pages link'
+migration = (root / 'docs/DESTINATION_MIGRATION_STATUS.md').read_text()
+assert 'Latest successful read-only verification #6' in migration, 'destination Sepolia success report missing'
+assert 'has **not** succeeded on the' not in migration, 'obsolete Sepolia failure claim still in release status'
+checklist = (root / 'docs/submission-checklist.md').read_text()
+assert 'destination GitHub Actions' not in checklist or 'main push CI' in checklist, 'destination CI gate missing'
+assert 'Branch is `hackathon/ieee-climatechain-2026`' not in checklist, 'source branch leaked into destination release checklist'
+freeze = (root / 'docs/submission-freeze.md').read_text()
+assert 'destination main' in freeze, 'standalone freeze must use destination main'
+assert 'Private-repo Skip is not a deployment' in freeze, 'release must fail closed before Pages publication'
+assert '<html lang="en">' in html, 'standalone judge app must have English root language'
+assert 'version-aware climate MRV evidence compiler' in html, 'IEEE app metadata missing'

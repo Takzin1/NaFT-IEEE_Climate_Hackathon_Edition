@@ -27,20 +27,29 @@
 
 No climate truth, real farm impact, carbon-credit issuance, certification, registry acceptance or cost savings are claimed.
 
-## Independent Sepolia re-check — 2026-10-12
+## Independent Sepolia re-check — resolved on 2026-10-12
 
-The source-bound **live public-RPC** verification has **not** succeeded on the
-destination. The GitHub Actions verifier found three external issues:
+The destination **successfully reran the real, source-bound public-RPC
+verifier** on the existing Ethereum Sepolia deployment and P1 → P2 witnesses.
+The independent verification concluded `VERIFIED_TESTNET_RPC` on
+`https://sepolia.drpc.org`:
 
-- `ethereum-sepolia-rpc.publicnode.com` returned missing historical transaction receipt(s).
-- `rpc.sepolia.org` returned HTTP 404 for `web3_sha3`.
-- `sepolia.drpc.org` returned HTTP 400 for `web3_sha3`.
+- [First complete successful read-only verification #4](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189397313) — commit `847b626e931c4305116dcd32559bcc69a4a637e1`.
+- [Latest successful read-only verification #6](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189786240) — commit `051514e84bff01b7a8f71dc83dd5593b00e0a1d0`.
 
-The verifier now calculates Ethereum Keccak-256 locally, tested against known
-Keccak vectors. This removes unsupported `web3_sha3` RPC calls but **does not
-make missing receipts acceptable**. Real contract/transaction receipt checks
-and final `headByClaim` remain mandatory. The existing historic
-`VERIFIED_TESTNET` record is preserved without modification; destination
-`VERIFIED_TESTNET_RPC` still requires a complete successful live verification.
+Earlier public providers could not return certain archived receipts or did not
+support `web3_sha3`. The implementation now computes Ethereum Keccak-256
+locally using tested vectors while **still requiring actual transaction
+receipts, bytecode, calldata, events and the final `headByClaim`**.
 
-See [independent verification report](INDEPENDENT_VERIFICATION_REPORT.md) for immutable run links and exact trust boundaries.
+No signing, redeployment or source-contract alteration occurred.
+`VERIFIED_TESTNET_RPC` documents cryptographic package lineage, **not**
+climate truth, official methodology eligibility, issuance or certification.
+
+### Final publication boundary
+
+- The repository remains **Private**; its GitHub Pages deployment is **skipped**, not successful.
+- Change visibility only after the owner's approval and review of history exposure.
+- After switching to Public, require a green **main** CI and successfully completed Pages job on the same SHA; verify the actual URL anonymously.
+- Recording/uploading the English video and submitting Devpost are independent external steps.
+

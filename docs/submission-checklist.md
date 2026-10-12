@@ -1,20 +1,24 @@
 # IEEE ClimateChain 2026 — Submission Checklist
 
-Use this checklist only after hackathon-branch **push CI** is green. Redundant pull-request CI is intentionally skipped on this branch, not failed.
+Use this checklist for the standalone repository's **main** branch, after its own push CI is green. A private release candidate is not a published Pages demo.
 
 ## 1. Repository state
 
-- [ ] Branch is `hackathon/ieee-climatechain-2026`.
-- [ ] Draft PR #20 points to the intended submission head.
-- [ ] GitHub Actions **push run** is green on the exact SHA (the duplicate PR run is intentionally skipped).
+- [ ] Destination repository is `Takzin1/NaFT-IEEE_Climate_Hackthon_Edition` and default branch is `main`.
+- [ ] Source IEEE commit `c87b534877293133ad92ac398b95936608bfd91b` is a real ancestor of destination `main`.
+- [ ] Source PR #20 remains Draft and unchanged (source history is not rebased or squashed).
+- [ ] Destination GitHub Actions **main push CI** is green on the exact intended SHA.
 - [ ] `bash tests/run.sh` passes.
 - [ ] Solidity 0.8.24 compilation passes.
 - [ ] README test count matches the actual ClimateChain assertion count.
 - [ ] `BUILD_LOG.md` still separates the pre-existing NaFT baseline from hackathon additions.
 
+- [ ] Repository visibility is **Public** after the owner approves release and full-history safety review.
+- [ ] Destination **deploy-pages** job completed **SUCCESS** on the same exact SHA (a Private-repo Skip does not qualify).
+
 ## 2. Demo integrity
 
-- [ ] `#/climatechain` opens without horizontal overflow at mobile width.
+- [ ] The independent public URL `https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain` opens anonymously and redirects to the correct English demo without horizontal overflow at mobile width.
 - [ ] The real-world agricultural MRV context is clearly separated from the synthetic methodology experiment.
 - [ ] Running the methodology update computes 100 / 30 / 70 / 15 / 15 from the existing analyzer.
 - [ ] The 30 / 70 ratio is explicitly described as fixture-derived, not a performance result.
