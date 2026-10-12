@@ -3,6 +3,7 @@ on:
   push:
     branches: [main, "staging/ieee-code-snapshot"]
   pull_request:
+  public:
 permissions:
   contents: read
 jobs:
@@ -99,7 +100,7 @@ jobs:
   deploy-pages:
     name: deploy-pages
     needs: core-and-security
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.event.repository.private == false
+    if: github.event.repository.private == false && ((github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'public')
     runs-on: ubuntu-latest
     permissions:
       contents: read

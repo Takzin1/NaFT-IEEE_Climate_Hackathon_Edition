@@ -59,3 +59,8 @@ assert 'destination main' in freeze, 'standalone freeze must use destination mai
 assert 'Private-repo Skip is not a deployment' in freeze, 'release must fail closed before Pages publication'
 assert '<html lang="en">' in html, 'standalone judge app must have English root language'
 assert 'version-aware climate MRV evidence compiler' in html, 'IEEE app metadata missing'
+workflow = (root / '.github/workflows/ci.yml').read_text()
+assert '  public:' in workflow, 'make-public event must trigger full CI gate'
+assert "github.event.repository.private == false" in workflow, 'Pages must remain off in Private repo'
+assert "github.event_name == 'public'" in workflow, 'Pages must auto-activate on publication event'
+
