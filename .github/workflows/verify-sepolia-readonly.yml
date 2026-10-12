@@ -24,4 +24,17 @@ jobs:
       - name: Reconstruct and validate existing Sepolia P1 to P2 proof
         run: |
           git merge-base --is-ancestor c87b534877293133ad92ac398b95936608bfd91b HEAD
-          bash scripts/verify-live-sepolia.sh
+          verified=false
+          for rpc in \
+            https://ethereum-sepolia-rpc.publicnode.com \
+            https://rpc.sepolia.org; do
+            echo "Trying read-only Sepolia provider: $rpc"
+            if CLIMATECHAIN_VERIFY_RPC_URL="$rpc" bash scripts/verify-live-sepolia.sh; then
+              verified=true
+              break
+            fi
+          done
+          if [ "$verified" != true ]; then
+            echo "::error::All public Sepolia providers failed full source-bound verification; no testnet evidence was changed"
+            exit 1
+          fi
