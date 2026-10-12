@@ -1,0 +1,27 @@
+name: IEEE Sepolia Read-only Verification
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-sepolia:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout complete integrated Git history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Reconstruct and validate existing Sepolia P1 to P2 proof
+        run: |
+          git merge-base --is-ancestor c87b534877293133ad92ac398b95936608bfd91b HEAD
+          bash scripts/verify-live-sepolia.sh
