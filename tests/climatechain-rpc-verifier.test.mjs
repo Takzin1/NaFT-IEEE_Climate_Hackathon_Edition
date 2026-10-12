@@ -6,6 +6,7 @@ import vm from 'node:vm';
 import http from 'node:http';
 import {spawn,spawnSync} from 'node:child_process';
 import assert from 'node:assert/strict';
+import {keccak256Utf8} from '../scripts/keccak256.mjs';
 
 function strip0x(v){return String(v).replace(/^0x/,'').toLowerCase();}
 function command(cmd,args,options={}){
@@ -46,10 +47,10 @@ const genesisHash='0x'+'2'.repeat(64);
 const successorHash='0x'+'3'.repeat(64);
 const timestamp='0x69000000';
 const hashes={
-  anchor:'0xdeadbeef'+'0'.repeat(56),
-  event:'0x'+'9'.repeat(64),
-  writer:'0xaaaaaaaa'+'0'.repeat(56),
-  head:'0xbbbbbbbb'+'0'.repeat(56)
+  anchor:keccak256Utf8('anchorPackage(bytes32,bytes32,bytes32,bytes32)'),
+  event:keccak256Utf8('MRVPackageAnchored(bytes32,bytes32,bytes32,bytes32,address,uint64)'),
+  writer:keccak256Utf8('anchorWriter()'),
+  head:keccak256Utf8('headByClaim(bytes32)')
 };
 const selectors={
   anchor:strip0x(hashes.anchor).slice(0,8),
@@ -114,7 +115,7 @@ function hashForInput(data){
 }
 function rpcResult(method,params){
   if(method==='eth_chainId') return '0xaa36a7';
-  if(method==='web3_sha3') return hashForInput(params[0]);
+  if(method==='web3_sha3') throw new Error('Unexpected web3_sha3: verifier must derive keccak locally');
   if(method==='eth_getCode') return compiled.runtime;
   if(method==='eth_getTransactionByHash') return txFor(params[0]);
   if(method==='eth_getTransactionReceipt') return receiptFor(params[0]);

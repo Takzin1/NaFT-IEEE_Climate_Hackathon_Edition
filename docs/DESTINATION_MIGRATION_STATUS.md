@@ -26,3 +26,19 @@
 5. Real demo video and Devpost form are uploaded/submitted; final URLs and SHA frozen.
 
 No climate truth, real farm impact, carbon-credit issuance, certification, registry acceptance or cost savings are claimed.
+
+## Independent Sepolia re-check — 2026-10-12
+
+The source-bound **live public-RPC** verification has **not** succeeded on the
+destination. The GitHub Actions verifier found three external issues:
+
+- `ethereum-sepolia-rpc.publicnode.com` returned missing historical transaction receipt(s).
+- `rpc.sepolia.org` returned HTTP 404 for `web3_sha3`.
+- `sepolia.drpc.org` returned HTTP 400 for `web3_sha3`.
+
+The verifier now calculates Ethereum Keccak-256 locally, tested against known
+Keccak vectors. This removes unsupported `web3_sha3` RPC calls but **does not
+make missing receipts acceptable**. Real contract/transaction receipt checks
+and final `headByClaim` remain mandatory. The existing historic
+`VERIFIED_TESTNET` record is preserved without modification; destination
+`VERIFIED_TESTNET_RPC` still requires a complete successful live verification.
