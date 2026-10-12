@@ -33,7 +33,7 @@ jobs:
           node-version: 24
       - name: Install secret scanner
         run: |
-          go install github.com/gitleaks/gitleaks/v8@latest
+          go install github.com/zricethezav/gitleaks/v8@v8.30.1
           echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
       - name: Preserve IEEE source Git ancestry only after passing security gate
         shell: bash
