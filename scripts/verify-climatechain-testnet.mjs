@@ -2,6 +2,7 @@
 'use strict';
 
 import fs from 'node:fs';
+import {keccak256Utf8} from './keccak256.mjs';
 import vm from 'node:vm';
 import {spawnSync} from 'node:child_process';
 
@@ -9,7 +10,6 @@ function die(message){console.error('CLIMATECHAIN_TESTNET_VERIFY_FAIL: '+message
 function ok(label,detail){console.log('ok: '+label+(detail?' ['+detail+']':''));}
 function strip0x(value){return String(value||'').replace(/^0x/i,'').toLowerCase();}
 function sameAddress(a,b){return String(a||'').toLowerCase()===String(b||'').toLowerCase();}
-function hexUtf8(value){return '0x'+Buffer.from(value,'utf8').toString('hex');}
 
 const rpc=process.env.RPC_URL;
 if(!rpc) die('RPC_URL is required');
@@ -109,9 +109,9 @@ function hexInt(value){
 }
 
 async function signatureHash(signature){
-  const hash=await rpcCall('web3_sha3',[hexUtf8(signature)]);
-  if(!/^0x[a-f0-9]{64}$/i.test(hash||'')) die('invalid web3_sha3 result for '+signature);
-  return hash.toLowerCase();
+  // Derive Ethereum ABI selector/event topic locally. Public RPCs frequently reject web3_sha3.
+  // This does not weaken the independent transaction, bytecode or receipt checks.
+  return keccak256Utf8(signature);
 }
 
 function expectedAnchorPayload(entry){

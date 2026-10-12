@@ -10,7 +10,15 @@ for path in root.rglob('*.md'):
             continue
         target = target.split('#')[0]
         assert (path.parent / target).exists(), f'{path}: missing {target}'
+# Standalone Pages root must direct judges to the English ClimateChain demo.
+landing = (root / 'index.html').read_text()
+assert '<html lang="en">' in landing, 'standalone landing language must be English'
+assert "location.hash||'#/climatechain'" in landing, 'direct ClimateChain Pages deep-link redirect missing'
+assert 'naft-app.html' in landing, 'standalone app redirect missing'
+assert '<meta name="description"' in landing, 'judge landing meta description missing'
 html = (root / 'naft-app.html').read_text()
+assert '<html lang="en">' in html, 'IEEE judge app must be English'
+assert '<meta name="description"' in html, 'judge app metadata missing'
 script_targets = re.findall(r'<script[^>]+src="([^"]+)"', html)
 icon_targets = re.findall(r'<link[^>]+rel="icon"[^>]+href="([^"]+)"', html)
 assert icon_targets, 'favicon link missing from naft-app.html'
