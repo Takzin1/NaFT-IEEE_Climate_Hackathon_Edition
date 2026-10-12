@@ -73,10 +73,12 @@ PY
 git add -A
 [ -z "$(git diff --name-only --diff-filter=U)" ] || stop "Unresolved conflicts"
 git diff --cached --check || stop "Whitespace errors in imported files"
-echo "Running all existing core/security regression tests..."
-bash tests/run.sh || stop "Regression failed; no destination push performed"
+# The read-only source-bound verifier performs git show HEAD:path,
+# so form the merge commit LOCALLY first; it is never pushed if any test fails.
 git commit -m "import(ieee): preserve NaFT IEEE history and isolate standalone CI"
 git merge-base --is-ancestor "$EXPECTED" HEAD || stop "Original source commit is not an ancestor"
+echo "Running all existing core/security regression tests on the local merge commit..."
+bash tests/run.sh || stop "Regression failed; local runner commit is NOT pushed"
 echo "Pushing destination main only (source is never modified)..."
 git push origin main
 echo "IEEE_HISTORY_IMPORT: PASS"
