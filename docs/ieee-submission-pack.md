@@ -4,9 +4,11 @@
 
 ## Judge path
 
-**Demo:** https://takzin1.github.io/NaFT/#/climatechain
+> **Migration warning:** This version is a private, reproducibility-tested code snapshot. Source Git history has not been imported into destination `main`; no independent public Pages deployment has been verified. See [migration status](DESTINATION_MIGRATION_STATUS.md).
 
-**Source (IEEE branch):** https://github.com/Takzin1/NaFT/tree/hackathon/ieee-climatechain-2026
+**Target demo URL (not yet deployed):** https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain
+
+**Current code snapshot (private; not yet history-migrated):** https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/tree/staging/ieee-code-snapshot
 
 **Devpost-ready draft:** [Submission text](devpost-submission-draft.md)
 
