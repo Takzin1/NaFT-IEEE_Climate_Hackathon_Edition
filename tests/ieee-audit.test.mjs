@@ -68,6 +68,7 @@ try {
   check(challenge.original.status==='AUTO_REEVALUATED','original synthetic claim compiles');
   check(challenge.modified.status==='UNSUPPORTED','tampered content deterministically blocked');
   check(challenge.hash_mismatch_detected===true,'specific content hash mismatch identified');
+  check(challenge.parse_preserved===true,'one-byte edit leaves JSON syntactically valid');
   check(challenge.fail_closed===true,'new package does not inherit a passing status');
   check(challenge.modified.package_hash!==challenge.original.package_hash,'tampering changes package hash');
   const before=globalThis.buildClimateChainAuditReceipt(globalThis.runClimateChainImpact());
