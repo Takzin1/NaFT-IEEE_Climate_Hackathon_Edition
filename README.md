@@ -2,7 +2,7 @@
 
 > **Carbon markets need evidence that survives methodology change.**
 
-**Core value:** Selective re-verification of versioned MRV evidence.  
+**Core value:** Selective re-verification of versioned MRV evidence.
 **Blockchain role:** External witness of package lineage, **not climate certification**.
 
 ## IEEE ClimateChain 2026 — Independent code staging
