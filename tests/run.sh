@@ -10,6 +10,8 @@ node --check tests/mitou-impact.test.js
 node --check tests/impact-proof.test.js
 node --check tests/climatechain.test.js
 node --check tests/climatechain-rpc-verifier.test.mjs
+node --check scripts/ieee-replay-audit.mjs
+node --check tests/ieee-audit.test.mjs
 node --check scripts/keccak256.mjs
 node --check tests/keccak.test.mjs
 node tests/smoke.test.js
@@ -17,6 +19,7 @@ node tests/compiler.test.js
 node tests/mitou-impact.test.js
 node tests/impact-proof.test.js
 node tests/climatechain.test.js
+node tests/ieee-audit.test.mjs
 node tests/keccak.test.mjs
 node tests/climatechain-rpc-verifier.test.mjs
 python3 tests/check-static.py

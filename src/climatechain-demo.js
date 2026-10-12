@@ -2,7 +2,7 @@
 
 var CLIMATECHAIN_ROUTE='climatechain';
 var ZERO_BYTES32='0x'+'0'.repeat(64);
-var ClimateChainDemo={impact:null,anchorPlan:null,message:''};
+var ClimateChainDemo={impact:null,anchorPlan:null,tamper:null,message:''};
 
 function hex32(value) {
   if(typeof value!=='string'||!/^[a-f0-9]{64}$/.test(value)) throw new Error('INVALID_BYTES32_HEX');
@@ -136,6 +136,78 @@ function buildClimateChainAnchorPlan(impact) {
   };
 }
 
+
+/**
+ * Portable, deterministic receipt for the *synthetic* IEEE experiment.
+ * A receipt is neither a digital signature nor independent proof of climate truth.
+ * The Node replay tool recomputes it from the exact checked-out source.
+ */
+function buildClimateChainAuditReceipt(impact) {
+  if(!impact||!Array.isArray(impact.claims)||!impact.counts) throw new Error('RUN_IMPACT_ANALYSIS_FIRST');
+  var oldPack=COMPILER_REGISTRY['NAFT-SYNTHETIC@1'];
+  var newPack=COMPILER_REGISTRY['NAFT-SYNTHETIC@2'];
+  var plan=buildClimateChainAnchorPlan(impact);
+  var payload={
+    schema:'naft-ieee-audit-receipt-1',
+    scope:'Synthetic engineering replay only; no field effectiveness, certification, or source authenticity proof',
+    experiment:'NAFT-SYNTHETIC@1 -> @2',
+    workload_sha256:hashObject(climateChainClaims()),
+    old_pack_sha256:hashObject(oldPack),
+    new_pack_sha256:hashObject(newPack),
+    change:clone(impact.change),
+    counts:clone(impact.counts),
+    claims:impact.claims.map(function(row) {
+      return {
+        claim_id:row.claim_id,
+        status:row.status,
+        requires_reverification:row.requires_reverification===true,
+        previous_package_hash:row.previous_package_hash,
+        previous_package_stale:row.previous_package_stale===true,
+        successor_package_hash:row.successor?row.successor.package_hash:null,
+        successor_graph_reference:row.successor?row.successor.document.provenance_graph_reference:null,
+        reasons:clone(row.reasons||[]),
+        affected_nodes:clone(row.affected_nodes||[])
+      };
+    }).sort(function(x,y){return x.claim_id<y.claim_id?-1:x.claim_id>y.claim_id?1:0;}),
+    anchor_arguments:{
+      chain_status:'NOT_SUBMITTED',
+      claim_id:plan.claim_id,
+      genesis:clone(plan.genesis),
+      successor:clone(plan.successor),
+      lineage_checks:clone(plan.lineage_checks)
+    }
+  };
+  return Object.assign({},payload,{receipt_sha256:hashObject(payload)});
+}
+
+/** Deliberately corrupt synthetic raw evidence without changing its expected hash. */
+function runClimateChainTamperChallenge() {
+  var input=syntheticClaim('CLIMATE-086','intensive_complete');
+  var pack=COMPILER_REGISTRY['NAFT-SYNTHETIC@1'];
+  var original=compileEvidence(input,pack);
+  var tampered=clone(input);
+  var evidenceId=tampered.evidence[0].id;
+  // Change exactly one printable byte while preserving valid JSON syntax.
+  var originalContent=tampered.evidence[0].content;
+  tampered.evidence[0].content=originalContent.replace('engineering fixture','engineering fixturf');
+  if(originalContent===tampered.evidence[0].content) throw new Error('TAMPER_FIXTURE_MISSING');
+  var challenged=compileEvidence(tampered,pack);
+  var rejection=challenged.document.evaluation.issues.some(function(issue) {
+    return issue.code==='content_hash:'+evidenceId&&issue.status==='UNSUPPORTED';
+  });
+  return {
+    schema:'naft-ieee-tamper-challenge-1',
+    boundary:'Synthetic offline evidence alteration. This is a content-integrity demonstration, not proof of observation truth or blockchain validation.',
+    claim_id:'CLIMATE-086',
+    evidence_id:evidenceId,
+    original:{status:original.document.evaluation.status,package_hash:original.package_hash},
+    modified:{status:challenged.document.evaluation.status,package_hash:challenged.package_hash,issues:clone(challenged.document.evaluation.issues)},
+    hash_mismatch_detected:rejection,
+    parse_preserved:!challenged.document.evaluation.issues.some(function(issue){return issue.code==='evidence_parse:'+evidenceId;}),
+    fail_closed:rejection&&challenged.document.evaluation.status==='UNSUPPORTED'&&original.package_hash!==challenged.package_hash
+  };
+}
+
 function climateMetric(label,value,note) {
   return '<div class="metric"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong><small>'+esc(note||'')+'</small></div>';
 }
@@ -253,6 +325,8 @@ function pgClimateChainDemo() {
       '<details><summary>Why this claim changed</summary>'+jsonView({status:row.status,reasons:row.reasons,affected_nodes:row.affected_nodes,supersedes:row.successor.document.provenance_graph.edges.filter(function(e){return e.type==='supersedes';})})+'</details>':'')+
       button('Prepare blockchain anchor plan','climatechain-anchor-plan',!row)+
       button('Download impact JSON','climatechain-export-impact',false)+
+      button('Download reproducible audit receipt','climatechain-export-receipt',false)+
+      button('Run evidence tamper challenge','climatechain-tamper',false)+
       '</section>';
   }
 
@@ -272,6 +346,22 @@ function pgClimateChainDemo() {
         : '<div class="notice"><b>No public testnet transaction recorded.</b> This browser demo only prepares exact <code>bytes32</code> arguments for <code>NaFTMRVAnchor.anchorPackage</code>.</div>')+
       '<details open><summary>Prepared transaction arguments</summary>'+jsonView(plan)+'</details>'+
       button('Download anchor plan JSON','climatechain-export-anchor',false)+
+      '</section>';
+  }
+
+  if(ClimateChainDemo.tamper) {
+    var challenge=ClimateChainDemo.tamper;
+    out+='<section class="card climate-audit-challenge" aria-labelledby="climate-challenge-title">'+
+      '<span class="eyebrow">03 / Adversarial evidence check · synthetic</span>'+
+      '<h2 id="climate-challenge-title">Change one evidence byte. Detect an invalid manifest.</h2>'+
+      '<p>This local challenge mutates the raw content while retaining its original expected SHA-256. The deterministic compiler must fail closed.</p>'+
+      '<div class="metric-grid">'+
+        climateMetric('Before',challenge.original.status,'untampered synthetic input')+
+        climateMetric('After',challenge.modified.status,'expected hash no longer matches')+
+        climateMetric('Tamper rejected',challenge.fail_closed?'YES':'NO','not a certification claim')+
+      '</div>'+
+      '<details><summary>Inspect failure codes and package hash changes</summary>'+jsonView(challenge)+'</details>'+
+      button('Download tamper challenge JSON','climatechain-export-tamper',false)+
       '</section>';
   }
 
@@ -304,12 +394,26 @@ function handleClimateChainAction(action) {
   if(action==='climatechain-run') {
     ClimateChainDemo.impact=runClimateChainImpact();
     ClimateChainDemo.anchorPlan=null;
+    ClimateChainDemo.tamper=null;
     ClimateChainDemo.message='Synthetic 100-claim impact analysis completed.';
   }
   if(action==='climatechain-anchor-plan') {
     if(!ClimateChainDemo.impact) throw new Error('RUN_IMPACT_ANALYSIS_FIRST');
     ClimateChainDemo.anchorPlan=buildClimateChainAnchorPlan(ClimateChainDemo.impact);
     ClimateChainDemo.message='Anchor arguments prepared locally; no transaction broadcast from this browser. Public Sepolia reference evidence is shown separately.';
+  }
+  if(action==='climatechain-tamper') {
+    if(!ClimateChainDemo.impact) throw new Error('RUN_IMPACT_ANALYSIS_FIRST');
+    ClimateChainDemo.tamper=runClimateChainTamperChallenge();
+    ClimateChainDemo.message=ClimateChainDemo.tamper.fail_closed
+      ? 'Synthetic evidence tampering detected and blocked.'
+      : 'Tamper challenge inconclusive; do not assert successful detection.';
+  }
+  if(action==='climatechain-export-receipt'&&ClimateChainDemo.impact) {
+    downloadJSON(canonicalize(buildClimateChainAuditReceipt(ClimateChainDemo.impact)),'naft-ieee-audit-receipt.json');
+  }
+  if(action==='climatechain-export-tamper'&&ClimateChainDemo.tamper) {
+    downloadJSON(canonicalize(ClimateChainDemo.tamper),'naft-ieee-tamper-challenge.json');
   }
   if(action==='climatechain-export-impact'&&ClimateChainDemo.impact) {
     downloadJSON(canonicalize(ClimateChainDemo.impact),'naft-climatechain-impact.json');

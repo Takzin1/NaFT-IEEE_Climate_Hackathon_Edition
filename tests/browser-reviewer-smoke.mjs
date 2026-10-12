@@ -199,6 +199,21 @@ if(publicChainProof.status!=='VERIFIED_TESTNET'||
    throw new Error('PUBLIC_TESTNET_PROOF_MISMATCH:'+JSON.stringify(publicChainProof));
 }
 
+// Actual Chrome exercise of the new IEEE audit receipt and tamper-challenge controls.
+const ieeeAuditUI=await evaluate("(function(){var r=buildClimateChainAuditReceipt(ClimateChainDemo.impact);return {schema:r.schema,claims:r.claims.length,digest:r.receipt_sha256,download:!!document.querySelector('[data-action=climatechain-export-receipt]'),tamper:!!document.querySelector('[data-action=climatechain-tamper]')};})()");
+if(ieeeAuditUI.schema!=='naft-ieee-audit-receipt-1'||ieeeAuditUI.claims!==100||
+   !/^[a-f0-9]{64}$/.test(ieeeAuditUI.digest)||!ieeeAuditUI.download||!ieeeAuditUI.tamper) {
+  throw new Error('IEEE_AUDIT_RECEIPT_BROWSER_UI_INVALID:'+JSON.stringify(ieeeAuditUI));
+}
+await evaluate("document.querySelector('[data-action=climatechain-tamper]').click();true");
+await until("ClimateChainDemo.tamper!==null && document.querySelector('.climate-audit-challenge')!==null",'IEEE tamper challenge actual browser action');
+const ieeeTamper=await evaluate("(function(){var t=ClimateChainDemo.tamper;return {before:t.original.status,after:t.modified.status,detected:t.hash_mismatch_detected,parse:t.parse_preserved,failClosed:t.fail_closed,download:!!document.querySelector('[data-action=climatechain-export-tamper]'),panel:document.querySelector('.climate-audit-challenge').innerText.includes('Tamper rejected')};})()");
+if(ieeeTamper.before!=='AUTO_REEVALUATED'||ieeeTamper.after!=='UNSUPPORTED'||
+   !ieeeTamper.detected||!ieeeTamper.parse||!ieeeTamper.failClosed||
+   !ieeeTamper.download||!ieeeTamper.panel) {
+  throw new Error('IEEE_TAMPER_CHALLENGE_BROWSER_INVALID:'+JSON.stringify(ieeeTamper));
+}
+
 // Confirm desktop side-by-side judge hero and return to mobile before checking research workflows.
 await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
 const climateDesktop=await evaluate("({scrollWidth:document.documentElement.scrollWidth,innerWidth:window.innerWidth,primary:(function(){var r=document.querySelector('.climate-hero-primary').getBoundingClientRect();return {x:r.x,y:r.y};})(),proof:(function(){var r=document.querySelector('.climate-hero-evidence').getBoundingClientRect();return {x:r.x,y:r.y};})()})");
