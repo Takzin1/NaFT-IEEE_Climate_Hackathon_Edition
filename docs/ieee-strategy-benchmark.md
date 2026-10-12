@@ -55,6 +55,6 @@ All inputs are synthetic. The new rule pack is not an official AG-005 amendment,
 
 ## CI regression gate
 
-`tests/ieee-benchmark.test.mjs` executes the real CLI for the 100-claim workload, rejects malformed/unbounded arguments and asserts complete predecessor/selected successor parity and status coverage. It validates report structure and finite timings **without** assuming that NaFT must run faster.
+`tests/ieee-benchmark.test.mjs` executes the real CLI for 100/200/500-claim workloads with three timed samples per strategy, rejects malformed/unbounded arguments and asserts complete predecessor/selected successor parity and status coverage. It validates report structure and finite timings **without** assuming that NaFT must run faster.
 
 Reviewers can rerun the CLI on the exact committed code and compare the machine metadata, workload hashes, output counts, and actual local timing samples.
