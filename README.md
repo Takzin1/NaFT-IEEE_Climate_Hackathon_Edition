@@ -59,6 +59,17 @@ node scripts/ieee-replay-audit.mjs verify /tmp/naft-ieee-audit-receipt.json
 
 **Run evidence tamper challenge** deliberately alters a synthetic source record without updating its expected hash and confirms the compiler rejects it. CI includes positive replay plus rehashed forgery, omission and status/count mutation negative controls. This is a source-bound *replay*, not an independent climate measurement, formal verifier signature or proof of evidence authenticity. The existing independent semantic oracle remains in `tests/impact-proof.test.js`. See [the audit lab protocol](docs/ieee-audit-receipt.md).
 
+
+### Synthetic strategy benchmark (measured, not a savings claim)
+
+In addition to receipt replay, run a reproducible **full-recompilation versus selective-impact** comparison. It uses the actual compiler in both strategies, checks predecessor/successor hash parity, and records timing samples and output work units separately:
+
+```bash
+node scripts/ieee-benchmark.mjs --sizes 100,200,500 --iterations 3 --output /tmp/naft-ieee-benchmark.json
+```
+
+**70 unaffected out of 100 is not 70% runtime, cost, or labor savings.** NaFT's impact analysis includes baseline compilation and graph work; the full comparison includes predecessor and all successor compilations. Empirical timing on your hardware is an observation, not a speedup guarantee. See [benchmark protocol and limitations](docs/ieee-strategy-benchmark.md).
+
 ### Standalone publication gate
 
 GitHub Actions includes a public-only `deploy-pages` job and a **post-deploy real-Chrome HTTP/UI smoke test**. These intentionally skip while the repository remains **Private**; the independent Pages URL is **not yet published**. After visibility becomes Public, the workflow can validate the destination URL, 100/30/70/15/15 demo, SVG and real P1/P2 links. No keys or chain transactions are required.
