@@ -70,6 +70,10 @@ node scripts/ieee-benchmark.mjs --sizes 100,200,500 --iterations 3 --output /tmp
 
 **70 unaffected out of 100 is not 70% runtime, cost, or labor savings.** NaFT's impact analysis includes baseline compilation and graph work; the full comparison includes predecessor and all successor compilations. Empirical timing on your hardware is an observation, not a speedup guarantee. See [benchmark protocol and limitations](docs/ieee-strategy-benchmark.md).
 
+### Interactive synthetic Impact Explorer
+
+The English `#/climatechain` demo now lets reviewers filter and select every synthetic claim. A source-bound trace shows the exact active-rule projection differences, old provenance-graph dependent nodes, SHA-256 hashes, predecessor/successor package references and blocked evidence requirements. Select `CLIMATE-001` (unaffected), `CLIMATE-071` (evidence needed), or `CLIMATE-086` (auto re-evaluated), then **Download selected trace JSON**. These are local engineering explanations, **not** independent GHG eligibility conclusions or chain submissions.
+
 ### Standalone publication gate
 
 GitHub Actions includes a public-only `deploy-pages` job and a **post-deploy real-Chrome HTTP/UI smoke test**. These intentionally skip while the repository remains **Private**; the independent Pages URL is **not yet published**. After visibility becomes Public, the workflow can validate the destination URL, 100/30/70/15/15 demo, SVG and real P1/P2 links. No keys or chain transactions are required.
