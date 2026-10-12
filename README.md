@@ -18,6 +18,7 @@ Destination `main` preserves the original IEEE source HEAD as a real parent/ance
 | Exact source snapshot | https://github.com/Takzin1/NaFT/commit/c87b534877293133ad92ac398b95936608bfd91b |
 | Expected standalone demo (not yet deployed) | https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain |
 | Architecture SVG | [docs/assets/naft-climatechain-architecture.svg](docs/assets/naft-climatechain-architecture.svg) |
+| Portable IEEE audit receipt | [Replay verifier + tamper challenge](docs/ieee-audit-receipt.md) |
 | Devpost submission pack | [docs/ieee-submission-pack.md](docs/ieee-submission-pack.md) |
 | Demo script | [docs/climatechain-video-script.md](docs/climatechain-video-script.md) |
 | Security/migration gate | [docs/DESTINATION_MIGRATION_STATUS.md](docs/DESTINATION_MIGRATION_STATUS.md) |
@@ -46,6 +47,17 @@ bash scripts/verify-live-sepolia.sh
 ```
 
 Solidity local EVM and browser CI run in GitHub Actions. The source IEEE and independently integrated destination `main` have passed **1,234 original assertions + four Keccak-vector checks**. See [latest destination core CI #12](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189786229) and [latest live Sepolia verification #6](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189786240), both successful on destination commit `051514e84bff01b7a8f71dc83dd5593b00e0a1d0`. Subsequent release SHAs require their own green checks.
+
+### Deterministic reviewer audit receipt (synthetic)
+
+Run the 100-claim update on `#/climatechain` and select **Download reproducible audit receipt**. This captures each claim's re-verification status, dependency reasons, old/new package references and pinned synthetic Pack/workload SHA-256 values. Reviewers can replay the receipt against this exact checked-out source commit, using only Node 24:
+
+```bash
+node scripts/ieee-replay-audit.mjs generate /tmp/naft-ieee-audit-receipt.json
+node scripts/ieee-replay-audit.mjs verify /tmp/naft-ieee-audit-receipt.json
+```
+
+**Run evidence tamper challenge** deliberately alters a synthetic source record without updating its expected hash and confirms the compiler rejects it. CI includes positive replay plus rehashed forgery, omission and status/count mutation negative controls. This is a source-bound *replay*, not an independent climate measurement, formal verifier signature or proof of evidence authenticity. The existing independent semantic oracle remains in `tests/impact-proof.test.js`. See [the audit lab protocol](docs/ieee-audit-receipt.md).
 
 ### Standalone publication gate
 
