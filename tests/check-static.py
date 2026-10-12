@@ -63,4 +63,3 @@ workflow = (root / '.github/workflows/ci.yml').read_text()
 assert '  public:' in workflow, 'make-public event must trigger full CI gate'
 assert "github.event.repository.private == false" in workflow, 'Pages must remain off in Private repo'
 assert "github.event_name == 'public'" in workflow, 'Pages must auto-activate on publication event'
-
