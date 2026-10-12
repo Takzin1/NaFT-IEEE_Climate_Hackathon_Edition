@@ -27,7 +27,8 @@ jobs:
           verified=false
           for rpc in \
             https://ethereum-sepolia-rpc.publicnode.com \
-            https://rpc.sepolia.org; do
+            https://rpc.sepolia.org \
+            https://sepolia.drpc.org; do
             echo "Trying read-only Sepolia provider: $rpc"
             if CLIMATECHAIN_VERIFY_RPC_URL="$rpc" bash scripts/verify-live-sepolia.sh; then
               verified=true

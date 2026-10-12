@@ -52,14 +52,14 @@ async function rpc(method,params=[]){
 }
 
 async function waitRpc(){
-  for(let i=0;i<120;i++){
+  for(let i=0;i<450;i++){
     try{
       const body=await rpcRaw('eth_chainId',[]);
       if(body.result) return;
     }catch{}
     await new Promise(r=>setTimeout(r,100));
   }
-  throw new Error('Ganache RPC did not become ready');
+  throw new Error('Ganache RPC did not become ready within 45 seconds');
 }
 
 async function waitReceipt(hash){
