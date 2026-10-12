@@ -1,6 +1,6 @@
 # IEEE ClimateChain 2026 — Independent Repository Verification Report
 
-**Report date:** 2026-10-12 (JST)  
+**Report date:** 2026-10-12 (JST)
 **Stage:** Independently reproducible **private candidate**, **not a completed public Devpost submission**.
 
 ## 1. Provenance: original Git history retained
@@ -53,8 +53,8 @@ The 100-claim result (30 require re-verification, 70 unaffected, 15 automatic, 1
 
 ## 4. Independent Ethereum Sepolia read-only verification
 
-**[Destination Sepolia workflow #4 — SUCCESS](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189397313)**  
-**Result: `VERIFIED_TESTNET_RPC`**  
+**[Destination Sepolia workflow #4 — SUCCESS](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189397313)**
+**Result: `VERIFIED_TESTNET_RPC`**
 **Successful provider:** `https://sepolia.drpc.org`
 
 | Item | Public reference |
