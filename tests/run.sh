@@ -14,6 +14,7 @@ node --check scripts/ieee-replay-audit.mjs
 node --check tests/ieee-audit.test.mjs
 node --check scripts/ieee-benchmark.mjs
 node --check tests/ieee-benchmark.test.mjs
+node --check tests/ieee-trace.test.mjs
 node --check scripts/keccak256.mjs
 node --check tests/keccak.test.mjs
 node tests/smoke.test.js
@@ -23,6 +24,7 @@ node tests/impact-proof.test.js
 node tests/climatechain.test.js
 node tests/ieee-audit.test.mjs
 node tests/ieee-benchmark.test.mjs
+node tests/ieee-trace.test.mjs
 node tests/keccak.test.mjs
 node tests/climatechain-rpc-verifier.test.mjs
 python3 tests/check-static.py

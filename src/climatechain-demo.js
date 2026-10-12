@@ -2,7 +2,7 @@
 
 var CLIMATECHAIN_ROUTE='climatechain';
 var ZERO_BYTES32='0x'+'0'.repeat(64);
-var ClimateChainDemo={impact:null,anchorPlan:null,tamper:null,message:''};
+var ClimateChainDemo={impact:null,anchorPlan:null,tamper:null,selectedClaim:null,filter:'ALL',message:''};
 
 function hex32(value) {
   if(typeof value!=='string'||!/^[a-f0-9]{64}$/.test(value)) throw new Error('INVALID_BYTES32_HEX');
@@ -208,6 +208,103 @@ function runClimateChainTamperChallenge() {
   };
 }
 
+
+/** Source-bound synthetic claim reasoning. No external institutional assertion. */
+function buildClimateChainImpactTrace(impact,claimId) {
+  if(!impact||!Array.isArray(impact.claims)||!impact.change||impact.change.type!=='methodology') throw new Error('RUN_IMPACT_ANALYSIS_FIRST');
+  var row=impact.claims.find(function(c){return c.claim_id===claimId;});
+  if(!row) throw new Error('UNKNOWN_TRACE_CLAIM');
+  var original=climateChainClaims().find(function(c){return c.activity.id===claimId;});
+  var oldPack=COMPILER_REGISTRY[impact.change.old_key],newPack=COMPILER_REGISTRY[impact.change.new_key];
+  if(!original||!oldPack||!newPack||!row.next_input) throw new Error('TRACE_SOURCE_UNAVAILABLE');
+  var oldActive=activeProjection(oldPack,original),newActive=activeProjection(newPack,row.next_input);
+  var changed=hashObject(oldActive)!==hashObject(newActive);
+  if(changed!==row.requires_reverification) throw new Error('TRACE_ANALYZER_PARITY_FAILED');
+  var categories=['rules','parameters','evidence_requirements','calculation_spec','exceptions','unsupported_conditions'];
+  var diffs=categories.map(function(k){
+    return {category:k,changes:changesBetween(oldActive[k],newActive[k]).map(function(item){
+      return {id:item.id,kind:item.change};
+    })};
+  }).filter(function(item){return item.changes.length>0;});
+  var successor=row.successor;
+  return {
+    schema:'naft-ieee-impact-trace-1',
+    scope:'Synthetic source-bound reasoning; not independently certified climate semantics, authentic observations, or blockchain validation',
+    claim_id:row.claim_id,
+    stratum:original.activity.stratum,
+    from:impact.change.old_key,
+    to:impact.change.new_key,
+    candidate:row.potentially_affected===true,
+    old_active_projection_sha256:hashObject(oldActive),
+    new_active_projection_sha256:hashObject(newActive),
+    semantic_change:changed,
+    requires_reverification:row.requires_reverification===true,
+    status:row.status,
+    active_dependency_differences:diffs,
+    reason_tags:clone(row.reasons||[]),
+    old_graph_dependent_nodes:clone(row.affected_nodes||[]),
+    previous_package_hash:row.previous_package_hash,
+    successor_package_hash:successor?successor.package_hash:null,
+    previous_package_stale:row.previous_package_stale===true,
+    missing_evidence:successor?clone(successor.document.evaluation.missing_evidence):[],
+    supersedes_recorded:!!(successor&&successor.document.provenance_graph.edges.some(function(e){
+      return e.type==='supersedes'&&e.from==='package:'+row.previous_package_hash;
+    }))
+  };
+}
+function climateImpactExplorer(impact) {
+  var permitted=['ALL','REVERIFY','UNAFFECTED','AUTO_REEVALUATED','EVIDENCE_REQUIRED'];
+  var filter=permitted.includes(ClimateChainDemo.filter)?ClimateChainDemo.filter:'ALL';
+  var visible=impact.claims.filter(function(r) {
+    return filter==='ALL'||filter==='REVERIFY'&&r.requires_reverification||r.status===filter;
+  });
+  var id=ClimateChainDemo.selectedClaim;
+  if(!visible.some(function(r){return r.claim_id===id;})) id=visible.length?visible[0].claim_id:null;
+  var trace=id?buildClimateChainImpactTrace(impact,id):null,c=impact.counts;
+  var controls=[['ALL','All',c.total],['REVERIFY','Re-verify',c.require_reverification],
+    ['UNAFFECTED','Unaffected',c.UNAFFECTED],['AUTO_REEVALUATED','Auto re-evaluated',c.AUTO_REEVALUATED],
+    ['EVIDENCE_REQUIRED','Evidence needed',c.EVIDENCE_REQUIRED]];
+  var out='<section class="card climate-explorer" aria-labelledby="climate-explorer-title">'+
+    '<span class="eyebrow">02 / Source-bound Impact Explorer · synthetic</span>'+
+    '<h2 id="climate-explorer-title">Select any claim. Inspect why it changed — or did not.</h2>'+
+    '<p>Every tile comes from the real analyzer. Select a claim to inspect active requirements, affected graph nodes and its resulting package lineage.</p>'+
+    '<div class="climate-explorer-filters" role="group" aria-label="Filter synthetic claim statuses">'+
+    controls.map(function(v){return '<button class="climate-explorer-filter" type="button" data-action="climatechain-filter" data-filter="'+esc(v[0])+
+      '" aria-pressed="'+(filter===v[0]?'true':'false')+'">'+esc(v[1])+' '+esc(v[2])+'</button>';}).join('')+'</div>'+
+    '<div class="climate-claim-grid" role="group" aria-label="Synthetic claim selection">'+
+    visible.map(function(row){
+      var state=row.status==='UNAFFECTED'?'unaffected':row.status==='AUTO_REEVALUATED'?'auto':row.status==='EVIDENCE_REQUIRED'?'evidence':'other';
+      return '<button class="climate-claim-btn" type="button" data-state="'+esc(state)+'" data-action="climatechain-select-claim" data-claim-id="'+esc(row.claim_id)+
+        '" aria-label="'+esc(row.claim_id+' · '+row.status)+'" aria-pressed="'+(row.claim_id===id?'true':'false')+'">'+esc(row.claim_id.slice(-3))+'</button>';
+    }).join('')+'</div>'+
+    '<p class="climate-explorer-caption">All records fictional. Tiles are keyboard- and touch-selectable.</p>';
+  if(trace) {
+    var result=trace.successor_package_hash?'Successor emitted':'No successor generated';
+    out+='<div class="climate-trace" aria-live="polite">'+
+      '<div class="climate-trace-header"><h3>'+esc(trace.claim_id)+'</h3><strong>'+esc(trace.status.replace(/_/g,' '))+'</strong></div>'+
+      '<div class="climate-trace-flow" role="list">'+
+        '<div role="listitem"><small>01 · Methodology change</small><b>'+esc(trace.from)+' → '+esc(trace.to)+'</b><span>'+esc(trace.stratum)+' synthetic pathway</span></div>'+
+        '<div role="listitem"><small>02 · Active-rule comparison</small><b>'+esc(trace.semantic_change?'Semantic difference':'No active semantic difference')+'</b><span>SHA-256 projections in details</span></div>'+
+        '<div role="listitem"><small>03 · Decision</small><b>'+esc(trace.requires_reverification?'Re-verify':'Unaffected')+'</b><span>'+esc(trace.old_graph_dependent_nodes.length)+' old-graph dependent node IDs</span></div>'+
+        '<div role="listitem"><small>04 · Package outcome</small><b>'+esc(result)+'</b><span>'+esc(trace.status.replace(/_/g,' '))+'</span></div></div>'+
+      '<div class="climate-trace-details"><div><h4>Active dependency changes</h4>'+
+        (trace.active_dependency_differences.length?trace.active_dependency_differences.map(function(d){
+          return '<p><b>'+esc(d.category)+'</b> '+d.changes.map(function(x){return '<code>'+esc(x.kind+' · '+x.id)+'</code>';}).join(' ')+'</p>';
+        }).join(''):'<p>No active rule, parameter or evidence-requirement difference.</p>')+'</div>'+
+      '<div><h4>Package and evidence</h4>'+
+        '<p>Previous <code>'+esc(trace.previous_package_hash.slice(0,20))+'…</code></p>'+
+        (trace.successor_package_hash?'<p>Successor <code>'+esc(trace.successor_package_hash.slice(0,20))+'…</code></p>':
+          '<p>No successor; baseline package compilation still takes place.</p>')+
+        (trace.missing_evidence.length?'<p>Missing '+trace.missing_evidence.map(function(x){return '<code>'+esc(x)+'</code>';}).join(' ')+'</p>':'')+
+      '</div></div>'+
+      '<details><summary>Exact hashes, reason tags and old-graph node IDs</summary>'+jsonView(trace)+'</details>'+
+      button('Download selected trace JSON','climatechain-export-trace',false)+
+      '<p class="climate-explorer-caption">The methodology-version candidate tag alone is not proof of a semantic change. Dependency node IDs are exposed only when the analyzer selects re-verification. Not a certification or live chain transaction.</p>'+
+      '</div>';
+  }
+  return out+'</section>';
+}
+
 function climateMetric(label,value,note) {
   return '<div class="metric"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong><small>'+esc(note||'')+'</small></div>';
 }
@@ -300,6 +397,7 @@ function pgClimateChainDemo() {
     '<div class="notice"><b>Boundary:</b> '+esc(reference.source_status)+' '+esc(reference.experiment_boundary)+'</div></section>';
 
   if(impact) {
+    out+=climateImpactExplorer(impact);
     var c=impact.counts,row=climateChainRepresentative(impact);
     var total=c.total||c.potentially_affected;
     var reviewPercent=total>0?Math.max(0,Math.min(100,c.require_reverification/total*100)):0;
@@ -390,12 +488,31 @@ function pgClimateChainDemo() {
   return out+'<p role="status">'+esc(ClimateChainDemo.message)+'</p>';
 }
 
-function handleClimateChainAction(action) {
+function handleClimateChainAction(action,element) {
   if(action==='climatechain-run') {
     ClimateChainDemo.impact=runClimateChainImpact();
     ClimateChainDemo.anchorPlan=null;
     ClimateChainDemo.tamper=null;
+    ClimateChainDemo.filter='ALL';
+    ClimateChainDemo.selectedClaim='CLIMATE-071';
     ClimateChainDemo.message='Synthetic 100-claim impact analysis completed.';
+  }
+  if(action==='climatechain-filter') {
+    if(!ClimateChainDemo.impact) throw new Error('RUN_IMPACT_ANALYSIS_FIRST');
+    var allowed=['ALL','REVERIFY','UNAFFECTED','AUTO_REEVALUATED','EVIDENCE_REQUIRED'];
+    var key=element&&element.dataset&&element.dataset.filter;
+    if(!allowed.includes(key)) throw new Error('UNKNOWN_TRACE_FILTER');
+    ClimateChainDemo.filter=key;
+    var matching=ClimateChainDemo.impact.claims.filter(function(r) {return key==='ALL'||key==='REVERIFY'&&r.requires_reverification||r.status===key;});
+    if(!matching.some(function(r){return r.claim_id===ClimateChainDemo.selectedClaim;})) ClimateChainDemo.selectedClaim=matching.length?matching[0].claim_id:null;
+    ClimateChainDemo.message='Synthetic claim filter: '+key+'.';
+  }
+  if(action==='climatechain-select-claim') {
+    if(!ClimateChainDemo.impact) throw new Error('RUN_IMPACT_ANALYSIS_FIRST');
+    var id=element&&element.dataset&&element.dataset.claimId;
+    if(!ClimateChainDemo.impact.claims.some(function(r){return r.claim_id===id;})) throw new Error('UNKNOWN_TRACE_CLAIM');
+    ClimateChainDemo.selectedClaim=id;
+    ClimateChainDemo.message='Inspecting synthetic trace '+id+'.';
   }
   if(action==='climatechain-anchor-plan') {
     if(!ClimateChainDemo.impact) throw new Error('RUN_IMPACT_ANALYSIS_FIRST');
@@ -408,6 +525,9 @@ function handleClimateChainAction(action) {
     ClimateChainDemo.message=ClimateChainDemo.tamper.fail_closed
       ? 'Synthetic evidence tampering detected and blocked.'
       : 'Tamper challenge inconclusive; do not assert successful detection.';
+  }
+  if(action==='climatechain-export-trace'&&ClimateChainDemo.impact&&ClimateChainDemo.selectedClaim) {
+    downloadJSON(canonicalize(buildClimateChainImpactTrace(ClimateChainDemo.impact,ClimateChainDemo.selectedClaim)),'naft-ieee-impact-trace-'+ClimateChainDemo.selectedClaim+'.json');
   }
   if(action==='climatechain-export-receipt'&&ClimateChainDemo.impact) {
     downloadJSON(canonicalize(buildClimateChainAuditReceipt(ClimateChainDemo.impact)),'naft-ieee-audit-receipt.json');

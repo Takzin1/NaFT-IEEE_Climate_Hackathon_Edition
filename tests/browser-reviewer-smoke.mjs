@@ -214,6 +214,30 @@ if(ieeeTamper.before!=='AUTO_REEVALUATED'||ieeeTamper.after!=='UNSUPPORTED'||
   throw new Error('IEEE_TAMPER_CHALLENGE_BROWSER_INVALID:'+JSON.stringify(ieeeTamper));
 }
 
+// Real Chrome clicks: selected-trace projection parity and all status-filter outcomes.
+const explorerBefore=await evaluate("({count:document.querySelectorAll('.climate-claim-btn').length,selected:ClimateChainDemo.selectedClaim,hasTrace:!!document.querySelector('.climate-trace')})");
+if(explorerBefore.count!==100||explorerBefore.selected!=='CLIMATE-071'||!explorerBefore.hasTrace) {
+  throw new Error('IEEE_EXPLORER_INITIAL_INVALID:'+JSON.stringify(explorerBefore));
+}
+await evaluate("document.querySelector('[data-action=climatechain-filter][data-filter=EVIDENCE_REQUIRED]').click();true");
+await until("ClimateChainDemo.filter==='EVIDENCE_REQUIRED' && document.querySelectorAll('.climate-claim-btn').length===15",'evidence-required explorer filter');
+await evaluate("document.querySelector('[data-action=climatechain-filter][data-filter=AUTO_REEVALUATED]').click();true");
+await until("ClimateChainDemo.selectedClaim==='CLIMATE-086' && document.querySelectorAll('.climate-claim-btn').length===15",'automatic explorer filter');
+await evaluate("document.querySelector('[data-claim-id=CLIMATE-087]').click();true");
+await until("ClimateChainDemo.selectedClaim==='CLIMATE-087' && document.querySelector('.climate-trace-header h3').textContent==='CLIMATE-087'",'click selected trace');
+const chosen=await evaluate("(function(){var t=buildClimateChainImpactTrace(ClimateChainDemo.impact,ClimateChainDemo.selectedClaim);return {status:t.status,semantic:t.semantic_change,successor:!!t.successor_package_hash,button:!!document.querySelector('[data-action=climatechain-export-trace]'),selected:document.querySelectorAll('.climate-claim-btn[aria-pressed=true]').length,overflow:document.documentElement.scrollWidth>window.innerWidth};})()");
+if(chosen.status!=='AUTO_REEVALUATED'||!chosen.semantic||!chosen.successor||!chosen.button||chosen.selected!==1||chosen.overflow) {
+  throw new Error('IEEE_EXPLORER_CLICK_INVALID:'+JSON.stringify(chosen));
+}
+await evaluate("document.querySelector('[data-action=climatechain-filter][data-filter=UNAFFECTED]').click();true");
+await until("ClimateChainDemo.selectedClaim==='CLIMATE-001' && document.querySelectorAll('.climate-claim-btn').length===70",'unaffected explorer filter');
+const unchosen=await evaluate("(function(){var t=buildClimateChainImpactTrace(ClimateChainDemo.impact,ClimateChainDemo.selectedClaim);return {status:t.status,semantic:t.semantic_change,successor:t.successor_package_hash,diff:t.active_dependency_differences.length};})()");
+if(unchosen.status!=='UNAFFECTED'||unchosen.semantic||unchosen.successor!==null||unchosen.diff!==0) {
+  throw new Error('IEEE_EXPLORER_UNAFFECTED_INVALID:'+JSON.stringify(unchosen));
+}
+await evaluate("document.querySelector('[data-action=climatechain-filter][data-filter=ALL]').click();true");
+await until("document.querySelectorAll('.climate-claim-btn').length===100",'restore all claim buttons');
+
 // Confirm desktop side-by-side judge hero and return to mobile before checking research workflows.
 await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
 const climateDesktop=await evaluate("({scrollWidth:document.documentElement.scrollWidth,innerWidth:window.innerWidth,primary:(function(){var r=document.querySelector('.climate-hero-primary').getBoundingClientRect();return {x:r.x,y:r.y};})(),proof:(function(){var r=document.querySelector('.climate-hero-evidence').getBoundingClientRect();return {x:r.x,y:r.y};})()})");
