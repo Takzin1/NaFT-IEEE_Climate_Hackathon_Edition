@@ -52,4 +52,3 @@ climate truth, official methodology eligibility, issuance or certification.
 - Change visibility only after the owner's approval and review of history exposure.
 - After switching to Public, require a green **main** CI and successfully completed Pages job on the same SHA; verify the actual URL anonymously.
 - Recording/uploading the English video and submitting Devpost are independent external steps.
-
