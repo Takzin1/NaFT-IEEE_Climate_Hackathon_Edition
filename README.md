@@ -45,7 +45,11 @@ node tests/climatechain-contract-behavior.test.mjs
 bash scripts/verify-live-sepolia.sh
 ```
 
-Solidity local EVM and browser CI run in GitHub Actions. The original IEEE source CI and the destination's private staging CI both passed 1,234 assertions. Require a **new green `main` CI on the final destination SHA** before any public submission.
+Solidity local EVM and browser CI run in GitHub Actions. The source IEEE and independently integrated destination `main` have passed **1,234 original assertions + four Keccak-vector checks**. See [destination core CI #10](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189397298) and [live independent Sepolia verification #4](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189397313). These are real executions on destination commit `847b626e931c4305116dcd32559bcc69a4a637e1`; future release SHAs still require new checks.
+
+### Independent verification evidence
+
+[Full IEEE migration and destination verification report](docs/INDEPENDENT_VERIFICATION_REPORT.md) summarizes Git ancestry, the 257-commit history scan, contract/EVM/Chrome checks, actual P1/P2 RPC validation and remaining publication steps.
 
 ### Important origin distinction
 

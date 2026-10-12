@@ -1,6 +1,6 @@
 # NaFT — IEEE ClimateChain 2026 Submission Pack
 
-> **Repository + public testnet proof are ready.** Video upload and Devpost submission are **not** yet confirmed. Check current organizer requirements before submitting.
+> **Private code + independent live Sepolia RPC verification are ready.** This repository is **not yet Public**, Pages has **not been deployed**, and video/Devpost submission is **not confirmed**. Check current organizer requirements before submitting.
 
 ## Judge path
 
@@ -13,6 +13,8 @@
 **Devpost-ready draft:** [Submission text](devpost-submission-draft.md)
 
 **Narrated demo/shot list:** [4-minute recording script](climatechain-video-script.md)
+
+**Destination-specific technical proof:** [Independent verification report](INDEPENDENT_VERIFICATION_REPORT.md)
 
 ## One-sentence pitch
 
