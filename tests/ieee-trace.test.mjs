@@ -1,5 +1,7 @@
 'use strict';
-const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+import fs from 'node:fs';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
 for(const name of ['mrv-core','methodology-packs','mrv-compiler','compiler-demo','climatechain-testnet-record','climatechain-demo']) {
   vm.runInThisContext(fs.readFileSync('src/'+name+'.js','utf8'),{filename:name});
 }
