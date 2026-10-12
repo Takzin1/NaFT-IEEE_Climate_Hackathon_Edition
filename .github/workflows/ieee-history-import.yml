@@ -1,0 +1,49 @@
+name: IEEE History Import — Security Gate
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/ieee-history-import.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ieee-one-time-source-history-migration
+  cancel-in-progress: false
+
+jobs:
+  audit-and-import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout destination history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Set up Go for audited gitleaks installation
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24.x'
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install secret scanner
+        run: |
+          go install github.com/gitleaks/gitleaks/v8@latest
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+      - name: Preserve IEEE source Git ancestry only after passing security gate
+        shell: bash
+        run: |
+          export PATH="$PATH:$(go env GOPATH)/bin"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash scripts/import-ieee-history.sh --apply
+      - name: Attest imported source SHA as actual ancestor
+        run: |
+          git merge-base --is-ancestor c87b534877293133ad92ac398b95936608bfd91b HEAD
+          echo "IEEE_HISTORY_ANCESTRY: PASS"
+          echo "Destination SHA: $(git rev-parse HEAD)"
