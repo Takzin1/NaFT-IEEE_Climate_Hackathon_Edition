@@ -98,9 +98,28 @@ jobs:
             git diff --check "$base"...HEAD
           fi
 
+  publication-history-audit:
+    name: publication-history-audit
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+      - name: Install pinned Gitleaks scanner
+        run: |
+          go install github.com/zricethezav/gitleaks/v8@v8.30.1
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+      - name: Scan all reachable Git history and historical sensitive paths
+        run: bash scripts/audit-public-history.sh
+
   deploy-pages:
     name: deploy-pages
-    needs: core-and-security
+    needs: [core-and-security, publication-history-audit]
     if: github.event.repository.private == false && ((github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'public')
     runs-on: ubuntu-latest
     permissions:
@@ -119,10 +138,12 @@ jobs:
         uses: actions/configure-pages@v5
         with:
           enablement: true
+      - name: Stage allowlisted browser-only Pages payload
+        run: bash scripts/stage-public-pages.sh
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: .pages-site
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5

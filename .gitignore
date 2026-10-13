@@ -17,3 +17,6 @@ npm-debug.log*
 
 # ClimateChain local signing output
 .climatechain-output/
+
+# GitHub Pages allowlisted upload staging (never commit generated bundle)
+.pages-site/

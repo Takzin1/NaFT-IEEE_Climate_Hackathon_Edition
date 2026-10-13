@@ -26,6 +26,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+      - name: Install pinned Gitleaks scanner
+        run: |
+          go install github.com/zricethezav/gitleaks/v8@v8.30.1
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+      - name: Require full-history publication security audit
+        run: bash scripts/audit-public-history.sh
       - name: Compile ClimateChain provenance contract
         run: npx --yes solc@0.8.24 --abi --bin contracts/NaFTMRVAnchor.sol --output-dir /tmp/naft-solc
       - name: Run regression, impact proof and ClimateChain checks
@@ -36,10 +45,12 @@ jobs:
         uses: actions/configure-pages@v5
         with:
           enablement: true
+      - name: Stage allowlisted browser-only Pages payload
+        run: bash scripts/stage-public-pages.sh
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: .pages-site
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
