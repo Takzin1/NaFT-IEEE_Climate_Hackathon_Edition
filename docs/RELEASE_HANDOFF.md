@@ -20,6 +20,15 @@
 - Historical source security: Gitleaks scanner step scanned 257 reachable source commits; no leaks in scanned patterns. Parent workflow did not fully succeed due to permissions; see [independent report](INDEPENDENT_VERIFICATION_REPORT.md).
 - Later main CI and read-only RPC runs must be checked on the final publication commit, not assumed from these earlier runs.
 
+## Final publication hardening (pending new CI verification)
+
+- Before any Pages deployment, the integrated workflow runs a **full-ref Gitleaks history scan** and historical sensitive-path check. A missing scanner, truncated clone or detected secret fails closed.
+- Pages uploads only the **15 allowlisted static runtime assets** staged by `scripts/stage-public-pages.sh`, not the complete repository tree. Both primary and manual fallback workflows use the same package verifier.
+- Source code remains visible when the repository becomes Public; the Pages allowlist reduces accidental *website artifact* exposure, not GitHub repository visibility.
+- The user's own author email remains embedded in preserved Git commits. Its visibility has been acknowledged; no Git history rewrite is attempted.
+- Run locally before publishing: `bash scripts/audit-public-history.sh` with Gitleaks v8.30.1, or require green `publication-history-audit` in final `main` GitHub Actions.
+- Treat this text as release instructions only until exact-head CI shows SUCCESS. Do not claim a scan or public Pages deployment completed merely because its workflow exists.
+
 ## Owner action: make the existing repository Public
 
 The connected GitHub tool cannot change a repository's visibility. **Do not insert a key into the Repo or Pages.**
