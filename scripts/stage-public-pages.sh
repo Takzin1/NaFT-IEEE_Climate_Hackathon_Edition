@@ -4,8 +4,9 @@ set -Eeuo pipefail
 cd "$(git rev-parse --show-toplevel)"
 out=".pages-site"
 rm -rf -- "$out"
-mkdir -p "$out/src" "$out/docs/assets"
+mkdir -p "$out/src" "$out/docs/assets" "$out/assets"
 cp -- .nojekyll index.html naft-app.html favicon.svg "$out/"
+cp -- assets/naft-logo.webp "$out/assets/"
 for f in \
   mrv-core.js methodology-packs.js mrv-compiler.js compiler-session.js \
   compiler-demo.js reviewer-demo.js climatechain-testnet-record.js \

@@ -1,4 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="12" fill="#16362d"/>
-  <path d="M15 46V18h7l20 19V18h7v28h-7L22 27v19z" fill="#f4f7f4"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="NaFT geometric star">
+  <rect width="64" height="64" rx="12" fill="#d4d8d6"/>
+  <path fill="#073b33" d="M32 2 42 23 62 20 46 38 52 61 32 47 12 61 18 38 2 20 22 23Z"/>
+  <path fill="#719f94" d="M32 2v30L22 23ZM2 20l30 12-14 6ZM62 20 32 32l14 6Z"/>
+  <path fill="#0d5547" d="M32 2 42 23 32 32ZM2 20 22 23 32 32ZM62 20 42 23 32 32Z"/>
+  <path fill="#ba1726" d="M32 32 46 38 52 61 32 47 12 61 18 38Z"/>
+  <path fill="#f02b35" d="M32 32 46 38 39 48Z"/>
+  <path fill="#fff" d="M32 32 42 23 46 38Z"/>
+  <path fill="#c91623" d="M32 22 32 32 42 23Z"/>
 </svg>

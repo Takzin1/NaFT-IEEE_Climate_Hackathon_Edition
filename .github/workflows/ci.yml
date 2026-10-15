@@ -178,4 +178,6 @@ jobs:
         with:
           node-version: 24
       - name: Verify public Pages, live browser rendering and P1/P2 proof links
+        env:
+          NAFT_BRAND_RELEASE_CHECK: '1'
         run: node tests/public-pages-smoke.mjs
