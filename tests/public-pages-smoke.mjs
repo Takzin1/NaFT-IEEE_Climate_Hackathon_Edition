@@ -103,7 +103,7 @@ try{
   await until("document.body && document.querySelector('[data-action=\"climatechain-run\"]')!==null",'public direct ClimateChain route');
   if(requireBrand){
     await until("(()=>{const top=document.querySelector('.climate-corner-logo img'),left=document.querySelector('.climate-brand img');return top&&top.complete&&top.naturalWidth===224&&left&&left.complete&&left.naturalWidth===224})()", 'NaFT header logo decoded at 224px');
-    const logoCheck=await evaluate("({top:!!document.querySelector('.climate-corner-logo img'),left:!!document.querySelector('.climate-brand img'),fav:!!document.querySelector('link[rel=icon][type=\\\"image/webp\\\"]')})");
+    const logoCheck=await evaluate("({top:!!document.querySelector('.climate-corner-logo img'),left:!!document.querySelector('.climate-brand img'),fav:Array.from(document.querySelectorAll('link[rel=icon]')).some(e=>e.getAttribute('type')==='image/webp')})");
     if(!logoCheck.top||!logoCheck.left||!logoCheck.fav)throw Error('PUBLIC_BRAND_LOGO_MISSING:'+JSON.stringify(logoCheck));
     console.log('PUBLIC_BRAND_LOGO: PASS (top-right, wordmark, 224px source, favicon, valid image)');
   }
