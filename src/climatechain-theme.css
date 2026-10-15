@@ -1,5 +1,5 @@
 /* NaFT ClimateChain — judge-first visual system, scoped to the English route.
-   No external fonts, images, network dependencies, or MRV logic changes. */
+   No external fonts or network dependencies; brand image is locally hosted. No MRV logic changes. */
 body[data-page="climatechain"]{
   --climate-dark:#081a19;
   --climate-mid:#102d29;
@@ -24,10 +24,12 @@ body[data-page="climatechain"] .reviewer-header{padding:20px 30px 2px}
 body[data-page="climatechain"] .reviewer-header+main{padding:18px 30px 48px}
 body[data-page="climatechain"] .climate-topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;min-width:0}
 body[data-page="climatechain"] .climate-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;min-width:0}
-body[data-page="climatechain"] .climate-logomark{display:grid;place-items:center;background:var(--climate-lime);width:38px;height:38px;border-radius:12px;color:var(--climate-dark);font-size:23px;font-weight:850;letter-spacing:-.1em}
+body[data-page="climatechain"] .climate-logomark{display:block;flex:none;width:44px;height:44px;border:1px solid #71958a;border-radius:12px;object-fit:cover;background:#d7dad8}
 body[data-page="climatechain"] .climate-brand-name{font-size:19px;font-weight:780;letter-spacing:-.035em}
 body[data-page="climatechain"] .climate-brand-name small{font-size:10px;color:#9ac5b4;display:block;font-weight:650;letter-spacing:.17em;line-height:1.3}
-body[data-page="climatechain"] .climate-topbar-right{display:flex;gap:16px;align-items:center}
+body[data-page="climatechain"] .climate-topbar-right{display:flex;gap:16px;align-items:center;min-width:0}
+body[data-page="climatechain"] .climate-corner-logo{display:block;flex:none;width:60px;height:60px;border:1px solid #71958a;border-radius:15px;overflow:hidden;background:#d7dad8;box-shadow:0 6px 20px #0004}
+body[data-page="climatechain"] .climate-corner-logo img{display:block;width:100%;height:100%;object-fit:cover}
 body[data-page="climatechain"] .climate-event{color:#93b6a8;letter-spacing:.13em;text-transform:uppercase;font-size:10px;font-weight:750}
 body[data-page="climatechain"] .reviewer-home{float:none;color:#d8eade;border:1px solid #4a6a5c;padding:8px 12px;border-radius:99px;font-size:12px;text-decoration:none;white-space:nowrap;transition:background-color .2s}
 body[data-page="climatechain"] .reviewer-home:hover{background:#24453c}
@@ -136,6 +138,9 @@ body[data-page="climatechain"] summary:focus-visible{outline:3px solid #f8cf7a;o
   body[data-page="climatechain"] .reviewer-header{padding:15px 16px 0}
   body[data-page="climatechain"] .reviewer-header+main{padding:15px 14px 32px}
   body[data-page="climatechain"] .climate-event{display:none}
+  body[data-page="climatechain"] .climate-corner-logo{width:50px;height:50px;border-radius:12px}
+  body[data-page="climatechain"] .climate-logomark{width:38px;height:38px;border-radius:10px}
+  body[data-page="climatechain"] .climate-topbar-right{gap:8px}
   body[data-page="climatechain"] .climate-hero-grid{grid-template-columns:minmax(0,1fr);gap:16px;padding:27px 22px 22px}
   body[data-page="climatechain"] .climate-hero h2{font-size:clamp(31px,7.5vw,45px);margin:15px 0}
   body[data-page="climatechain"] .climate-hero-evidence{padding:17px}
@@ -273,3 +278,9 @@ body[data-page="climatechain"] .climate-trace pre{white-space:pre-wrap;overflow-
   body[data-page="climatechain"] .climate-trace{padding:14px}
   body[data-page="climatechain"] .climate-explorer-filter{padding:8px 9px;font-size:11px}
 }
+
+/* Shared NaFT brand image for the research and reviewer application routes. */
+body:not([data-page="climatechain"]) .naft-standard-header .naft-logo-corner{display:block;float:right;width:70px;height:70px;margin:0 0 12px 14px;border:1px solid #b1c5ba;border-radius:15px;overflow:hidden;background:#d7dad8;box-shadow:0 5px 15px #0b302022}
+body:not([data-page="climatechain"]) .naft-standard-header .naft-logo-corner img{display:block;width:100%;height:100%;object-fit:cover}
+body:not([data-page="climatechain"]) .naft-standard-header .reviewer-home{margin-right:12px}
+@media(max-width:460px){body:not([data-page="climatechain"]) .naft-standard-header .naft-logo-corner{width:52px;height:52px;border-radius:11px;margin-left:8px}}
