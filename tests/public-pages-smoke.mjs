@@ -18,12 +18,23 @@ const requirements=[
   ['docs/assets/naft-climatechain-architecture.svg','OFF-CHAIN'],
   ['favicon.svg','<svg']
 ];
+// The PR validates the already-published site, while the final main job
+// additionally verifies the newly-deployed NaFT brand logo.
+const requireBrand = process.env.NAFT_BRAND_RELEASE_CHECK === '1';
 async function checkFiles(){
   for(const [path,marker] of requirements){
     const response=await fetch(new URL(path,site),{redirect:'follow',headers:{'cache-control':'no-cache'},signal:AbortSignal.timeout(12000)});
     if(!response.ok)throw Error('PUBLIC_ASSET_HTTP_'+response.status+':'+path);
     const content=await response.text();
     if(!content.includes(marker))throw Error('PUBLIC_ASSET_MISSING_MARKER:'+path+':'+marker);
+  }
+  if(requireBrand){
+    const response=await fetch(new URL('assets/naft-logo.webp',site),{signal:AbortSignal.timeout(12000)});
+    if(!response.ok)throw Error('PUBLIC_BRAND_LOGO_HTTP_'+response.status);
+    const data=new Uint8Array(await response.arrayBuffer());
+    const ascii=bytes=>String.fromCharCode(...bytes);
+    if(data.length<2000||ascii(data.slice(0,4))!=='RIFF'||ascii(data.slice(8,12))!=='WEBP')
+      throw Error('PUBLIC_BRAND_LOGO_NOT_VALID_WEBP');
   }
 }
 async function awaitDeployment(){
@@ -90,6 +101,12 @@ try{
   await send('Emulation.setDeviceMetricsOverride',{width:375,height:812,deviceScaleFactor:1,mobile:true});
   await send('Page.reload',{ignoreCache:true});
   await until("document.body && document.querySelector('[data-action=\"climatechain-run\"]')!==null",'public direct ClimateChain route');
+  if(requireBrand){
+    await until("(()=>{const top=document.querySelector('.climate-corner-logo img'),left=document.querySelector('.climate-brand img');return top&&top.complete&&top.naturalWidth===224&&left&&left.complete&&left.naturalWidth===224})()", 'NaFT header logo decoded at 224px');
+    const logoCheck=await evaluate("({top:!!document.querySelector('.climate-corner-logo img'),left:!!document.querySelector('.climate-brand img'),fav:!!document.querySelector('link[rel=icon][type=\\\"image/webp\\\"]')})");
+    if(!logoCheck.top||!logoCheck.left||!logoCheck.fav)throw Error('PUBLIC_BRAND_LOGO_MISSING:'+JSON.stringify(logoCheck));
+    console.log('PUBLIC_BRAND_LOGO: PASS (top-right, wordmark, 224px source, favicon, valid image)');
+  }
   const before=await evaluate("({lang:document.documentElement.lang,route:location.hash,bodyPage:document.body.dataset.page,scroll:document.documentElement.scrollWidth,width:innerWidth,badge:document.body.innerText.includes('VERIFIED TESTNET'),button:document.querySelector('[data-action=\"climatechain-run\"]')!==null})");
   if(before.lang!=='en'||before.route!=='#/climatechain'||before.bodyPage!=='climatechain'||before.scroll>before.width||!before.badge||!before.button)throw Error('PUBLIC_MOBILE_JUDGE_ROUTE:'+JSON.stringify(before));
   await evaluate("document.querySelector('[data-action=\"climatechain-run\"]').click();true");
