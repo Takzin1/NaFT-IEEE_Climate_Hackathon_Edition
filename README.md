@@ -7,7 +7,7 @@
 
 ## IEEE ClimateChain 2026 — Independent repository
 
-**Status: PRIVATE. Source IEEE Git history preserved; independent public Pages and Devpost submission pending.**
+**Status: PUBLIC. Independent GitHub Pages deployment succeeded on October 15, 2026; post-deploy visual smoke validation is being finalized. Devpost video/submission remain unconfirmed.**
 
 Destination `main` preserves the original IEEE source HEAD as a real parent/ancestor of a two-parent migration merge commit. The destination bootstrap history remains its first-parent lineage. Eighty IEEE files were transferred byte-identically before destination-only changes, which are recorded separately. The original `NaFT/main`, Source PR #20, frozen refs, Sepolia contract and P1/P2 history have not been modified.
 
@@ -16,7 +16,7 @@ Destination `main` preserves the original IEEE source HEAD as a real parent/ance
 | Target repository | https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition |
 | Source IEEE branch | https://github.com/Takzin1/NaFT/tree/hackathon/ieee-climatechain-2026 |
 | Exact source snapshot | https://github.com/Takzin1/NaFT/commit/c87b534877293133ad92ac398b95936608bfd91b |
-| Expected standalone demo (not yet deployed) | https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain |
+| Standalone public demo | https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain |
 | Architecture SVG | [docs/assets/naft-climatechain-architecture.svg](docs/assets/naft-climatechain-architecture.svg) |
 | Portable IEEE audit receipt | [Replay verifier + tamper challenge](docs/ieee-audit-receipt.md) |
 | Devpost submission pack | [docs/ieee-submission-pack.md](docs/ieee-submission-pack.md) |
@@ -76,7 +76,7 @@ The English `#/climatechain` demo now lets reviewers filter and select every syn
 
 ### Standalone publication gate
 
-GitHub Actions includes a public-only `deploy-pages` job and a **post-deploy real-Chrome HTTP/UI smoke test**. These intentionally skip while the repository remains **Private**; the independent Pages URL is **not yet published**. After visibility becomes Public, the workflow can validate the destination URL, 100/30/70/15/15 demo, SVG and real P1/P2 links. No keys or chain transactions are required.
+GitHub Actions includes public-only `deploy-pages` and a **post-deploy real-Chrome HTTP/UI smoke test**. The independent Pages site was deployed on October 15, 2026 after rerunning the failed publication job, and all eight required public assets responded successfully. The first post-deploy smoke exposed a test-only lazy-image timing assumption, fixed in the follow-up release PR. Treat the public UI as fully verified only after `smoke-public-pages` succeeds on the final `main` SHA. No keys or chain transactions are required.
 
 ### Independent verification evidence
 
