@@ -110,6 +110,17 @@ try{
   console.log('PUBLIC_BROWSER: PASS (direct route, 375px/1440px, live 100/30/70/15/15, P1/P2 links, SVG, no exceptions)');
 }finally{
   if(ws&&ws.readyState===WebSocket.OPEN)ws.close();
-  child.kill();
-  rmSync(dir,{recursive:true,force:true});
+  // Wait for Chrome to exit before cleaning its live profile directory.
+  // On GitHub Actions, concurrent Chrome profile writes can otherwise race rmSync
+  // and produce ENOTEMPTY even after the public-browser assertions have passed.
+  if(child.exitCode===null&&child.signalCode===null){
+    const exited=new Promise(resolve=>child.once('exit',resolve));
+    child.kill('SIGTERM');
+    await Promise.race([exited,delay(5000)]);
+    if(child.exitCode===null&&child.signalCode===null){
+      child.kill('SIGKILL');
+      await Promise.race([exited,delay(2000)]);
+    }
+  }
+  rmSync(dir,{recursive:true,force:true,maxRetries:20,retryDelay:250});
 }
