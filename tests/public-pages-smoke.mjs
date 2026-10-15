@@ -53,7 +53,10 @@ try{
     try{
       const response=await fetch('http://127.0.0.1:9234/json/list',{signal:AbortSignal.timeout(2500)});
       const pages=await response.json();
-      page=pages.find(p=>p.type==='page'&&p.url.includes('naft-app.html'));
+      // Attach to the redirected app tab, or to Chrome's initial page tab
+      // if the first remote redirect has not completed yet.
+      page=pages.find(p=>p.type==='page'&&p.url.includes('naft-app.html'))
+        || (i>=8?pages.find(p=>p.type==='page'&&p.webSocketDebuggerUrl):null);
       if(page)break;
     }catch(e){}
     await delay(300);
@@ -88,6 +91,10 @@ try{
   };
   await send('Runtime.enable');await send('Log.enable');await send('Page.enable');
   await send('Emulation.setDeviceMetricsOverride',{width:375,height:812,deviceScaleFactor:1,mobile:true});
+  // Test the actual root -> app redirect, even if Chrome's initial remote
+  // page was stalled or blank when its debugging websocket became available.
+  await send('Page.navigate',{url:site+'#/climatechain'});
+  await until("location.pathname.endsWith('/naft-app.html') && location.hash==='#/climatechain'",'public root redirect');
   await send('Page.reload',{ignoreCache:true});
   await until("document.body && document.querySelector('[data-action=\"climatechain-run\"]')!==null",'public direct ClimateChain route');
   const before=await evaluate("({lang:document.documentElement.lang,route:location.hash,bodyPage:document.body.dataset.page,scroll:document.documentElement.scrollWidth,width:innerWidth,badge:document.body.innerText.includes('VERIFIED TESTNET'),button:document.querySelector('[data-action=\"climatechain-run\"]')!==null})");
