@@ -359,9 +359,10 @@ function climateArchitectureSection() {
 function climateChainHeader() {
   return '<header class="reviewer-header"><div class="climate-topbar">'+
     '<a class="climate-brand" href="#/climatechain" aria-label="NaFT ClimateChain demo home">'+
-    '<span class="climate-logomark" aria-hidden="true">N</span><span class="climate-brand-name">NaFT<small>CLIMATECHAIN LAB</small></span></a>'+
+    '<img class="climate-logomark" src="assets/naft-logo.webp" width="44" height="44" alt="" decoding="async"><span class="climate-brand-name">NaFT<small>CLIMATECHAIN LAB</small></span></a>'+
     '<div class="climate-topbar-right"><span class="climate-event">IEEE ClimateChain Hackathon 2026</span>'+
-    '<a class="reviewer-home" href="#/methodologies">Research UI ↗</a></div></div>'+
+    '<a class="reviewer-home" href="#/methodologies">Research UI ↗</a>'+ 
+     '<a class="climate-corner-logo" href="#/climatechain" aria-label="NaFT home"><img src="assets/naft-logo.webp" width="60" height="60" alt="NaFT geometric star logo" decoding="async"></a></div></div>'+
     '<h1>Version-Aware Climate MRV</h1><p>Carbon markets need evidence that survives methodology change.</p></header>';
 }
 
