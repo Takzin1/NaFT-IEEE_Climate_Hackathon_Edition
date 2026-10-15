@@ -148,6 +148,22 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v5
 
+  smoke-public-pages-pr:
+    name: smoke-public-pages-pr
+    needs: core-and-security
+    if: github.event_name == 'pull_request' && github.event.repository.private == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Verify live public site with real mobile Chrome (including lazy SVG)
+        run: node tests/public-pages-smoke.mjs
+
   smoke-public-pages:
     name: smoke-public-pages
     needs: deploy-pages

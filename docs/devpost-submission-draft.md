@@ -47,7 +47,7 @@ NaFT:
 
 The blockchain layer does **not** decide climate truth, issue a carbon credit, price a credit, or replace a verifier.
 
-## Planned independent live demo (not yet published)
+## Independent public live demo
 
 https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain
 
@@ -196,9 +196,9 @@ JavaScript · Solidity 0.8.24 · SHA-256 · GitHub Actions · GitHub Pages · de
 
 ## Independent reproduction
 
-From the IEEE hackathon branch, run `bash scripts/verify-live-sepolia.sh`. It performs source-bound RPC verification without a private key or gas. A public RPC must be available. See the [judge-ready submission pack](ieee-submission-pack.md).
+From the independent IEEE repository's `main` branch, run `bash scripts/verify-live-sepolia.sh`. It performs source-bound RPC verification without a private key or gas. A public RPC must be available. See the [judge-ready submission pack](ieee-submission-pack.md).
 
-## Independent destination repository (private until publication)
+## Public independent destination repository
 
 https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/tree/main
 

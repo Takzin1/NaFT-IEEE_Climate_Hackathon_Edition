@@ -94,6 +94,11 @@ try{
   if(before.lang!=='en'||before.route!=='#/climatechain'||before.bodyPage!=='climatechain'||before.scroll>before.width||!before.badge||!before.button)throw Error('PUBLIC_MOBILE_JUDGE_ROUTE:'+JSON.stringify(before));
   await evaluate("document.querySelector('[data-action=\"climatechain-run\"]').click();true");
   await until("document.querySelectorAll('.climate-impact .metric').length===5",'public computed impact');
+  // The architecture diagram is intentionally lazy-loaded below the first viewport.
+  // Reproduce a real judge scrolling to it instead of falsely treating unloaded
+  // offscreen media as a missing asset.
+  await evaluate("document.querySelector('.climate-architecture img').scrollIntoView({block:'center'});true");
+  await until("(()=>{const img=document.querySelector('.climate-architecture img');return !!img&&img.complete&&img.naturalWidth===1600&&img.naturalHeight===760})()",'lazy architecture SVG loaded after scrolling');
   const data=await evaluate("({metrics:Array.from(document.querySelectorAll('.climate-impact .metric')).map(e=>e.querySelector('strong').textContent.trim()),scenario:Array.from(document.querySelectorAll('.climate-scenario-result strong')).map(e=>e.textContent.trim()),diagram:document.querySelector('.climate-architecture img')?.complete&&document.querySelector('.climate-architecture img')?.naturalWidth===1600,scroll:document.documentElement.scrollWidth,width:innerWidth,txLinks:Array.from(document.querySelectorAll('.climate-chain-links a')).filter(e=>e.href.includes('sepolia.etherscan.io/tx/')).length})");
   if(JSON.stringify(data.metrics)!==JSON.stringify(['100','30','70','15','15'])||
     JSON.stringify(data.scenario)!==JSON.stringify(['100','30','70'])||!data.diagram||
