@@ -5,6 +5,7 @@ import sys
 root = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(".pages-site")
 expected = {
     ".nojekyll", "index.html", "naft-app.html", "favicon.svg",
+    "assets/naft-logo.webp",
     "src/mrv-core.js", "src/methodology-packs.js", "src/mrv-compiler.js",
     "src/compiler-session.js", "src/compiler-demo.js", "src/reviewer-demo.js",
     "src/climatechain-testnet-record.js", "src/climatechain-demo.js",
@@ -21,5 +22,9 @@ for filename in [p.removeprefix("src/") for p in expected if p.startswith("src/"
     assert f'src="{("src/" + filename)}"' in html, f"browser script omitted from HTML: {filename}"
 assert 'href="src/climatechain-theme.css"' in html
 assert 'naft-app.html' in index
+assert 'href="assets/naft-logo.webp"' in html and 'href="assets/naft-logo.webp"' in index
+assert 'assets/naft-logo.webp' in (root / 'src/climatechain-demo.js').read_text(encoding='utf-8')
+assert 'assets/naft-logo.webp' in (root / 'src/mrv-ui.js').read_text(encoding='utf-8')
+assert (root / 'assets/naft-logo.webp').read_bytes()[:4] == b'RIFF', 'logo must contain actual WebP bytes'
 assert (root / ".nojekyll").exists()
 print(f"PUBLIC_PAGES_PAYLOAD_PASS: exactly {len(actual)} vetted static files")
