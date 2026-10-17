@@ -1,0 +1,26 @@
+// Offline release contract: the optional recording pipeline cannot alter NaFT MRV.
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const src=readFileSync('scripts/record-ieee-demo.mjs','utf8');
+const workflow=readFileSync('.github/workflows/record-ieee-demo.yml','utf8');
+const guide=readFileSync('docs/automated-video-recording.md','utf8');
+assert.match(src,/recordVideo:\{dir:output,size:\{width:1920,height:1080\}\}/);
+assert.match(src,/const weights = \[25,25,45,30,50,30,30,15\]/);
+assert.match(src,/\['100','30','70','15','15'\]/);
+assert.match(src,/CLIMATE-086/);
+assert.match(src,/climatechain-anchor-plan/);
+assert.match(src,/sepolia\.etherscan/);
+assert.match(src,/NOT_SUBMITTED/);
+assert.match(src,/VERIFIED TESTNET/);
+assert.match(src,/climate-engineering/);
+assert.match(src,/onchain_claim:'Hash lineage only, not certification'/);
+assert.doesNotMatch(src,/process\.env\.(?:PRIVATE_KEY|GITHUB_TOKEN|AWS_SECRET_ACCESS_KEY)/);
+assert.match(workflow,/workflow_dispatch:/);
+assert.match(workflow,/pull_request:/);
+assert.match(workflow,/playwright@1\.56\.1/);
+assert.match(workflow,/actions\/upload-artifact@v4/);
+assert.match(workflow,/NAFT_VIDEO_MODE/);
+assert.match(workflow,/1080p silent MP4/);
+assert.match(guide,/100 synthetic claims are NOT 100 farms/);
+assert.match(guide,/not.*uploaded to Devpost/i);
+console.log('IEEE_VIDEO_CONTRACT_PASS: capture scenes, public proofs, output, and no secret use');
