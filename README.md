@@ -7,7 +7,7 @@
 
 ## IEEE ClimateChain 2026 — Independent repository
 
-**Status: PUBLIC. Independent GitHub Pages deployment succeeded on October 15, 2026; post-deploy visual smoke validation is being finalized. Devpost video/submission remain unconfirmed.**
+**Status: PUBLIC. Independent GitHub Pages and real-browser smoke validation passed on October 15, 2026. Automated video recorder preview passed on October 17, 2026; the full narrated demo and final Devpost submission are not yet confirmed.**
 
 Destination `main` preserves the original IEEE source HEAD as a real parent/ancestor of a two-parent migration merge commit. The destination bootstrap history remains its first-parent lineage. Eighty IEEE files were transferred byte-identically before destination-only changes, which are recorded separately. The original `NaFT/main`, Source PR #20, frozen refs, Sepolia contract and P1/P2 history have not been modified.
 
@@ -21,6 +21,7 @@ Destination `main` preserves the original IEEE source HEAD as a real parent/ance
 | Portable IEEE audit receipt | [Replay verifier + tamper challenge](docs/ieee-audit-receipt.md) |
 | Devpost submission pack | [docs/ieee-submission-pack.md](docs/ieee-submission-pack.md) |
 | Demo script | [docs/climatechain-video-script.md](docs/climatechain-video-script.md) |
+| Automated real-browser video capture | [GitHub Actions capture runbook](docs/automated-video-recording.md) |
 | Security/migration gate | [docs/DESTINATION_MIGRATION_STATUS.md](docs/DESTINATION_MIGRATION_STATUS.md) |
 
 ## Four-step proof

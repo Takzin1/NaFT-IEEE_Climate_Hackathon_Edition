@@ -1,8 +1,8 @@
 # IEEE ClimateChain 2026 — 4-minute English demo script
 
-**Target:** 3:55–4:15. Real screen recording with English narration and readable captions. This is a script; it does **not** mean a video has been recorded or uploaded.
+**Target:** 3:55–4:15. Real screen recording with English narration and readable captions. The short automated preview has been recorded and validated, but the final full/narrated video has **not yet** been confirmed.
 
-**Entry (planned independent Pages URL; confirm deployment before recording):** https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain
+**Entry (deployed and public-browser-verified Pages URL):** https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain
 
 ## 0:00–0:25 — Problem (show hero)
 
@@ -45,6 +45,8 @@ Show **VERIFIED TESTNET**; open **P1 Tx**, **P2 Tx** and **Deployment source** l
 > Carbon markets need evidence that survives methodology change. NaFT makes the evolution of climate MRV evidence selectively re-verifiable, explainable and independently traceable.
 
 ## Recording/finishing checklist
+
+For automated browser capture (with or without ChatGPT Work), use [GitHub Actions recording instructions](automated-video-recording.md). First run a short **preview**, then run **full** and review the downloaded MP4. This produces silent footage; English narration must be added separately.
 
 - Use a real browser capture, not mock transactions or simulated Etherscan screens.
 - Confirm **VERIFIED TESTNET**, the on-page architecture SVG, the fictional scenario's 30/70 results and all contract/deploy/P1/P2 links in a clean browser first.
