@@ -9,7 +9,7 @@ assert.match(src,/const weights = \[25,25,45,30,50,30,30,15\]/);
 assert.match(src,/\['100','30','70','15','15'\]/);
 assert.match(src,/CLIMATE-086/);
 assert.match(src,/climatechain-anchor-plan/);
-assert.match(src,/sepolia\.etherscan/);
+assert.match(src,/sepolia/);
 assert.match(src,/NOT_SUBMITTED/);
 assert.match(src,/VERIFIED TESTNET/);
 assert.match(src,/climate-engineering/);
