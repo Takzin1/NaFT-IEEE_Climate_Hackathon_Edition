@@ -3,6 +3,11 @@ name: IEEE Sepolia Read-only Verification
 on:
   push:
     branches: [main]
+  pull_request:
+    paths:
+      - '.github/workflows/verify-sepolia-readonly.yml'
+      - 'scripts/verify-climatechain-testnet.mjs'
+      - 'scripts/verify-live-sepolia.sh'
   workflow_dispatch:
 
 permissions:
@@ -26,9 +31,10 @@ jobs:
           git merge-base --is-ancestor c87b534877293133ad92ac398b95936608bfd91b HEAD
           verified=false
           for rpc in \
+            https://sepolia.gateway.tenderly.co \
+            https://sepolia.rpc.thirdweb.com \
             https://ethereum-sepolia-rpc.publicnode.com \
-            https://rpc.sepolia.org \
-            https://sepolia.drpc.org; do
+            https://rpc.sepolia.org; do
             echo "Trying read-only Sepolia provider: $rpc"
             if CLIMATECHAIN_VERIFY_RPC_URL="$rpc" bash scripts/verify-live-sepolia.sh; then
               verified=true
