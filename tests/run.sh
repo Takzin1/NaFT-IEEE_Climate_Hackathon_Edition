@@ -27,6 +27,7 @@ node tests/ieee-benchmark.test.mjs
 node tests/ieee-trace.test.mjs
 node tests/keccak.test.mjs
 node tests/climatechain-rpc-verifier.test.mjs
+node tests/video-recording-contract.test.mjs
 bash -n scripts/audit-public-history.sh
 bash -n scripts/stage-public-pages.sh
 bash scripts/stage-public-pages.sh
