@@ -47,7 +47,7 @@ node tests/climatechain-contract-behavior.test.mjs
 bash scripts/verify-live-sepolia.sh
 ```
 
-Solidity local EVM and browser CI run in GitHub Actions. The source IEEE and independently integrated destination `main` have passed **1,234 original assertions + four Keccak-vector checks**. See [latest destination core CI #12](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189786229) and [latest live Sepolia verification #6](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189786240), both successful on destination commit `051514e84bff01b7a8f71dc83dd5593b00e0a1d0`. Subsequent release SHAs require their own green checks.
+Solidity local EVM and browser CI run in GitHub Actions. The [October 17 release CI run](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/39012705183) passed core regression, full-history secret scanning, Pages deployment and live-browser checks on source revision `3564daa9105d324099ca72e828bb560b029db072` (before later documentation updates). **Sepolia read-only verification did not pass on that revision:** the [October 17 RPC run](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/39012705244) could not retrieve the historical transaction receipts reliably from public providers (some also returned HTTP 522/400). An [earlier source-bound Sepolia verification](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189786240) did pass, but its result must not be presented as a successful fresh check. Re-run the read-only verification before making current-chain verification claims; do not infer new transactions or altered proofs from RPC unavailability.
 
 ### Deterministic reviewer audit receipt (synthetic)
 
@@ -77,11 +77,11 @@ The English `#/climatechain` demo now lets reviewers filter and select every syn
 
 ### Standalone publication gate
 
-GitHub Actions includes public-only `deploy-pages` and a **post-deploy real-Chrome HTTP/UI smoke test**. The independent Pages site was deployed on October 15, 2026 after rerunning the failed publication job, and all eight required public assets responded successfully. The first post-deploy smoke exposed a test-only lazy-image timing assumption, fixed in the follow-up release PR. Treat the public UI as fully verified only after `smoke-public-pages` succeeds on the final `main` SHA. No keys or chain transactions are required.
+GitHub Actions includes public-only `deploy-pages` and a **post-deploy real-Chrome HTTP/UI smoke test**. The independent Pages site was deployed on October 15, 2026, and the [October 17 source-revision CI run](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/39012705183) passed both `deploy-pages` and `smoke-public-pages`, including public assets, the star logo, the 100/30/70/15/15 browser computation, P1/P2 links and the architecture SVG. The earlier lazy-loaded-image test issue was fixed; it is no longer an outstanding release gate. No keys or chain transactions are required.
 
 ### Independent verification evidence
 
-[Full IEEE migration and destination verification report](docs/INDEPENDENT_VERIFICATION_REPORT.md) summarizes Git ancestry, the 257-commit history scan, contract/EVM/Chrome checks, actual P1/P2 RPC validation and remaining publication steps.
+[Full IEEE migration and destination verification report](docs/INDEPENDENT_VERIFICATION_REPORT.md) records the historical 257-commit scan and original source-bound verification. For current release evidence, use the [October 17 full-ref security audit](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/39012705183) (357 reachable commits; Gitleaks scanned 327) and the latest available chain-verification result, rather than treating the older report as a current status page.
 
 ### Important origin distinction
 
