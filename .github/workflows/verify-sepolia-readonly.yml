@@ -26,9 +26,10 @@ jobs:
           git merge-base --is-ancestor c87b534877293133ad92ac398b95936608bfd91b HEAD
           verified=false
           for rpc in \
+            https://sepolia.gateway.tenderly.co \
+            https://sepolia.rpc.thirdweb.com \
             https://ethereum-sepolia-rpc.publicnode.com \
-            https://rpc.sepolia.org \
-            https://sepolia.drpc.org; do
+            https://rpc.sepolia.org; do
             echo "Trying read-only Sepolia provider: $rpc"
             if CLIMATECHAIN_VERIFY_RPC_URL="$rpc" bash scripts/verify-live-sepolia.sh; then
               verified=true
