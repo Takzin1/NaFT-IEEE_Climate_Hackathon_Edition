@@ -20,3 +20,6 @@ npm-debug.log*
 
 # GitHub Pages allowlisted upload staging (never commit generated bundle)
 .pages-site/
+
+# Local demo capture output; never commit public browser recordings
+video-output/
