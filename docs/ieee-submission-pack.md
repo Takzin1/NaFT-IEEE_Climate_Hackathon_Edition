@@ -1,10 +1,10 @@
 # NaFT — IEEE ClimateChain 2026 Submission Pack
 
-> **Source repository is Public; GitHub Pages was deployed October 15, 2026.** Independent Sepolia RPC verification and production-page asset checks have passed. Final public-browser smoke is being repaired; video/Devpost submission are **not confirmed**. Re-check organizer requirements before submitting.
+> **Source repository is Public; GitHub Pages and production browser smoke passed October 15, 2026.** Sepolia independent read-only verification passed. An automated 1080p short recording preview passed October 17, 2026; the complete English narrated video and Devpost submission are **not confirmed**. Re-check organizer requirements before submitting.
 
 ## Judge path
 
-> **Release gate:** Original IEEE history is preserved. This repository is Public and Pages was deployed, but the final post-deploy Chrome smoke must succeed on the submission SHA. See [migration status](DESTINATION_MIGRATION_STATUS.md).
+> **Release gate:** Original IEEE history remains preserved. This repository is Public and Pages/Chrome smoke passed on the preceding final release SHA. Re-run the same-SHA CI before final Devpost submission. See [submission freeze](submission-freeze.md).
 
 **Independent public demo URL:** https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain
 
@@ -13,6 +13,8 @@
 **Devpost-ready draft:** [Submission text](devpost-submission-draft.md)
 
 **Narrated demo/shot list:** [4-minute recording script](climatechain-video-script.md)
+
+**Work-ready automatic capture:** [GitHub Actions video capture and artifact download](automated-video-recording.md)
 
 **Destination-specific technical proof:** [Independent verification report](INDEPENDENT_VERIFICATION_REPORT.md)
 
