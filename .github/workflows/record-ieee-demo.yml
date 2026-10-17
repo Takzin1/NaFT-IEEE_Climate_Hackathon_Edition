@@ -1,0 +1,94 @@
+name: IEEE NaFT Demo Video Capture
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Short recording check or final ~4m10s video"
+        type: choice
+        required: true
+        default: preview
+        options:
+          - preview
+          - full
+      open_etherscan:
+        description: "On full recordings, attempt to show real P2 transaction (fallback to NaFT proof if inaccessible)"
+        type: boolean
+        required: false
+        default: false
+  pull_request:
+    paths:
+      - ".github/workflows/record-ieee-demo.yml"
+      - "scripts/record-ieee-demo.mjs"
+      - "docs/automated-video-recording.md"
+
+permissions:
+  contents: read
+
+jobs:
+  record-demo:
+    name: Capture verified public NaFT demo
+    # Don't execute fork PR code inside a video job.
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      NAFT_VIDEO_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'preview' }}
+      NAFT_VIDEO_EXPLORER: ${{ github.event_name == 'workflow_dispatch' && inputs.open_etherscan && '1' || '0' }}
+      NAFT_VIDEO_OUTPUT: video-output
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Use Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install video recording tools and real Chromium
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          npm install --no-save --no-package-lock --ignore-scripts playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Record real browser interactions
+        run: node scripts/record-ieee-demo.mjs
+      - name: Transcode to editor-ready 1080p silent MP4
+        run: |
+          ffmpeg -hide_banner -loglevel warning -y \
+            -i video-output/NaFT_IEEE_ClimateChain_raw.webm \
+            -an -vf "fps=30,format=yuv420p" -c:v libx264 \
+            -preset veryfast -crf 24 -movflags +faststart \
+            video-output/NaFT_IEEE_ClimateChain_Demo_2026.mp4
+          ffprobe -v error -select_streams v:0 \
+            -show_entries stream=width,height,r_frame_rate -of default=noprint_wrappers=1 \
+            video-output/NaFT_IEEE_ClimateChain_Demo_2026.mp4
+          python3 - <<'PY'
+          import subprocess, os
+          f = 'video-output/NaFT_IEEE_ClimateChain_Demo_2026.mp4'
+          v = subprocess.check_output(['ffprobe','-v','error','-select_streams','v:0',
+            '-show_entries','stream=width,height','-of','csv=p=0',f],text=True).strip()
+          assert v == '1920,1080', f'Unexpected resolution: {v}'
+          sec=float(subprocess.check_output(['ffprobe','-v','error','-show_entries',
+            'format=duration','-of','default=noprint_wrappers=1:nokey=1',f],text=True))
+          mode=os.environ['NAFT_VIDEO_MODE']
+          lo,hi=(232,300) if mode=='full' else (18,100)
+          assert lo <= sec <= hi, f'Unexpected video duration: {sec:.2f}s ({mode})'
+          assert os.stat(f).st_size > 100_000, 'Empty video artifact'
+          print(f'NAFT_VIDEO_OK: {v} {sec:.2f}s, silent MP4, mode={mode}')
+          PY
+      - name: Upload footage and timecoded scene manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: NaFT-IEEE-${{ env.NAFT_VIDEO_MODE }}-capture-${{ github.run_number }}
+          path: |
+            video-output/NaFT_IEEE_ClimateChain_Demo_2026.mp4
+            video-output/NaFT_IEEE_recording_manifest.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Summarize recorded artifact
+        run: |
+          echo "### NaFT IEEE demo capture" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Mode: $NAFT_VIDEO_MODE" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Target: public GitHub Pages (real interactive website)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Artifact: downloadable from this GitHub Actions run" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Video: 1920x1080 MP4, silent; add English narration after reviewing" >> "$GITHUB_STEP_SUMMARY"
+          echo "- No blockchain transactions or secret keys used" >> "$GITHUB_STEP_SUMMARY"
