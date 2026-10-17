@@ -3,6 +3,11 @@ name: IEEE Sepolia Read-only Verification
 on:
   push:
     branches: [main]
+  pull_request:
+    paths:
+      - '.github/workflows/verify-sepolia-readonly.yml'
+      - 'scripts/verify-climatechain-testnet.mjs'
+      - 'scripts/verify-live-sepolia.sh'
   workflow_dispatch:
 
 permissions:
