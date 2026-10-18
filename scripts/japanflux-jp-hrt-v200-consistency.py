@@ -45,6 +45,8 @@ def plain_csv(data, needed):
         decoded = data.decode('utf-8-sig', 'strict')
     except UnicodeDecodeError as exc:
         raise ValueError('JPHRT_RESOLUTION_ENCODING') from exc
+    # JapanFlux originals use CRLF. Permit CRLF and LF, but reject bare CR or NUL.
+    decoded = decoded.replace('\r\n', '\n')
     require('\x00' not in decoded and '\r' not in decoded, 'JPHRT_RESOLUTION_NEWLINE')
     rows = csv.DictReader(StringIO(decoded, newline=''))
     require(rows.fieldnames is not None and len(rows.fieldnames) == len(set(rows.fieldnames))
