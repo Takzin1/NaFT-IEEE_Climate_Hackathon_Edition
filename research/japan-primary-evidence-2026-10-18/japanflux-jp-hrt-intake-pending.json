@@ -1,0 +1,23 @@
+{
+  "schema": "naft-ieee-source-intake-v1",
+  "source_id": "JAPANFLUX2024_JP_HRT",
+  "data_class": "PRIMARY_DATASET_CANDIDATE",
+  "doi": "10.17592/001.2024121020",
+  "source_url": "https://doi.org/10.17592/001.2024121020",
+  "publisher_claim": "Arctic Data archive System / JapanFlux2024 (claimed; not verified)",
+  "license_claim": "UNVERIFIED_SITE_SPECIFIC_LICENSE",
+  "site_id": "JP-Hrt",
+  "measurement_kind": "EDDY_COVARIANCE_CH4_RAW_COLUMNS_NOT_VERIFIED",
+  "retrieval_state": "ORIGINAL_NOT_RETRIEVED",
+  "expected_raw_sha256": null,
+  "original_file_name": null,
+  "publisher_original_bytes_authenticated": false,
+  "publisher_checksum_independently_verified": false,
+  "source_license_independently_verified": false,
+  "site_environment_independently_matched": false,
+  "official_ag005_method_adopted_verified": false,
+  "certified_emission_reductions_verified": false,
+  "s3_object_lock_version_verified": false,
+  "certified_tco2e": null,
+  "verified_reduction_kg_ch4": null
+}
