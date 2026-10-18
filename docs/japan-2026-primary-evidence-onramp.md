@@ -23,6 +23,26 @@
 2. `preflightNidFactorCandidate` accepts **operator-transcribed** proposed NID factor cells *only as unverified source candidates*. It requires source document and table SHA-256 claims, 2026 inventory edition, factor year, region, water/drainage/organic strata, page/table locator, and the **kg CH4-C/ha/year** mass basis. The values never enter the active AG-005 registry and `jcredit_factor_usable` remains false.
 3. `preflightJapanFluxObservations` stages **synthetic test rows or untrusted transcriptions** for JP-Hrt only, with strictly ordered UTC timestamps, measured versus missing data distinctions, no gap-filled rows, a supplied local file hash, and **unverified units**. No unit conversion, daily/seasonal integration, extrapolation, or methane reduction calculation occurs: seasonal and official outputs are null. Existing tests use fabricated rows **only** to test validation logic.
 
+
+## Directly inspected official NID numerical rows — Tohoku, inventory year 2024
+
+Environment Ministry official NID 2026, Chapter 5 **Table 5-45**, **pp. 5-38–5-40**, explicitly states factors for rice paddies **without extended midseason drainage**. The values below were visually compared to the official PDF pages at [env.go.jp/content/000398403.pdf](https://www.env.go.jp/content/000398403.pdf). The unit **as printed** is `kg-CH4-C/ha`, not `kg-CH4/ha/day`. The 2026 inventory edition contains annual reference columns up to year **2024** (no invented 2025/2026 field coefficients). These are **officially published national inventory modeled coefficients**, not direct measurements and not an automatic J-Credit factor approval.
+
+| Drainage | Irrigation | Straw | Compost | None | Printed page |
+| --- | --- | ---: | ---: | ---: | --- |
+| Poor drainage | Continuous flood | 692 | 665 | 175 | 5-38 |
+| Poor drainage | Intermittent | 665 | 638 | 153 | 5-38 |
+| Daily drainage | Continuous flood | 513 | 492 | 119 | 5-39 |
+| Daily drainage | Intermittent | 365 | 349 | 71 | 5-39 |
+| Four-hour drainage | Continuous flood | 472 | 452 | 97 | 5-39 |
+| Four-hour drainage | Intermittent | 330 | 316 | 59 | 5-40 |
+
+The 18 cells are explicitly pinned as **`PUBLISHED_NATIONAL_INVENTORY_REFERENCE_ONLY`** in `research/japan-primary-evidence-2026-10-18/nid2026-tohoku-2024-table545.json`. `src/nid-2026-published-subset.mjs` provides a strict read-only inspection and cell lookup with matched year, region, irrigation, drainage and organic matter identity. Failing or missing data cannot silently become credits.
+
+**Limitations:** The official PDF was read via page rendering but publisher **original PDF bytes were not independently downloaded and SHA-256 hashed in the repository**; the lock is a visibly inspected cell/URL/version transcription, not full byte-level source authentication. This is only the Tohoku 2024 subset, *not* all 7 geographic regions or the whole 1990–2024 factor history. The six classes in Table 5-45 exclude extended midseason drainage, and neither J-Credit AG-005 effective-version applicability nor J-Credit-specific revised coefficients are verified. Institutional calculations therefore remain **`CONFIG_REQUIRED`** and `certified_tco2e:null`.
+
+Verification: `node tests/nid-2026-published-subset.test.mjs`. No automatically assumed emission-reduction percentage, project acreage, CH4-C→CH4 conversion or CO2e estimate is produced by this reference viewer.
+
 ## Exact next data-acquisition protocol
 
 1. Independently download the NID 2026 official PDF and agriculture workbook, calculate original **byte hashes**, and record explicit sheet/table/page provenance and published cell/year/stratum units. Keep national inventory factors separate from legal J-Credit coefficient applicability.
