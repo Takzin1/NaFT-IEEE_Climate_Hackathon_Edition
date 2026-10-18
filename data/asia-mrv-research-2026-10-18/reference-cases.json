@@ -1,0 +1,94 @@
+{
+  "schema": "naft-asia-mrv-research-fixtures-1",
+  "prepared_on": "2026-10-18",
+  "policy": "RESEARCH_BENCHMARK_ONLY; no Japanese J-Credit eligibility, verified field claim, or GX-ETS official report",
+  "reference_cases": [
+    {
+      "id": "IPCC2019_TIER1_MULTIPLE_DRAINAGE",
+      "type": "IPCC_WORKED_EXAMPLE",
+      "source": "https://www.ipcc-nggip.iges.or.jp/public/2019rf/pdf/4_Volume4/19R_V4_Ch05_Cropland.pdf#page=59",
+      "units": "kg_CH4_ha_day",
+      "efc": 1.22,
+      "sfw": 0.55,
+      "sfp": 1,
+      "sfo": 1.21,
+      "expected_exact": 0.81191,
+      "published_rounded": 0.81,
+      "method_status": "IPCC_2019_TIER1_ILLUSTRATIVE_NOT_AG005"
+    },
+    {
+      "id": "IPCC2019_TIER1_CONTINUOUS_FLOOD",
+      "type": "IPCC_WORKED_EXAMPLE",
+      "source": "https://www.ipcc-nggip.iges.or.jp/public/2019rf/pdf/4_Volume4/19R_V4_Ch05_Cropland.pdf#page=59",
+      "units": "kg_CH4_ha_day",
+      "efc": 1.22,
+      "sfw": 1,
+      "sfp": 1,
+      "sfo": 1.21,
+      "expected_exact": 1.4762,
+      "published_rounded": 1.48,
+      "method_status": "IPCC_2019_TIER1_ILLUSTRATIVE_NOT_AG005"
+    },
+    {
+      "id": "TAIWAN_2023_SECOND_SEASON",
+      "type": "PUBLISHED_FIELD_AGGREGATE",
+      "source": "https://kmweb.moa.gov.tw/knowledgebase.php?func=&id=427140&keyword=&type=0",
+      "units": "kg_CH4_ha_season",
+      "season": "2023 second",
+      "cf": 676,
+      "conventional": 346,
+      "intermittent": 167,
+      "research_only": true
+    },
+    {
+      "id": "TAIWAN_2024_FIRST_SEASON",
+      "type": "PUBLISHED_FIELD_AGGREGATE",
+      "source": "https://kmweb.moa.gov.tw/knowledgebase.php?func=&id=427140&keyword=&type=0",
+      "units": "kg_CH4_ha_season",
+      "season": "2024 first",
+      "cf": 317,
+      "conventional": 76,
+      "intermittent": 38,
+      "research_only": true
+    },
+    {
+      "id": "KOREA_ANSEONG_2026",
+      "type": "PUBLISHED_FIELD_STUDY_ABSTRACT",
+      "source": "https://doi.org/10.1016/j.agee.2026.110406",
+      "years": "2023-2024",
+      "climate": "temperate monsoon; reported mean T 12.6 C, annual precip 1315.7 mm",
+      "max_ch4_reduction_percent": 74.6,
+      "qualification": "Maximum effect in 3W-MD+II vs continuously flooded treatment; not a Japanese coefficient",
+      "research_only": true
+    },
+    {
+      "id": "VIETNAM_CENTRAL_2019_2021",
+      "type": "PUBLISHED_FIELD_STUDY_ABSTRACT",
+      "source": "https://www.sciencedirect.com/science/article/pii/S1161030123002605",
+      "years": "2019-2021",
+      "awdcf_ch4_reduction_percent": 34,
+      "awdcf_n2o_increase_percent": 46,
+      "awdcf_water_reduction_percent": 33,
+      "qualification": "Treatment comparison at field and seasonal context; not direct J-Credit applicability",
+      "research_only": true
+    },
+    {
+      "id": "JCM_PH_AM004_V1",
+      "type": "APPROVED_FOREIGN_JCM_METHODOLOGY_METADATA",
+      "source": "https://www.jcm.go.jp/jc/methodologies/ph-am004-ver1-0/",
+      "approved_date": "2025-02-03",
+      "requirements": [
+        "paired_reference_project_fields",
+        "CH4",
+        "N2O",
+        "drainage_pump_CO2",
+        "uncertainty_deduction",
+        "organic_amendment",
+        "fertilizer",
+        "soil_and_preseason_water"
+      ],
+      "status": "FOREIGN_REGULATORY_METHOD_DO_NOT_SUBSTITUTE_JAPAN_AG005"
+    }
+  ],
+  "source_status": "Source URLs and published abstracts checked by pack author; primary research instrument files and individual flux records not independently downloaded"
+}
