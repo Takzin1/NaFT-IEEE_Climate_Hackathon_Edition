@@ -24,7 +24,7 @@ for(const [name,change] of [
  ['missingSource',d=>d.sources.pop()]
 ]){
  const changed=load();change(changed);
- reject(()=>reviewJapanPrimarySources(changed),'INVALID|UNVERIFIED|MISLABELLED|CHANGED|AUTHORITY');
+ reject(()=>reviewJapanPrimarySources(changed),'INVALID|UNVERIFIED|NOT_VERIFIED|MISLABELLED|CHANGED|AUTHORITY|MISSING');
 }
 const hash='a'.repeat(64);
 const nid={source_id:'NID_JAPAN_2026',data_kind:'INVENTORY_FACTOR_CANDIDATE',
