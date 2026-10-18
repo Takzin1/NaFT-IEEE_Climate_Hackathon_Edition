@@ -6,6 +6,7 @@ const finite = (n, label, positive=false) => {
   return n;
 };
 const source = url => {if (typeof url !== 'string' || !/^https:\/\/[\w.-]+\//.test(url)) fail('SOURCE_URL_REQUIRED'); return url;};
+const PINNED_ASIA_REFERENCE_SHA256 = 'a4b6c16233734c1a7f9263cfe95cf52d8f2be82811f097f67fb167f85bca05f9';
 const idSet = ['IPCC2019_TIER1_MULTIPLE_DRAINAGE','IPCC2019_TIER1_CONTINUOUS_FLOOD',
   'TAIWAN_2023_SECOND_SEASON','TAIWAN_2024_FIRST_SEASON',
   'KOREA_ANSEONG_2026','VIETNAM_CENTRAL_2019_2021','JCM_PH_AM004_V1'];
@@ -56,7 +57,9 @@ export function inspectAsiaReferences(data) {
     ipcc_kg_ch4_ha_day:{multiple_drainage:drainage,continuous_flood:flood},
     taiwan_seasonal_ratio:{crop_2023_2:tw23,crop_2024_1:tw24},
     vietnam_n2o_rebound_retained:true,philippines_method_is_japan_method:false};
-  return {...result,fixture_sha256:createHash('sha256').update(JSON.stringify(data)).digest('hex')};
+  const fixtureSha=createHash('sha256').update(JSON.stringify(data)).digest('hex');
+  if(fixtureSha!==PINNED_ASIA_REFERENCE_SHA256)fail('ASIA_FIXTURE_PROVENANCE_MISMATCH');
+  return {...result,fixture_sha256:fixtureSha};
 }
 export function inventoryIpcc2019Replay() {
   // IPCC 2019 example Table 5.14a-c: ROUNDED illustrative strata, not field measurements.
