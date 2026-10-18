@@ -46,6 +46,8 @@ node tests/ieee-observation-dual-replay.test.mjs
 node tests/ieee-source-provenance-gateway.test.mjs
 python3 -m py_compile scripts/japanflux-jp-hrt-v200.py tests/japanflux-jp-hrt-v200.test.py
 python3 tests/japanflux-jp-hrt-v200.test.py
+python3 -m py_compile scripts/japanflux-jp-hrt-v200-consistency.py tests/japanflux-jp-hrt-v200-consistency.test.py
+python3 tests/japanflux-jp-hrt-v200-consistency.test.py
 node tests/japan-field-study-replay.test.js
 python3 tests/japan-field-independent-oracle.test.py
 node tests/asia-native-field-header.test.mjs

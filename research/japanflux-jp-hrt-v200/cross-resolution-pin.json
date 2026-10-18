@@ -1,0 +1,26 @@
+{
+  "schema": "naft-jphrt-v200-cross-resolution-pin-v1",
+  "original_archive_sha256": "bffad17bd7acf962eb1af9fa4f2092c038a813291b9fc4c79e548674101d40eb",
+  "expected_native_sha256": "a6629e61fea92526bb0e2ec1f3454820fba428590875f996cec35669a1b6dcfb",
+  "aggregation_source_sha256": {
+    "daily": "447f5f97fa45c9f3ff9339c1a574210d51077e115c096b159a5b4e55a61ed9dc",
+    "monthly": "f3980a7810a4d097192bbbf53fe98c886437e5de135d1291cf608fdcd18c54f0",
+    "yearly": "896f06684125bbfaa3a91b152715802a829f43bb185c8d51f6709a0d90e57305"
+  },
+  "badm_metadata_evidence": {
+    "badm_sheet": "Site_General_Info",
+    "badm_flux_variable": "CH4",
+    "badm_flux_method": "Eddy Covariance",
+    "badm_flux_comment": "Closed-path eddy covariance",
+    "badm_flux_start_yyyymmdd": "20130831",
+    "pdf_ch4_method_text": "HREA(Hyperbolic relaxed eddy accumulation) method and Chamber method",
+    "metadata_verified_from_pinned_bytes": true,
+    "independent_publisher_attestation": false
+  },
+  "review_pending": [
+    "WHY_1689_FCH4_NATIVE_VALUES_PRECEDE_BADM_CH4_DECLARED_START",
+    "RECONCILE_PDF_HREA_CHAMBER_AND_BADM_CLOSED_PATH_EDDY_COVARIANCE",
+    "VERIFY_VARIABLE_FCH4_UNIT_AND_QC_DICTIONARY",
+    "EXPLAIN_ABSENT_DAILY_MONTHLY_ANNUAL_FCH4_AGGREGATES"
+  ]
+}
