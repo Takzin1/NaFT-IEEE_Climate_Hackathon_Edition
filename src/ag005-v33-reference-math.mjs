@@ -12,6 +12,8 @@ function dec(x,label='INVALID_DECIMAL'){
  if(typeof x==='number'&&!Number.isFinite(x))block(label);
  const s=String(x);
  if(!/^-?\d+(?:\.\d+)?$/.test(s))block(label);
+ // Bound untrusted decimal scale to avoid attacker-controlled BigInt memory use.
+ if(s.length>120)block('DECIMAL_PRECISION_LIMIT_EXCEEDED');
  const [p,part='']=s.split('.');return q(BigInt(p.replace('-','')+part)*(s.startsWith('-')?-1n:1n),10n**BigInt(part.length));
 }
 const add=(a,b)=>q(a.n*b.d+b.n*a.d,a.d*b.d);
@@ -74,20 +76,23 @@ function date(s,code){
 export function referenceMidseasonEligibility(input){
  if(!input||!Array.isArray(input.prior_crop_cycles)||input.prior_crop_cycles.length<2)
   block('AG005_BASELINE_CROP_CYCLES_MISSING');
+ const start=date(input.project?.start,'AG005_PROJECT_DATE_INVALID');
+ const actualEnd=date(input.project?.end,'AG005_PROJECT_DATE_INVALID');
+ const heading=date(input.project?.heading_date,'AG005_HEADING_DATE_REQUIRED');
+ if(actualEnd<start)block('AG005_PROJECT_DATE_RANGE_INVALID');
+ if(heading<=start)block('AG005_HEADING_ON_OR_BEFORE_START');
  const seen=new Set();
  const periods=input.prior_crop_cycles.map(p=>{
+   if(!p||typeof p!=='object')block('AG005_BASELINE_CROP_INVALID');
    const a=date(p.start,'AG005_BASELINE_DATE_INVALID');
    const b=date(p.end,'AG005_BASELINE_DATE_INVALID');
    if(b<a||b-a>150)block('AG005_BASELINE_DATE_RANGE_INVALID');
+   if(b>=start)block('AG005_BASELINE_NOT_BEFORE_PROJECT');
    if(typeof p.crop_id!=='string'||!p.crop_id||seen.has(p.crop_id))
     block('AG005_BASELINE_CROP_ID_INVALID');
    seen.add(p.crop_id);return b-a+1;
  });
  const baselineDays=Math.ceil(periods.reduce((a,b)=>a+b,0)/periods.length);
- const start=date(input.project?.start,'AG005_PROJECT_DATE_INVALID');
- const actualEnd=date(input.project?.end,'AG005_PROJECT_DATE_INVALID');
- const heading=date(input.project?.heading_date,'AG005_HEADING_DATE_REQUIRED');
- if(actualEnd<start)block('AG005_PROJECT_DATE_RANGE_INVALID');
  const cutoff=Math.min(actualEnd,heading-1);
  const projectDays=Math.max(0,cutoff-start+1);
  const extension=projectDays-baselineDays;
@@ -188,14 +193,36 @@ export function referenceCarbonCalculation({segments,gwp100_ch4,rounding}){
    digest:sha(summary)};
 }
 export function ag005DependencyDiff(before,after){
+ if(!before||typeof before!=='object'||!after||typeof after!=='object')
+  block('AG005_DEPENDENCY_INPUT_INVALID');
  const keys=['method_version','inventory_edition','factor_year','gwp_version',
    'organic_material','drainage_measurement','midseason_dates',
-   'field_geometry','field_lineage','raw_evidence_bytes','human_review_decision'];
- const canonical=x=>JSON.stringify(x===undefined?null:x);
- const changed=keys.filter(k=>canonical(before?.[k])!==canonical(after?.[k]));
- const fail=changed.includes('raw_evidence_bytes')&&after?.evidence_hash_valid!==true;
+   'field_geometry','field_lineage','raw_evidence_bytes',
+   'expected_evidence_sha256','human_review_decision'];
+ const canonical=x=>{
+   if(Array.isArray(x))return '['+x.map(canonical).join(',')+']';
+   if(x&&typeof x==='object')return '{'+Object.keys(x).sort()
+     .filter(k=>x[k]!==undefined).map(k=>JSON.stringify(k)+':'+canonical(x[k])).join(',')+'}';
+   return JSON.stringify(x===undefined?null:x);
+ };
+ const changed=keys.filter(k=>canonical(before[k])!==canonical(after[k]));
+ // A caller-set evidence_hash_valid flag is untrusted and intentionally ignored.
+ // Bytes AND the independently expected digest must be supplied to replay
+ // a changed evidence dependency. Matching hashes show bytes, not field truth.
+ const evidencePresent=after.raw_evidence_bytes!==undefined ||
+   after.expected_evidence_sha256!==undefined;
+ const integrityOk=!evidencePresent ||
+   typeof after.raw_evidence_bytes==='string' &&
+   typeof after.expected_evidence_sha256==='string' &&
+   /^[a-f0-9]{64}$/.test(after.expected_evidence_sha256) &&
+   createHash('sha256').update(after.raw_evidence_bytes,'utf8').digest('hex')===
+     after.expected_evidence_sha256;
+ const missingChangedEvidence=changed.includes('raw_evidence_bytes')&&!evidencePresent;
+ const fail=!integrityOk||missingChangedEvidence;
  return {status:fail?'UNSUPPORTED':changed.length?'REVERIFY_REQUIRED':'UNCHANGED',
    changed_dependencies:changed,stale_human_decisions:changed.length>0,
+   evidence_integrity_checked:evidencePresent,
+   evidence_integrity_valid:integrityOk&&!missingChangedEvidence,
    source_drift_only:false,official_certification:null,
-   explanation:'Dependency-triggered review candidates; formal affectedness needs approved mappings'};
+   explanation:'Dependency-triggered review candidates; digest checks bytes only, not trusted field measurements'};
 }

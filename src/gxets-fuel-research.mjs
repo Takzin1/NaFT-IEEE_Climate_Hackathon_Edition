@@ -24,8 +24,8 @@ export function evaluateGxEtsFuel(input){
  if(!input||input.domain!=='GX_ETS'||input.source_type!=='FUEL_COMBUSTION')
   abort('GX_ETS_UNSUPPORTED_EMISSION_DOMAIN');
  const f=input.fuel;
- if(!f||!f.fuel_name||!['t','kL','1000_m3'].includes(f.quantity_unit)||
-    !f.fuel_name.match(/^[\w-]{2,80}$/))abort('GX_ETS_FUEL_IDENTITY_INVALID');
+ if(!f||typeof f.fuel_name!=='string'||!['t','kL','1000_m3'].includes(f.quantity_unit)||
+    !/^[\w-]{2,80}$/.test(f.fuel_name))abort('GX_ETS_FUEL_IDENTITY_INVALID');
  if(!input.factors||input.factors.official!==false||
     input.factors.provenance!=='SYNTHETIC'||
     input.factors.hv_unit!=='GJ_per_'+f.quantity_unit||
@@ -51,9 +51,37 @@ export function evaluateGxEtsFuel(input){
  };
  return {...result,result_sha256:digest(result)};
 }
+const canonical = value => {
+ if(Array.isArray(value))return '['+value.map(canonical).join(',')+']';
+ if(value && typeof value==='object')return '{'+Object.keys(value).sort()
+   .filter(k=>value[k]!==undefined).map(k=>JSON.stringify(k)+':'+canonical(value[k])).join(',')+'}';
+ return JSON.stringify(value===undefined?null:value);
+};
 export function compareGxEtsBoundary(previous,current){
- if(previous?.domain!=='GX_ETS'||current?.domain!=='GX_ETS')abort('GX_ETS_DOMAIN_MISMATCH');
- const stable=JSON.stringify(previous.boundary)===JSON.stringify(current.boundary);
- return {domain:'GX_ETS',status:stable?'UNCHANGED':'HUMAN_REVIEW_REQUIRED',
-   recalculation_required:!stable,official_reporting_impact:null};
+ if(previous?.domain!=='GX_ETS'||current?.domain!=='GX_ETS')
+  abort('GX_ETS_DOMAIN_MISMATCH');
+ if(previous?.source_type!=='FUEL_COMBUSTION')
+  abort('GX_ETS_UNSUPPORTED_EMISSION_DOMAIN');
+ // The old, accepted baseline must actually be runnable.
+ const prior=evaluateGxEtsFuel(previous);
+ const keys=['source_type','fuel','factors','boundary'];
+ const changed=keys.filter(k=>canonical(previous[k])!==canonical(current[k]));
+ const boundaryChanged=changed.includes('boundary');
+ const unsupportedSource=current.source_type!=='FUEL_COMBUSTION';
+ const currentBoundary=current.boundary;
+ const unsafeBoundary=!currentBoundary||currentBoundary.direct_emission!==true||
+  currentBoundary.purchased_electricity!==false||
+  currentBoundary.industrial_process!==false||
+  currentBoundary.organizational_boundary_reviewed!==true;
+ // No phantom unchanged result after a fuel-volume or factor change.
+ // Never produce a number when an updated boundary needs human review.
+ const status=unsupportedSource?'UNSUPPORTED':unsafeBoundary||boundaryChanged?
+  'HUMAN_REVIEW_REQUIRED':changed.length?'REVERIFY_REQUIRED':'UNCHANGED';
+ const next=status==='UNSUPPORTED'||unsafeBoundary?null:evaluateGxEtsFuel(current);
+ return {domain:'GX_ETS',status,changed_dependencies:changed,
+   recalculation_required:changed.length>0,
+   previous_indicative_tco2:prior.indicative_tco2,
+   current_indicative_tco2:next?.indicative_tco2??null,
+   independent_boundary_review_required:boundaryChanged||unsafeBoundary,
+   official_reporting_impact:null,third_party_verified:false};
 }
