@@ -43,6 +43,12 @@ The 18 cells are explicitly pinned as **`PUBLISHED_NATIONAL_INVENTORY_REFERENCE_
 
 Verification: `node tests/nid-2026-published-subset.test.mjs`. No automatically assumed emission-reduction percentage, project acreage, CH4-C→CH4 conversion or CO2e estimate is produced by this reference viewer.
 
+## Additional local transcription: NID 2026 Table 5-45 (Tohoku / 2024)
+
+The research-only input `research/japan-primary-evidence-2026-10-18/nid2026-tohoku-2024-table545.json` contains **18 manually transcribed candidate cells**, split by six drainage/water-management strata and three organic-material categories. Its citation refers to an Environment Ministry-hosted NID 2026 PDF, but the original PDF bytes are **not** cryptographically pinned. The transcription is therefore **not independently authenticated source data**, cannot become an adopted AG-005 factor automatically, and is not presented as measured farm flux or a certified reduction.
+
+`preflightNid2026TohokuPrintedSubset(table,selection)` locks the transcribed cells and printed locations for regression testing, enforces inventory edition 2026 / factor year 2024 / Tohoku region and the exact published printed unit `kg-CH4-C/ha`. It deliberately returns **`time_basis: NOT_INFERRED_FROM_PRINTED_UNIT`**, **`official_jcredit_factor_usable: false`** and **`certification_or_verified_reduction_tco2e: null`**. The word "official" in the table's publication status refers only to the national inventory publication, not to J-Credit admissibility. The separate candidate-intake API's `kg_CH4_C_per_ha_year` must **not** be inferred from the printed `kg-CH4-C/ha` without independently checking the temporal basis in the primary source and the J-Credit methodology. Its 18-cell regression proves internal transcription consistency only.
+
 ## Exact next data-acquisition protocol
 
 1. Independently download the NID 2026 official PDF and agriculture workbook, calculate original **byte hashes**, and confirm the 18 manually transcribed Tohoku-2024 published cells (Table 5-45) against original source bytes before extending other regions, years and coefficient classes. Keep national inventory factors separate from legal J-Credit coefficient applicability.
