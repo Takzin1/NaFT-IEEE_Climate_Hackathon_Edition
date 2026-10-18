@@ -1,6 +1,6 @@
 'use strict';
 const fs=require('fs'),vm=require('vm'),assert=require('assert/strict');
-for(const name of ['mrv-core','methodology-packs','mrv-compiler','compiler-demo','climatechain-testnet-record','climatechain-demo']) {
+for(const name of ['mrv-core','methodology-packs','mrv-compiler','compiler-demo','climatechain-testnet-record','climatechain-demo','mrv-ui']) {
   vm.runInThisContext(fs.readFileSync('src/'+name+'.js','utf8'));
 }
 let passed=0,failed=0;
@@ -125,6 +125,60 @@ const hashes=[
 ];
 check(hashes.every(h=>/^0x[a-f0-9]{64}$/.test(h)),'all contract arguments are bytes32 hex');
 eq(plan,buildClimateChainAnchorPlan(runClimateChainImpact()),'anchor plan deterministic for deterministic fixture');
+
+// Three-pillar reviewer proof: fail closed on fabricated selective results.
+const triad=buildClimateChainTriadProof(impact);
+eq(triad.schema,'naft-ieee-triad-proof-1','three-pillar proof schema is versioned');
+check(/^[a-f0-9]{64}$/.test(triad.proof_sha256),'three-pillar export carries canonical SHA-256 digest');
+check(triad.pillars.error_detection.fail_closed===true,'tampered evidence is rejected in proof');
+eq(triad.pillars.selective_reverification.counts,impact.counts,
+  'independent full-compilation oracle confirms every selective count');
+eq(triad.pillars.selective_reverification.checked_claims,100,
+  'all 100 synthetic claims compiled independently');
+eq(triad.pillars.sepolia_lineage.local_planner_status,'NOT_SUBMITTED',
+  'browser proof cannot pretend to have broadcast a transaction');
+check(triad.pillars.sepolia_lineage.live_rpc_checked_by_browser===false,
+  'client-side proof never claims an RPC query');
+eq(triad.pillars.sepolia_lineage.successor_parent_hash,
+  triad.pillars.sepolia_lineage.genesis_package_hash,'proof binds exact P1 to P2 parent');
+check(triad.pillars.sepolia_lineage.explorer_tx_successor.endsWith(testnet.successor_tx_hash),
+  'proof links to pre-existing real P2 testnet transaction');
+function triadReject(mutator,expected,label) {
+  const altered=clone(impact);
+  mutator(altered);
+  let rejected=false;
+  try { verifyClimateChainSelection(altered); }
+  catch(error){rejected=error.message.startsWith(expected);}
+  check(rejected,label);
+}
+triadReject(x=>{x.claims.pop();},'TRIAD_CLAIMS_MISSING_OR_ADDED',
+  'a missing claim fails the three-pillar proof');
+triadReject(x=>{x.counts.UNAFFECTED++;},'TRIAD_COUNT_MISMATCH',
+  'falsified 70 unaffected count fails the three-pillar proof');
+triadReject(x=>{x.claims[70].requires_reverification=false;},'TRIAD_MISSED_CHANGE_OR_STATUS',
+  'hiding a re-verification requirement fails the full-recompilation oracle');
+triadReject(x=>{x.claims[85].successor.package_hash='0'+'a'.repeat(63);},
+  'TRIAD_SUCCESSOR_OR_DEPENDENCY_MISMATCH',
+  'rewriting a successor package hash fails the three-pillar proof');
+triadReject(x=>{x.claims[0].next_input.field.id='fake-field';},
+  'TRIAD_INPUT_REBIND_MISMATCH','tampering with the rebound input fails the three-pillar proof');
+check(scenarioSource.includes('Verify all 3 pillars')&&
+      scenarioSource.includes('climatechain-export-triad')&&
+      scenarioSource.includes('Download 3-pillar proof JSON'),
+      'reviewer UI exposes the verification action and downloadable proof');
+
+// Exercise the actual page action, not just the underlying helper.
+ClimateChainDemo.impact=impact;
+handleClimateChainAction('climatechain-triad');
+check(!!ClimateChainDemo.triad&&ClimateChainDemo.triad.proof_sha256===triad.proof_sha256,
+  'browser action generates the identical proof');
+const triadMarkup=pgClimateChainDemo();
+check(triadMarkup.includes('aria-labelledby="climate-triad-title"')&&
+      triadMarkup.includes('Download 3-pillar proof JSON')&&
+      triadMarkup.includes('does not independently query RPC'),
+  'rendered browser view shows all 3 stages and explicit on-chain limitation');
+handleClimateChainAction('climatechain-run');
+check(ClimateChainDemo.triad===null,'rerunning the demo clears a prior proof to prevent stale PASS');
 
 const contract=fs.readFileSync('contracts/NaFTMRVAnchor.sol','utf8');
 check(contract.includes('address public anchorWriter'),'anchor writer state present');

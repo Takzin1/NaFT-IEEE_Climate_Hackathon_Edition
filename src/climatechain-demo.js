@@ -2,7 +2,7 @@
 
 var CLIMATECHAIN_ROUTE='climatechain';
 var ZERO_BYTES32='0x'+'0'.repeat(64);
-var ClimateChainDemo={impact:null,anchorPlan:null,tamper:null,selectedClaim:null,filter:'ALL',message:''};
+var ClimateChainDemo={impact:null,anchorPlan:null,tamper:null,triad:null,selectedClaim:null,filter:'ALL',message:''};
 
 function hex32(value) {
   if(typeof value!=='string'||!/^[a-f0-9]{64}$/.test(value)) throw new Error('INVALID_BYTES32_HEX');
@@ -208,6 +208,101 @@ function runClimateChainTamperChallenge() {
   };
 }
 
+
+/** A second, full-compilation oracle for the 100 synthetic claims.
+ * The selective analyzer's own counts are NOT trusted as the expected answer.
+ * Only off-chain deterministic statements are checked here.
+ */
+function verifyClimateChainSelection(impact) {
+  if(!impact||!impact.change||impact.change.type!=='methodology'||
+     impact.change.old_key!=='NAFT-SYNTHETIC@1'||impact.change.new_key!=='NAFT-SYNTHETIC@2'||
+     !Array.isArray(impact.claims)) throw new Error('TRIAD_INVALID_CHANGE_SCOPE');
+  var original=climateChainClaims();
+  if(impact.claims.length!==original.length) throw new Error('TRIAD_CLAIMS_MISSING_OR_ADDED');
+  var oldPack=COMPILER_REGISTRY['NAFT-SYNTHETIC@1'];
+  var newPack=COMPILER_REGISTRY['NAFT-SYNTHETIC@2'];
+  var counts={total:0,potentially_affected:0,require_reverification:0,UNAFFECTED:0,AUTO_REEVALUATED:0,EVIDENCE_REQUIRED:0,HUMAN_REVIEW_REQUIRED:0,UNSUPPORTED:0};
+  var seen=new Set();
+  original.forEach(function(item,index){
+    var before=canonicalCompilerInput(item),id=before.activity.id,row=impact.claims[index];
+    if(!row||seen.has(row.claim_id)||row.claim_id!==id) throw new Error('TRIAD_CLAIM_ID_OR_ORDER_MISMATCH');
+    seen.add(id);
+    var prior=compileEvidence(before,oldPack);
+    var next=clone(before);
+    next.activity.methodology_version=newPack.methodology_version;
+    next.evidence=next.evidence.map(function(e) {
+      return e.methodology_version===oldPack.methodology_version
+        ? Object.assign({},e,{methodology_version:newPack.methodology_version}) : e;
+    });
+    // Re-compile the *entire* synthetic input under each exact pack; do not
+    // use row.requires_reverification, row.reasons or analyzer counts as oracle.
+    var changed=hashObject(activeProjection(oldPack,before))!==hashObject(activeProjection(newPack,next));
+    var successor=changed?compileEvidence(next,newPack,{supersedes:prior.package_hash}):null;
+    var status=successor?successor.document.evaluation.status:'UNAFFECTED';
+    if(row.previous_package_hash!==prior.package_hash||row.potentially_affected!==true)
+      throw new Error('TRIAD_PREDECESSOR_OR_CANDIDATE_MISMATCH:'+id);
+    if(row.requires_reverification!==changed||row.status!==status)
+      throw new Error('TRIAD_MISSED_CHANGE_OR_STATUS:'+id);
+    if(!row.next_input||canonicalize(row.next_input)!==canonicalize(next))
+      throw new Error('TRIAD_INPUT_REBIND_MISMATCH:'+id);
+    if(changed) {
+      if(!row.successor||row.successor.package_hash!==successor.package_hash||
+        row.successor.document.evaluation.status!==status||
+        row.previous_package_stale!==true||!row.affected_nodes.length)
+        throw new Error('TRIAD_SUCCESSOR_OR_DEPENDENCY_MISMATCH:'+id);
+      counts.require_reverification++;
+    } else if(row.successor!==null||row.affected_nodes.length!==0) {
+      throw new Error('TRIAD_UNAFFECTED_SUCCESSOR_OR_DEPENDENCY:'+id);
+    }
+    counts.total++;counts.potentially_affected++;counts[status]++;
+  });
+  if(canonicalize(counts)!==canonicalize(impact.counts)) throw new Error('TRIAD_COUNT_MISMATCH');
+  return {oracle:'Independent full-compilation of each synthetic claim under both pack versions',
+    status:'PASS',counts:counts,checked_claims:counts.total,
+    boundary:'Synthetic source-bound equivalence only; no measured error rate or field accuracy'};
+}
+
+/** Fail-closed, deterministic 3-pillar submission proof; no RPC or wallet call. */
+function buildClimateChainTriadProof(impact) {
+  var verified=verifyClimateChainSelection(impact);
+  var tamper=runClimateChainTamperChallenge();
+  if(!tamper.hash_mismatch_detected||!tamper.parse_preserved||!tamper.fail_closed)
+    throw new Error('TRIAD_TAMPER_DETECTION_FAILED');
+  var plan=buildClimateChainAnchorPlan(impact),record=climateChainTestnetRecord();
+  validateClimateChainTestnetRecord(record);
+  if(record.status!=='VERIFIED_TESTNET'||record.chain_id!==11155111||
+     plan.chain_status!=='NOT_SUBMITTED'||plan.formal_certification!==false||
+     plan.carbon_credit_issued!==false||plan.genesis.previous_package_hash!==ZERO_BYTES32||
+     plan.successor.previous_package_hash!==plan.genesis.package_hash||
+     plan.successor.claim_id_hash!==plan.genesis.claim_id_hash||
+     !plan.lineage_checks.successor_supersedes_previous||
+     !plan.lineage_checks.previous_package_stale||
+     !plan.lineage_checks.requires_reverification)
+    throw new Error('TRIAD_SEPOLIA_LINKAGE_MISMATCH');
+  var links=climateChainExplorerLinks(record);
+  var payload={
+    schema:'naft-ieee-triad-proof-1',
+    scope:'Reproducible synthetic 100-claim engineering proof, with previously recorded public Sepolia lineage',
+    pillars:{
+      error_detection:{status:'PASS',claim_id:tamper.claim_id,
+        change:'Modified synthetic evidence content without updating its SHA-256 manifest',
+        rejected_issue:'content_hash:'+tamper.evidence_id,
+        observed_status:tamper.modified.status,fail_closed:tamper.fail_closed},
+      selective_reverification:verified,
+      sepolia_lineage:{status:'RECORDED_TESTNET_REFERENCE',chain_id:record.chain_id,
+        contract_address:record.contract_address,source_commit:record.source_commit,
+        claim_id:plan.claim_id,genesis_package_hash:plan.genesis.package_hash,
+        successor_package_hash:plan.successor.package_hash,
+        successor_parent_hash:plan.successor.previous_package_hash,
+        explorer_tx_genesis:links.genesis,explorer_tx_successor:links.successor,
+        local_planner_status:'NOT_SUBMITTED',
+        live_rpc_checked_by_browser:false,
+        independent_rpc_check:'Run bash scripts/verify-live-sepolia.sh (read-only, no key)',
+        limitation:'Hash and parentage witness only; no certification, credit issuance or climate truth assertion'}
+    }
+  };
+  return Object.assign({},payload,{proof_sha256:hashObject(payload)});
+}
 
 /** Source-bound synthetic claim reasoning. No external institutional assertion. */
 function buildClimateChainImpactTrace(impact,claimId) {
@@ -426,6 +521,23 @@ function pgClimateChainDemo() {
       button('Download impact JSON','climatechain-export-impact',false)+
       button('Download reproducible audit receipt','climatechain-export-receipt',false)+
       button('Run evidence tamper challenge','climatechain-tamper',false)+
+       button('Verify all 3 pillars','climatechain-triad',false)+
+      '</section>';
+  }
+
+  if(ClimateChainDemo.triad) {
+    var proof=ClimateChainDemo.triad,checks=proof.pillars;
+    out+='<section class="card climate-triad" aria-labelledby="climate-triad-title">'+
+      '<span class="eyebrow">Submission integrity / reproducible · synthetic</span>'+
+      '<h2 id="climate-triad-title">Detect errors. Re-verify only changes. Inspect Sepolia lineage.</h2>'+
+      '<div class="grid">'+
+      '<article><h3>01 / Error detection · PASS</h3><p>Altered raw evidence fails SHA-256 integrity checks and the compiler blocks it.</p><code>'+esc(checks.error_detection.rejected_issue)+'</code></article>'+
+      '<article><h3>02 / Selective re-verification · PASS</h3><p>Independent full-compilation oracle confirms <b>'+esc(checks.selective_reverification.counts.require_reverification)+'</b> to re-verify, <b>'+esc(checks.selective_reverification.counts.UNAFFECTED)+'</b> unaffected and <b>'+esc(checks.selective_reverification.counts.EVIDENCE_REQUIRED)+'</b> requiring evidence.</p></article>'+
+      '<article><h3>03 / Sepolia · RECORDED</h3><p>Local P1 → P2 hashes match the prepared successor lineage. Public testnet transactions are linked; this browser does not independently query RPC or submit transactions.</p></article>'+
+      '</div>'+
+      '<p class="muted">This is an offline, source-bound integrity demonstration for synthetic claims, not measured climate performance or certification. Confirm live on-chain state separately using the read-only verifier.</p>'+
+      '<details><summary>Inspect proof digest and all three machine-readable checks</summary>'+jsonView(proof)+'</details>'+
+      button('Download 3-pillar proof JSON','climatechain-export-triad',false)+
       '</section>';
   }
 
@@ -494,6 +606,7 @@ function handleClimateChainAction(action,element) {
     ClimateChainDemo.impact=runClimateChainImpact();
     ClimateChainDemo.anchorPlan=null;
     ClimateChainDemo.tamper=null;
+    ClimateChainDemo.triad=null;
     ClimateChainDemo.filter='ALL';
     ClimateChainDemo.selectedClaim='CLIMATE-071';
     ClimateChainDemo.message='Synthetic 100-claim impact analysis completed.';
@@ -515,6 +628,13 @@ function handleClimateChainAction(action,element) {
     ClimateChainDemo.selectedClaim=id;
     ClimateChainDemo.message='Inspecting synthetic trace '+id+'.';
   }
+  if(action==='climatechain-triad') {
+    if(!ClimateChainDemo.impact) throw new Error('RUN_IMPACT_ANALYSIS_FIRST');
+    // Commit only on success so failures cannot show a stale green result.
+    ClimateChainDemo.triad=null;
+    ClimateChainDemo.triad=buildClimateChainTriadProof(ClimateChainDemo.impact);
+    ClimateChainDemo.message='All three synthetic integrity checks passed. Sepolia evidence is a recorded reference, not a live browser RPC check.';
+  }
   if(action==='climatechain-anchor-plan') {
     if(!ClimateChainDemo.impact) throw new Error('RUN_IMPACT_ANALYSIS_FIRST');
     ClimateChainDemo.anchorPlan=buildClimateChainAnchorPlan(ClimateChainDemo.impact);
@@ -526,6 +646,9 @@ function handleClimateChainAction(action,element) {
     ClimateChainDemo.message=ClimateChainDemo.tamper.fail_closed
       ? 'Synthetic evidence tampering detected and blocked.'
       : 'Tamper challenge inconclusive; do not assert successful detection.';
+  }
+  if(action==='climatechain-export-triad'&&ClimateChainDemo.triad) {
+    downloadJSON(canonicalize(ClimateChainDemo.triad),'naft-ieee-three-pillars-proof.json');
   }
   if(action==='climatechain-export-trace'&&ClimateChainDemo.impact&&ClimateChainDemo.selectedClaim) {
     downloadJSON(canonicalize(buildClimateChainImpactTrace(ClimateChainDemo.impact,ClimateChainDemo.selectedClaim)),'naft-ieee-impact-trace-'+ClimateChainDemo.selectedClaim+'.json');
