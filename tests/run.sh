@@ -25,6 +25,7 @@ node tests/impact-proof.test.js
 node tests/climatechain.test.js
 node tests/ieee-audit.test.mjs
 node tests/ieee-triad-proof.test.mjs
+node tests/ieee-source-snapshot.test.mjs
 node tests/ieee-benchmark.test.mjs
 node tests/ieee-trace.test.mjs
 node tests/keccak.test.mjs
