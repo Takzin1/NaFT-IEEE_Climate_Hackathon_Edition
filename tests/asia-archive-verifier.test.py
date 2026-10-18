@@ -55,8 +55,13 @@ with tempfile.TemporaryDirectory(prefix='naft-asia-source-') as tmp:
     forged=copy.deepcopy(full_cases)
     forged['reference_cases'][0]['expected_exact']=999
     (module.DIR/'full-reference-cases.json').write_text(json.dumps(forged),encoding='utf-8')
-    # Normalized coverage records are not authoritative coefficients; source ZIP equality is checked separately.
-    module.normalized()
+    try:
+        module.normalized()
+    except ValueError as error:
+        assert 'FULL_REFERENCE_ARCHIVE_PARITY_MISMATCH' in str(error)
+    else:
+        raise AssertionError('FORGED_REFERENCE_ACCEPTED')
+    count+=1
     (module.DIR/'full-reference-cases.json').write_text(json.dumps(full_cases),encoding='utf-8')
     bad=copy.deepcopy(full_sources)
     bad['official_validation']=True
