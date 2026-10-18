@@ -490,7 +490,14 @@ function pgClimateChainDemo() {
   out+='<section class="card climate-reference"><span class="eyebrow">Real-world reference context</span><h2>Why this problem exists outside the demo</h2>'+
     '<p>NaFT is motivated by evidence-heavy climate programs such as <b>'+esc(reference.domain)+'</b>. The repository retains an '+esc(reference.methodology)+' in which evidence categories include:</p>'+
     '<div class="grid">'+reference.evidence_examples.map(function(item){return '<div class="climate-evidence-item">'+esc(item)+'</div>';}).join('')+'</div>'+
-    '<div class="notice"><b>Boundary:</b> '+esc(reference.source_status)+' '+esc(reference.experiment_boundary)+'</div></section>';
+    '<div class="notice"><b>Boundary:</b> '+esc(reference.source_status)+' '+esc(reference.experiment_boundary)+'</div></section>' +
+  '<section class="card climate-japan-research" aria-labelledby="climate-japan-research-title">'+
+  '<span class="eyebrow">Japan / attributed research baseline · 2026-10-18</span>'+
+  '<h2 id="climate-japan-research-title">Reference evidence, not a carbon-credit claim</h2>'+
+  '<p>Japan-focused MRV reference: <b>9</b> reported trial-site treatment designs (2008–2009), <b>3</b> selected research aggregate ratios with standard errors, <b>4</b> published operator-program totals, and <b>10</b> descriptive AG-005 evidence fields. Source links and supplied-archive SHA-256 are pinned for replay.</p>'+
+  '<p><a href="https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/tree/main/data/japan-mrv-research-2026-10-18" target="_blank" rel="noopener noreferrer">Inspect source-attributed Japan baseline →</a> · <a href="https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/blob/main/docs/japan-mrv-research-baseline.md" target="_blank" rel="noopener noreferrer">Verification protocol →</a></p>'+
+  '<div class="notice"><b>Not field evidence:</b> no original raw methane readings, applicable official coefficients, confirmed current AG-005 pack, individual farm eligibility or credits can be derived from this research compilation. The 100-claim demonstration below remains synthetic.</div>'+
+  '</section>';
 
   if(impact) {
     out+=climateImpactExplorer(impact);
