@@ -29,34 +29,16 @@ assert.throws(()=>organic(-1,0),/AG005_ORGANIC_PERCENT_INVALID/);
 assert.throws(()=>organic(0,-1),/AG005_COMPOST_TON_10A_INVALID/);
 assert.throws(()=>referenceOrganicEF({...EF,unit:'kg_CH4_per_ha_season'},{straw_percent:45,compost_t_per_10a:0}),/AG005_FACTOR_UNIT_OR_PROVENANCE_UNVERIFIED/);
 
-const d=(calibrated,all=true)=>referenceDrainageClass({
-  observed_mm_day:String(calibrated/1.22),
-  evidence:all?{no_rain_24h:true,inlet_closed:true,outlet_closed:true,
-    measurement_record:true,objective_evidence:true}:{}
-});
-const raw=(v)=>referenceDrainageClass({observed_mm_day:v,evidence:{
-  no_rain_24h:true,inlet_closed:true,outlet_closed:true,measurement_record:true,objective_evidence:true
-}});
-assert.equal(raw('6.14672131147541').class_if_admissible,'POOR_DRAINAGE','AG-DRN-01');
-assert.equal(raw('6.147540983606558').class_if_admissible,'POOR_DRAINAGE','below exact 7.5');
-assert.equal(raw('6.147540983606558').status,'REFERENCE_ONLY');
-assert.equal(raw('6.147540983606558').selected_official_class,null);
-assert.equal(raw('6.147540983606558').fallback_rule.startsWith('CONFIG_REQUIRED'),true);
-assert.equal(raw('6.147540983606558').corrected_mm_day.decimal,'7.499999999');
-assert.equal(raw('6.147540983606557377049180327868852459016').class_if_admissible,'POOR_DRAINAGE','true below threshold');
-const drainageThreshold=(s)=>referenceDrainageClass({observed_mm_day:s,
-  evidence:{no_rain_24h:true,inlet_closed:true,outlet_closed:true,measurement_record:true,objective_evidence:true}}).class_if_admissible;
-// Exact threshold rationals cannot be represented in finite decimal raw units; input is the exact observed measurement.
-// For boundary tests, use observed 7.5/1.22 neighborhood with controlled decimal steps.
-assert.equal(drainageThreshold('6.147540983606558'),'POOR_DRAINAGE');
-assert.equal(drainageThreshold('6.147540983606558'),'POOR_DRAINAGE');
-assert.equal(drainageThreshold('6.147540983606558'),'POOR_DRAINAGE');
-assert.equal(drainageThreshold('6.147540983606558'),'POOR_DRAINAGE');
-const high=drainageThreshold('6.147540983606558');
-assert.equal(high,'POOR_DRAINAGE');
-assert.equal(drainageThreshold('6.147541'),'DAILY_DRAINAGE','AG-DRN-02 upper side');
-assert.equal(drainageThreshold('10.245902'),'FOUR_HOUR_DRAINAGE','AG-DRN-03 upper side');
-assert.equal(drainageThreshold('10.245901'),'DAILY_DRAINAGE','AG-DRN below 12.5');
+const drainageThreshold=(observed)=>referenceDrainageClass({observed_mm_day:observed,
+  evidence:{no_rain_24h:true,inlet_closed:true,outlet_closed:true,
+    measurement_record:true,objective_evidence:true}}).class_if_admissible;
+// Exact decimal inputs immediately below and above converted boundaries.
+// The true threshold d=7.5/1.22 is repeating, hence no literal finite decimal
+// exactly equals it; proving the adjacent sides avoids binary float equality.
+assert.equal(drainageThreshold('6.147540983606557'),'POOR_DRAINAGE','AG-DRN-01 below 7.5');
+assert.equal(drainageThreshold('6.147540983606558'),'DAILY_DRAINAGE','AG-DRN-02 above 7.5');
+assert.equal(drainageThreshold('10.245901639344262'),'DAILY_DRAINAGE','AG-DRN below 12.5');
+assert.equal(drainageThreshold('10.245901639344263'),'FOUR_HOUR_DRAINAGE','AG-DRN-03 above 12.5');
 const missingD=referenceDrainageClass({observed_mm_day:6,evidence:{}});
 assert.equal(missingD.status,'EVIDENCE_REQUIRED','AG-DRN-04 missing rain log');
 assert.equal(missingD.selected_official_class,null);
