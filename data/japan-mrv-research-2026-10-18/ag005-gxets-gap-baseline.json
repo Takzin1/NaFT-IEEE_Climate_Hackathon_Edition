@@ -1,0 +1,105 @@
+{
+  "schema": "naft-japan-method-gap-baseline-0.1.0",
+  "prepared_at": "2026-10-18",
+  "status": "RESEARCH_ONLY / NOT_CERTIFIED",
+  "input_provenance": "User-provided technical transcription dated 2026-10-18; original AG-005 v3.3/v3.5 PDF bytes and latest applicability NOT independently acquired or verified during this change.",
+  "evidence_value_classes": [
+    "RESEARCH_OBSERVATION",
+    "METHOD_CALCULATION",
+    "CERTIFIED_AMOUNT"
+  ],
+  "method_packs": [
+    {
+      "methodology_id": "AG-005",
+      "methodology_version": "3.5",
+      "status": "CONFIG_REQUIRED",
+      "original_url": "https://japancredit.go.jp/pdf/methodology/AG-005_v3.5.pdf",
+      "original_sha256": null,
+      "official_effective_from": null,
+      "official_effective_to": null,
+      "applicability_transition_policy": null,
+      "verified_clause_map": [],
+      "coefficient_inventory_edition": null,
+      "coefficient_table_sha256": null,
+      "rounding_spec": null,
+      "certification_allowed": false,
+      "announcement_date_candidate": "2026-03-04",
+      "announcement_date_independently_verified": false
+    },
+    {
+      "methodology_id": "AG-005",
+      "methodology_version": "3.3-reference",
+      "status": "REFERENCE_UNVERIFIED_ORIGINAL",
+      "original_url": "https://public-comment.e-gov.go.jp/pcm/download?seqNo=0000288301",
+      "original_sha256": null,
+      "official_effective_from": null,
+      "official_effective_to": null,
+      "applicability_transition_policy": null,
+      "verified_clause_map": [],
+      "coefficient_inventory_edition": null,
+      "coefficient_table_sha256": null,
+      "rounding_spec": null,
+      "certification_allowed": false,
+      "transcription_boundary": "Eqs 1-8 and pp1-8 transcribed by user. No original bytes independently verified."
+    }
+  ],
+  "v33_reference_math": {
+    "ef_unit": "kg_CH4_C_per_ha_year",
+    "molecular_mass_ratio": "16/12",
+    "tonnes_conversion": "1/1000",
+    "project_factor_ratio": "0.7",
+    "drainage_measurement_ratio": "1.22",
+    "drainage_thresholds_mm_per_day": [
+      "7.5",
+      "12.5"
+    ],
+    "reference_min_extension_days": 7,
+    "historical_mean_rounding": "CEIL",
+    "heading_clip": "DAY_BEFORE_HEADING",
+    "organic_w_straw_threshold_percent": "90",
+    "organic_x_compost_threshold_t_per_10a": "1",
+    "v35_continuity_verified": false,
+    "gwp_value": null,
+    "nid_inventory_shas": {},
+    "verified_official_coefficients": false
+  },
+  "audit_dependencies": [
+    "method_version",
+    "inventory_edition",
+    "factor_year",
+    "gwp_version",
+    "organic_material",
+    "drainage_measurement",
+    "midseason_dates",
+    "field_geometry/lineage",
+    "raw_evidence_bytes",
+    "human_review_decision"
+  ],
+  "source_references": {
+    "METHOD_INDEX": "https://japancredit.go.jp/about/methodology/",
+    "AG005_V35_PDF": "https://japancredit.go.jp/pdf/methodology/AG-005_v3.5.pdf",
+    "AG005_V33_PRIMARY": "https://public-comment.e-gov.go.jp/pcm/download?seqNo=0000288301",
+    "NID_2026": "https://www.nies.go.jp/gio/aboutghg/",
+    "NID_2026_AGRI_TABLES": "https://www.nies.go.jp/gio/archive/nirdata/2026.html",
+    "MAFF_AG_SIMULATOR": "https://www.maff.go.jp/j/kanbo/kankyo/seisaku/climate/jcredit/241226.html",
+    "MAFF_R8_TECH": "https://www.maff.go.jp/j/kanbo/kihyo03/gityo/g_kihon_sisin/attach/pdf/r8sisin-2.pdf",
+    "GX_ETS_MANUAL": "https://www.meti.go.jp/policy/energy_environment/global_warming/ets_santeihoukoku.pdf",
+    "GX_ETS_VERIFICATION": "https://www.meti.go.jp/policy/energy_environment/global_warming/ets_kakunin.pdf",
+    "GX_ETS_PORTAL": "https://www.meti.go.jp/policy/energy_environment/global_warming/ets.html"
+  },
+  "independent_current_source_retrieval": false,
+  "legal_method_compliance": false,
+  "real_verified_field_data": false,
+  "gx_ets_domain": {
+    "separate_from_ag005": true,
+    "activities": [
+      "FUEL_COMBUSTION",
+      "INDUSTRIAL_PROCESS",
+      "REDUCTANT",
+      "BYPRODUCT_FUEL",
+      "SCOPE_BOUNDARY_CHANGE"
+    ],
+    "verified_fuel_factor_table": false,
+    "registered_verifier_attestation": false
+  }
+}
