@@ -74,6 +74,19 @@ node scripts/ieee-benchmark.mjs --sizes 100,200,500 --iterations 3 --output /tmp
 
 **70 unaffected out of 100 is not 70% runtime, cost, or labor savings.** NaFT's impact analysis includes baseline compilation and graph work; the full comparison includes predecessor and all successor compilations. Empirical timing on your hardware is an observation, not a speedup guarantee. See [benchmark protocol and limitations](docs/ieee-strategy-benchmark.md).
 
+### Cost impact (illustrative)
+
+`node scripts/ieee-cost-estimate.mjs` (add `--json` for machine output) turns the analyzer's real plot counts on the synthetic 100-claim workload into a side-by-side **full versus selective** re-verification estimate. Rates live in [`config/cost-estimator.defaults.json`](config/cost-estimator.defaults.json) and are **unsourced assumptions — replace with real values** (`--hours-per-plot`, `--rate-jpy`, `--overhead-jpy`, `--jpy-per-usd`, `--total`, `--flagged`).
+
+```text
+Strategy                  | Plots | Hours | Cost (JPY) | Cost (USD)
+Full re-verification      |   100 |   200 |     600000 |       4000
+NaFT selective            |    30 |    60 |     180000 |       1200
+Difference (illustrative) |    70 |   140 |     420000 |       2800
+```
+
+Illustrative estimate — not a measured saving, not a guarantee of CO2 reductions or credit issuance. The 30 selected plots are 15 auto re-evaluated + 15 evidence-required, all conservatively costed as reviewer work.
+
 ### Interactive synthetic Impact Explorer
 
 The English `#/climatechain` demo now lets reviewers filter and select every synthetic claim. A source-bound trace shows the exact active-rule projection differences, old provenance-graph dependent nodes, SHA-256 hashes, predecessor/successor package references and blocked evidence requirements. Select `CLIMATE-001` (unaffected), `CLIMATE-071` (evidence needed), or `CLIMATE-086` (auto re-evaluated), then **Download selected trace JSON**. These are local engineering explanations, **not** independent GHG eligibility conclusions or chain submissions.

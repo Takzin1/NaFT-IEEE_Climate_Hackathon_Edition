@@ -1,0 +1,11 @@
+{
+  "_comment": "ILLUSTRATIVE ASSUMPTIONS ONLY. None of these values are measured or sourced. Replace every value with real, documented figures before using the estimate for any decision.",
+  "hours_per_plot": 2,
+  "_hours_per_plot": "assumption, replace with real value: reviewer hours to re-verify one plot/field record",
+  "hourly_rate_jpy": 3000,
+  "_hourly_rate_jpy": "assumption, replace with real value: fully loaded reviewer cost per hour (JPY)",
+  "fixed_overhead_jpy": 0,
+  "_fixed_overhead_jpy": "assumption, replace with real value: one-off overhead per re-verification run (JPY), applied to both strategies",
+  "jpy_per_usd": 150,
+  "_jpy_per_usd": "assumption, replace with real value: exchange rate used only for the USD column"
+}

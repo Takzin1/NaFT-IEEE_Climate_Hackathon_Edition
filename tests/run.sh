@@ -17,6 +17,7 @@ node --check tests/ieee-benchmark.test.mjs
 node --check tests/ieee-trace.test.mjs
 node --check scripts/keccak256.mjs
 node --check tests/keccak.test.mjs
+node --check tests/cost-estimator.test.mjs
 node tests/smoke.test.js
 node tests/compiler.test.js
 node tests/mitou-impact.test.js
@@ -26,6 +27,7 @@ node tests/ieee-audit.test.mjs
 node tests/ieee-benchmark.test.mjs
 node tests/ieee-trace.test.mjs
 node tests/keccak.test.mjs
+node tests/cost-estimator.test.mjs
 node tests/climatechain-rpc-verifier.test.mjs
 node tests/video-recording-contract.test.mjs
 bash -n scripts/audit-public-history.sh
