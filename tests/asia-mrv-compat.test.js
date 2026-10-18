@@ -16,6 +16,7 @@ eq(ip.annual_gg_ch4,410.472);ok(ip.published_2dp===410.47&&ip.approved_jcredit_t
 reject(()=>ctx.naftAsiaIpcc2019Example(fixture.ipcc2019_rounded_strata.slice(0,4)),'IPCC_EXPECTED');
 reject(()=>ctx.naftAsiaIpcc2019Example(fixture.ipcc2019_rounded_strata.map((x,i)=>i===1?{...x,id:'CF'}:x)),'IPCC_DUPLICATE');
 reject(()=>ctx.naftAsiaIpcc2019Example(fixture.ipcc2019_rounded_strata.map((x,i)=>i===1?{...x,unit:'kg_CH4_C_ha_day'}:x)),'IPCC_UNIT');
+reject(()=>ctx.naftAsiaIpcc2019Example(fixture.ipcc2019_rounded_strata.map((x,i)=>i===1?{...x,daily_ef_kg_ch4_ha_day:.9}:x)),'IPCC_REFERENCE_RECORD_MISMATCH');
 eq(ctx.naftAsiaCh4Kg(12,'kg_CH4_C'),16);eq(ctx.naftAsiaCh4Kg(16,'kg_CH4'),16);
 eq(ctx.naftAsiaN2oKg(28,'kg_N2O_N'),44);
 reject(()=>ctx.naftAsiaCh4Kg(12,'kg_C'),'UNSUPPORTED_CH4');
