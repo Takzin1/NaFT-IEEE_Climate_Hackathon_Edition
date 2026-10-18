@@ -60,3 +60,7 @@ python3 scripts/verify-asia-research-pack.py verify /path/to/NaFT_Asia_MRV_Resea
 ```
 
 Neither local nor ZIP verification authenticates the original publishers' PDF bytes, licenses, sensors, current adopted Japanese methodology, institutional credits, or on-chain claims. The IEEE synthetic demo and Sepolia lineage code remain unchanged.
+
+## Full research inventory retained without duplicated engines
+
+The exact seven originally supplied attributed research records and ten original benchmark citation entries are preserved separately as `research/asia-mrv-2026-10-18/full-reference-cases.json` and `full-source-manifest.json`. Their canonical JSON digests are pinned against the **user-uploaded source ZIP contents**, and the archive verifier checks full semantic equivalence when the ZIP is supplied. This preserves Korea/Taiwan/Vietnam/IPCC/JCM research context without introducing a second calculator or silently asserting original publisher/PDF authentication. The committed reference values are not jurisdiction-approved Japanese emission factors.

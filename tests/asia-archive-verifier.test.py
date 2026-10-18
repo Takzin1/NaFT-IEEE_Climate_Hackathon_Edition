@@ -12,9 +12,13 @@ spec=importlib.util.spec_from_file_location('naft_asia_zip',path)
 module=importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
 fixtures,sources=module.normalized()
+full_cases=json.loads((module.DIR/'full-reference-cases.json').read_text(encoding='utf-8'))
+full_sources=json.loads((module.DIR/'full-source-manifest.json').read_text(encoding='utf-8'))
 count=0
 with tempfile.TemporaryDirectory(prefix='naft-asia-source-') as tmp:
     module.DIR=Path(tmp)
+    (module.DIR/'full-reference-cases.json').write_text(json.dumps(full_cases),encoding='utf-8')
+    (module.DIR/'full-source-manifest.json').write_text(json.dumps(full_sources),encoding='utf-8')
     def run(f,s,code):
         global count
         (module.DIR/'fixtures.json').write_text(json.dumps(f),encoding='utf-8')
@@ -48,6 +52,32 @@ with tempfile.TemporaryDirectory(prefix='naft-asia-source-') as tmp:
     run(fixtures,s,'CURATED_SOURCE_URL_MISMATCH')
     s=copy.deepcopy(sources);s['sources'][0]['id']=s['sources'][1]['id']
     run(fixtures,s,'CURATED_SOURCE_INDEX_INVALID')
+    # Restore the two normalized excerpts after preceding adversarial mutations.
+    (module.DIR/'fixtures.json').write_text(json.dumps(fixtures),encoding='utf-8')
+    (module.DIR/'source-manifest.json').write_text(json.dumps(sources),encoding='utf-8')
+    module.normalized()
+    forged=copy.deepcopy(full_cases)
+    forged['reference_cases'][0]['expected_exact']=999
+    (module.DIR/'full-reference-cases.json').write_text(json.dumps(forged),encoding='utf-8')
+    try:
+        module.normalized()
+    except ValueError as error:
+        assert 'FULL_REFERENCE_ARCHIVE_PARITY_MISMATCH' in str(error)
+    else:
+        raise AssertionError('FORGED_REFERENCE_ACCEPTED')
+    count+=1
+    (module.DIR/'full-reference-cases.json').write_text(json.dumps(full_cases),encoding='utf-8')
+    bad=copy.deepcopy(full_sources)
+    bad['official_validation']=True
+    (module.DIR/'full-source-manifest.json').write_text(json.dumps(bad),encoding='utf-8')
+    try:
+        module.normalized()
+    except ValueError as error:
+        assert 'FULL_SOURCE_CATALOG_INVALID' in str(error)
+    else:
+        raise AssertionError('FORGED_OFFICIAL_SOURCE_ACCEPTED')
+    count+=1
+    (module.DIR/'full-source-manifest.json').write_text(json.dumps(full_sources),encoding='utf-8')
     # Restore clean curated fixtures before testing the missing-archive boundary.
     (module.DIR/'fixtures.json').write_text(json.dumps(fixtures),encoding='utf-8')
     (module.DIR/'source-manifest.json').write_text(json.dumps(sources),encoding='utf-8')
