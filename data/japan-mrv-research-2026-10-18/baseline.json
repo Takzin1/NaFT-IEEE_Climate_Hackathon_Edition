@@ -1,0 +1,167 @@
+{
+  "schema": "naft-japan-ag005-research-baseline-1",
+  "prepared_on": "2026-10-18",
+  "scope": "attributed secondary research summaries; no field raw data, no formal certification",
+  "input_zip_sha256": "73d59baa3819342f56bb42c873571b6707c5c9853f23d8bd8d9ccf309cc2a076",
+  "input_file_sha256": {
+    "manifest.json": "9c0ab791a665178320e2d955b0d29653470b4c49db0897ed696f5c488385cf18",
+    "sources.csv": "b46b2c11e90f67c464e0eb1c8cfc4984eddbc835c4d39f7c7a29c76dd9946106",
+    "trial_sites_2008_2009.csv": "1be4d2ac464bdb3012c33a4da1613d346e996acaa9e0dcb8270da2691dc3169f",
+    "research_study_aggregates.csv": "99628bf2921e6695dd8850733025dbacba974163d10fe51d0d8a9272cda2013b",
+    "certified_program_aggregates.csv": "079a1321e9c70e2f0f44c4c1dca7e4275fc9f27e6a36c28edb1cc76e5fbdd7fb",
+    "ag005_evidence_fields_reference.csv": "3d98c568eeaccc71c28122210e2e0490796b2281b7f37bb7907584773e75b17e"
+  },
+  "verified_original_source_bytes": false,
+  "raw_field_observations": false,
+  "official_ag005_rulepack_complete": false,
+  "external_redistribution_license_verified": false,
+  "sources": {
+    "S01": "https://www.maff.go.jp/j/seisan/kankyo/ondanka/index.html",
+    "S02": "https://www.maff.go.jp/j/seisan/kankyo/ondanka/attach/pdf/index-175.pdf",
+    "S03": "https://www.maff.go.jp/chushi/seisan/hukyu/attach/pdf/smart-40.pdf",
+    "S04": "https://doi.org/10.1016/j.agee.2011.03.019",
+    "S05": "https://www.maff.go.jp/j/press/kanbo/b_kankyo/240126.html",
+    "S06": "https://www.nies.go.jp/gio/aboutghg/",
+    "S07": "https://www.env.go.jp/earth/ondanka/ghg-mrv/unfccc/2026unfccc_00001.html",
+    "S08": "https://www.naro.go.jp/smart-nogyo/midori/catalog/catalog_02.html",
+    "S09": "https://www.tanakaind.co.jp/j_credit/index.html",
+    "S10": "https://japancredit.go.jp/about/methodology/",
+    "S11": "https://www.program-credit.metro.tokyo.lg.jp/assets/file/2603_03-seminar_documenrts.pdf",
+    "S12": "https://www.sparktohoku.net/",
+    "S13": "https://www.hkbn.vc/news/hsc4thdemoday",
+    "S14": "https://www.tokeiren.or.jp/press/16750.html",
+    "S15": "https://ieee-climatechain-hack.devpost.com/",
+    "S16": "https://www.pref.yamanashi.jp/release/startup/0710/newbuisinessfes2025.html"
+  },
+  "trial_sites": [
+    {
+      "id": "YS1",
+      "name": "山形県・庄内",
+      "conventional_days": "約1週間前倒し（期間同じ）",
+      "treatment_days": "not specified",
+      "source_id": "S03"
+    },
+    {
+      "id": "Y2",
+      "name": "山形県・山形",
+      "conventional_days": "7",
+      "treatment_days": "14",
+      "source_id": "S03"
+    },
+    {
+      "id": "F3",
+      "name": "福島県・郡山",
+      "conventional_days": "14",
+      "treatment_days": "21 / 28",
+      "source_id": "S03"
+    },
+    {
+      "id": "N4",
+      "name": "新潟県・長岡",
+      "conventional_days": "10",
+      "treatment_days": "14 / 24",
+      "source_id": "S03"
+    },
+    {
+      "id": "G5",
+      "name": "岐阜県・岐阜",
+      "conventional_days": "7 / 13",
+      "treatment_days": "20",
+      "source_id": "S03"
+    },
+    {
+      "id": "A6",
+      "name": "愛知県・長久手",
+      "conventional_days": "6",
+      "treatment_days": "9 / 13",
+      "source_id": "S03"
+    },
+    {
+      "id": "T7",
+      "name": "徳島県・徳島",
+      "conventional_days": "7",
+      "treatment_days": "14 / 21",
+      "source_id": "S03"
+    },
+    {
+      "id": "KM8",
+      "name": "熊本県・合志",
+      "conventional_days": "7",
+      "treatment_days": "10",
+      "source_id": "S03"
+    },
+    {
+      "id": "KG9",
+      "name": "鹿児島県・南さつま",
+      "conventional_days": "5",
+      "treatment_days": "10 / 15",
+      "source_id": "S03"
+    }
+  ],
+  "study_ratios": [
+    {
+      "metric": "seasonal CH4 emissions relative to conventional",
+      "value": 69.5,
+      "standard_error": 3.4,
+      "unit": "percent of conventional",
+      "source_id": "S04"
+    },
+    {
+      "metric": "net 100-year GWP CH4 + N2O relative to conventional",
+      "value": 72,
+      "standard_error": 3.1,
+      "unit": "percent of conventional",
+      "source_id": "S04"
+    },
+    {
+      "metric": "rice yield relative to conventional",
+      "value": 96.2,
+      "standard_error": 2,
+      "unit": "percent of conventional",
+      "source_id": "S04"
+    }
+  ],
+  "program_totals": [
+    {
+      "date": "2024-01-26",
+      "operator": "Green Carbon株式会社",
+      "certified_tco2": 6220,
+      "source_id": "S05",
+      "provenance": "government-announced"
+    },
+    {
+      "date": "2024-01-26",
+      "operator": "株式会社フェイガー",
+      "certified_tco2": 5955,
+      "source_id": "S05",
+      "provenance": "government-announced"
+    },
+    {
+      "date": "2024-01-26",
+      "operator": "NTTコミュニケーションズ株式会社",
+      "certified_tco2": 114,
+      "source_id": "S05",
+      "provenance": "government-announced"
+    },
+    {
+      "date": "2025-01-07",
+      "operator": "田中産業グループ",
+      "certified_tco2": 1629,
+      "source_id": "S09",
+      "provenance": "operator-reported"
+    }
+  ],
+  "ag005_reference_fields": [
+    "ag005_baseline_years",
+    "ag005_extension_days",
+    "field_area",
+    "midseason_start",
+    "midseason_end",
+    "heading_date",
+    "drainage_class",
+    "organic_amendment",
+    "region",
+    "emission_factor"
+  ],
+  "data_quality": "transcribed fact tables from uploaded research compilation; original publisher bytes not acquired; human method mapping not done"
+}
