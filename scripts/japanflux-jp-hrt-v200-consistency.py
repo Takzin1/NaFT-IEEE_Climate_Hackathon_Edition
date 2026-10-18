@@ -151,6 +151,8 @@ def audit_archive(path, source_pin, cross_pin):
             and cross_pin.get('schema') == 'naft-jphrt-v200-cross-resolution-pin-v1',
             'JPHRT_CROSS_PIN_SCHEMA')
     native_report, native_bytes = native_engine.inspect(path, source_pin)
+    require(cross_pin.get('original_archive_sha256') == native_report['archive_sha256'],
+            'JPHRT_CROSS_ARCHIVE_PIN_MISMATCH')
     require(native_report['native_series_sha256'] == cross_pin['expected_native_sha256'],
             'JPHRT_NATIVE_OUTPUT_PIN_MISMATCH')
     methods = cross_pin['badm_metadata_evidence']
