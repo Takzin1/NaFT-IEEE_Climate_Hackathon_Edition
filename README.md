@@ -33,6 +33,12 @@
 
 **Honest scope:** No Berkeley workbook or other external field dataset has yet been ingested in the IEEE demo. This preflight identifies **data-drift review candidates**, not proven methodology-affected claims, real-world carbon impacts, verified source completeness or on-chain anchored outcomes.
 
+## Asia research comparison: annual completeness & source-byte provenance
+
+An [Asia–Japan research compatibility layer](docs/asia-mrv-baseline-parity-2026-10-18.md) supports CH4 / CH4-C and N2O / N2O-N unit interpretation, foreign JCM isolation and cross-region physical comparisons. The guarded `naftAsiaDeclaredAnnualCoverage()` adds **explicit declared season coverage** and rejects country, year, method, source, field, planted-area and missing-season drift. The previous seasonal aggregate is now labeled **recorded seasons only** (not automatically a complete year). All official credit outputs remain null.
+
+Original uploaded Asia ZIP provenance can be reproduced separately with `python3 scripts/verify-asia-research-pack.py verify ORIGINAL_ZIP`; `python3 scripts/verify-asia-research-pack.py local` checks only the repository's normalized research excerpts and **does not** authenticate external publisher originals. Neither calculation nor source checks alter the IEEE 100-claim synthetic demo or create Sepolia transactions.
+
 ## J-Credit AG-005 v3.5 Rule Lock / GX-ETS isolated research logic
 
 The new [Japanese AG-005 & GX-ETS gap specification](docs/ag005-gxets-rule-gap-2026-10-18.md) and [versioned research-source baseline](data/ag005-rule-gap-2026-10-18.json) are checked into the independent IEEE repository. **AG-005@3.5 remains `CONFIG_REQUIRED / UNSUPPORTED`** because authoritative PDF bytes, SHA-256, effective date, approved NID coefficient tables and transition rules have not been independently acquired. No certification or official credit outputs are emitted.
