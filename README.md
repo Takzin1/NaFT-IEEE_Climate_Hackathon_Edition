@@ -33,6 +33,12 @@
 
 **Honest scope:** No Berkeley workbook or other external field dataset has yet been ingested in the IEEE demo. This preflight identifies **data-drift review candidates**, not proven methodology-affected claims, real-world carbon impacts, verified source completeness or on-chain anchored outcomes.
 
+## Japan MRV research baseline (attributed; **not** certified field data)
+
+The [2026-10-18 research baseline](data/japan-mrv-research-2026-10-18/baseline.json) normalizes **9 experimental treatment designs**, **3 selected study ratios with standard errors**, **4 program-level publicly reported totals**, and **10 AG-005 descriptive evidence fields** from the uploaded research compilation, with **16 source links and pinned original ZIP/file SHA-256s**. The [live demo](https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain) now links this baseline beside the separate synthetic rule-change scenario.
+
+`node scripts/japan-mrv-baseline.mjs inspect` or `node scripts/japan-mrv-baseline.mjs site F3` gives a research-reference report that **fails closed** (`CONFIG_REQUIRED`, `EVIDENCE_REQUIRED`; calculated tCO₂ and eligibility `null`). The ZIP verifier validates the *supplied compilation's* bytes, not original publisher authenticity. **No official AG-005 coefficient, farmer monitoring data, source-document reuse license or J-Credit eligibility is implied.** [Provenance, source URLs, ZIP reproduction and full limitations](docs/japan-mrv-research-baseline.md).
+
 ## Three-pillar judge check
 
 **Detect a corrupted evidence manifest → independently recompile changed and unchanged synthetic claims → inspect pre-existing P1/P2 lineage on Ethereum Sepolia.** In the [live app](https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain), click **Run 100-claim methodology update**, then **Verify all 3 pillars** and optionally **Download 3-pillar proof JSON**. The checker fails closed on manipulated classifications, counts or successor package hashes.
