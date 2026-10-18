@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {reviewJapanPrimarySources,preflightNidFactorCandidate,
- preflightJapanFluxObservations} from '../src/japan-primary-evidence-preflight.mjs';
+ preflightJapanFluxObservations,preflightNid2026TohokuPrintedSubset} from '../src/japan-primary-evidence-preflight.mjs';
 const load=()=>JSON.parse(fs.readFileSync(new URL('../research/japan-primary-evidence-2026-10-18/source-register.json',import.meta.url),'utf8'));
 let n=0;const check=(condition,msg)=>{assert.ok(condition,msg);n++};
 const reject=(fn,pattern)=>{assert.throws(fn,new RegExp(pattern));n++};
@@ -78,4 +78,39 @@ for(const [change,error] of [
  [x=>x.rows[0].unexpected=1,'FLUX_ROW_SCHEMA_INVALID'],
  [x=>x.local_file_sha256='fake','JAPANFLUX_PRECHECK']
 ]){const row=structuredClone(measured);change(row);reject(()=>preflightJapanFluxObservations(row),error);}
+const printed=JSON.parse(fs.readFileSync(new URL('../research/japan-primary-evidence-2026-10-18/nid2026-tohoku-2024-table545.json',import.meta.url),'utf8'));
+const sel={inventory_edition:'2026',factor_year:'2024',region:'東北',
+ drainage:'FOUR_HOUR_DRAINAGE',water_management:'INTERMITTENT_IRRIGATION',
+ organic:'none',intended_use:'RESEARCH_REPLAY_ONLY'};
+const replay=preflightNid2026TohokuPrintedSubset(printed,sel);
+check(replay.value===59&&replay.printed_unit==='kg-CH4-C/ha');
+check(replay.time_basis==='NOT_INFERRED_FROM_PRINTED_UNIT');
+check(replay.source_pdf_bytes_verified===false&&replay.official_jcredit_factor_usable===false);
+check(replay.certification_or_verified_reduction_tco2e===null);
+for(const [change,error] of [
+ [x=>x.printed_factor_unit='kg_CH4_C_per_ha_year','NID_PRINTED_SUBSET_SOURCE'],
+ [x=>x.inventory_edition='2025','NID_PRINTED_SUBSET_SOURCE'],
+ [x=>x.source_pdf_sha256='f'.repeat(64),'NID_PRINTED_SUBSET_SOURCE'],
+ [x=>x.original_document_bytes_cryptographically_verified=true,'NID_PRINTED_SUBSET_SOURCE'],
+ [x=>x.official_jcredit_method_use_verified=true,'NID_PRINTED_SUBSET_SOURCE'],
+ [x=>x.strata[0].straw=693,'NID_SUBSET_TRANSCRIPTION'],
+ [x=>x.strata[1].printed_page='5-99','NID_SUBSET_TRANSCRIPTION'],
+ [x=>x.strata[0].extra=1,'NID_SUBSET_STRATUM_SCHEMA'],
+ [x=>x.strata[1].drainage=x.strata[0].drainage,'NID_SUBSET_TRANSCRIPTION'],
+ [x=>x.strata.pop(),'NID_PRINTED_SUBSET_SOURCE']
+]){
+ const doc=structuredClone(printed);change(doc);
+ reject(()=>preflightNid2026TohokuPrintedSubset(doc,sel),error);
+}
+for(const [change,error] of [
+ [x=>x.intended_use='J_CREDIT_ISSUANCE','NID_SUBSET_SELECTION'],
+ [x=>x.factor_year='2023','NID_SUBSET_SELECTION'],
+ [x=>x.region='関東','NID_SUBSET_SELECTION'],
+ [x=>x.organic='other','NID_SUBSET_SELECTION'],
+ [x=>x.drainage='UNAVAILABLE_DRAINAGE','NID_SUBSET_STRATUM']
+]){
+ const s=structuredClone(sel);change(s);
+ reject(()=>preflightNid2026TohokuPrintedSubset(printed,s),error);
+}
+
 console.log('JAPAN_PRIMARY_EVIDENCE_PREFLIGHT_PASS: '+n+' guard assertions; all official outputs null');
