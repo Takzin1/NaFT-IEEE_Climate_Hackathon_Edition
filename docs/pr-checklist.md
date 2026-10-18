@@ -2,6 +2,7 @@
 
 - Target branch and protected source references verified; no forced history update.
 - Only MRV responsibilities and necessary primitives remain.
+- Ponytail-inspired minimal-change check: reuse existing implementation, built-ins or platform facilities first; justify any new dependency or abstraction. Never trade away evidence integrity, negative tests, version-aware re-verification or the Sepolia hash-lineage boundary.
 - Methodology/version/adapter provenance, deterministic checks, stale/duplicate/integrity guards retained.
 - Normal cases have no redundant approvals; exception and final-attestation boundaries enforced.
 - Original files remain local; prototype limitations and CONFIG REQUIRED visible.
