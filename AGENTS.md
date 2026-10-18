@@ -31,6 +31,19 @@ Use build-free vanilla JS and existing function conventions. Keep page rendering
 
 Methodology identity, implemented rule version, calculation version and adapter version belong in evidence/evaluation/package provenance. No long-lived authorization/integrity cache. Attested documents are immutable through supported operations. Avoid dead code for removed domains.
 
+## Smallest-complete-change review (Ponytail-inspired)
+
+Before editing, trace the affected call path, tests, fixtures and user-visible failure modes. Choose the first solution that **fully** satisfies the request:
+
+1. If the behavior already exists, document or exercise it instead of rebuilding it.
+2. Reuse a helper or established pattern in this repository.
+3. Prefer JavaScript/Node standard APIs and the browser platform over new dependencies.
+4. Only then write the smallest clear change and update every affected caller.
+
+For NaFT's IEEE demo, protect three explicit invariants: corrupted evidence **fails closed**; selective re-verification remains source-bound, version-aware and independently testable; Sepolia records **hash lineage only**, never environmental certification. Do not remove negative tests, weaken trust-boundary checks, fabricate results, rewrite chain history or add wallet signing to simplify code. A nontrivial code change needs a targeted positive and negative test; a docs-only edit needs no invented test.
+
+In the PR explain what was reused, why new complexity was needed (if any), what was tested and what remains unverified. This is an instruction-only adaptation of the minimal-change approach from [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) (MIT); **do not install remote hooks, vendor upstream code or change runtime dependencies by default**.
+
 ## Verification
 
 Run `bash tests/run.sh` before and after changes. Cover positive and negative boundaries; do not retain removed-feature tests to preserve counts. Update README, relevant docs and the actual test count. Check the exact pushed SHA's CI. Record browser validation limits honestly.
