@@ -39,6 +39,12 @@ An [Asia–Japan research compatibility layer](docs/asia-mrv-baseline-parity-202
 
 Original uploaded Asia ZIP provenance can be reproduced separately with `python3 scripts/verify-asia-research-pack.py verify ORIGINAL_ZIP`; `python3 scripts/verify-asia-research-pack.py local` checks only the repository's normalized research excerpts and **does not** authenticate external publisher originals. Neither calculation nor source checks alter the IEEE 100-claim synthetic demo or create Sepolia transactions.
 
+## Japan NID 2026 published coefficients + original observation onramp
+
+A new [Japanese primary-evidence research onramp](docs/japan-2026-primary-evidence-onramp.md) keeps the original Itoh et al. (2011) nine-site experiment, JapanFlux2024 JP-Hrt measurement-data DOI, and NIES / Environment Ministry 2026 national inventory in distinct evidence classes. **18 actual published national-inventory coefficients** for *Tohoku, 2024* (Table 5-45; kg-CH4-C/ha, no extended midseason drainage) are transcribed directly from the official Chapter 5 PDF and pinned in [the research source table](research/japan-primary-evidence-2026-10-18/nid2026-tohoku-2024-table545.json). Read-only selector: `src/nid-2026-published-subset.mjs`. Original publisher PDF bytes are **not** yet independently SHA-256 authenticated.
+
+The `src/japan-primary-evidence-preflight.mjs` stages source-attributed *unverified* NID factor candidates or future raw JapanFlux CH4 rows while blocking false official authorization, unverified units, missing flux gap-filling, mismatched chronology and counterfeit source claims. No J-Credit AG-005 factor is approved by this import, no annual or field emissions have been inferred from raw missing measurements, and **all certified/official project results stay null**. Run `node tests/nid-2026-published-subset.test.mjs` and `node tests/japan-primary-evidence-preflight.test.mjs`.
+
 ## J-Credit AG-005 v3.5 Rule Lock / GX-ETS isolated research logic
 
 The new [Japanese AG-005 & GX-ETS gap specification](docs/ag005-gxets-rule-gap-2026-10-18.md) and [versioned research-source baseline](data/ag005-rule-gap-2026-10-18.json) are checked into the independent IEEE repository. **AG-005@3.5 remains `CONFIG_REQUIRED / UNSUPPORTED`** because authoritative PDF bytes, SHA-256, effective date, approved NID coefficient tables and transition rules have not been independently acquired. No certification or official credit outputs are emitted.
