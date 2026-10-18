@@ -1,0 +1,7 @@
+{
+  "schema": "naft-japanflux-jp-hrt-v200-pin-1",
+  "archive_sha256": "bffad17bd7acf962eb1af9fa4f2092c038a813291b9fc4c79e548674101d40eb",
+  "source_hh_csv_sha256": "3692a7b3d4da4b8fb19eade724f785289c74e94a63de4742e62d9e08c01d2e95",
+  "source_metadata_pdf_sha256": "855100367b84c856801119571fe0b3bd98a9a6782d7de8acfbb9818352f408ed",
+  "source_site_badm_sha256": "ed2c231a290eab9aa297b491104e8c0977a986152f4a1658cfe913bad4e7f847"
+}
