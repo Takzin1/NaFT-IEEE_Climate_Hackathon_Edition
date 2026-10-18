@@ -122,9 +122,11 @@ for resolution,(suffix,expected) in audit.RESOLUTIONS.items():
     rejected(lambda:audit.resolution_availability(
         b'TIMESTAMP,FCH4\n1,-9999.0\n',expected,resolution),
         'JPHRT_RESOLUTION_HEADER')
+    crlf=normal.replace(b'\n',b'\r\n')
+    check(audit.resolution_availability(crlf,expected,resolution)==status)
     rejected(lambda:audit.resolution_availability(
-        csv_aggregate(resolution,invalid=True),expected,resolution),
-        'not supposed to reject') if False else None
+      normal.replace(b'\n',b'\r'),expected,resolution),
+      'JPHRT_RESOLUTION_NEWLINE')
 
 with TemporaryDirectory() as working:
     archive=Path(working)/'jphrt-synthetic.zip'
