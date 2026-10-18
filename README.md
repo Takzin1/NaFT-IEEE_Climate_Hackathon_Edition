@@ -170,3 +170,5 @@ See [LICENSE](LICENSE). This is a research prototype, not a certified carbon-cre
 ## Asia rice methane original-source metadata dock (2026-10-19)
 
 [IEEE source-index Dock contract](docs/ieee-asia-source-dock-2026-10-19.md): 8 original dataset/study DOI references, 6 publisher-MD5-matched transient original file SHA-256 digests and site-specific CH4-C vs umol source-header guards imported unchanged from [Japanese NaFT PR #32](https://github.com/Takzin1/NaFT/pull/32). **Metadata and provenance only**, not raw scientific observations; no official climate credits, emission reductions or measurement simulation is inferred.
+
+**Asia Dock second-stage guard:** The separate [IEEE Asia source acceptance gate](docs/ieee-asia-source-dock-2026-10-19.md) now audits the six upstream source-file fingerprint assertions against the eight-source catalog and refuses claims that the data were reproduced, licensed or certified. Run `node scripts/ieee-asia-dock-export.mjs`; this is metadata-only and does not alter the synthetic demo.

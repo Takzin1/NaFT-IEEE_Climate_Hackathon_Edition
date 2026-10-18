@@ -33,6 +33,7 @@ node tests/ag005-engine.test.mjs
 node tests/ag005-v33-gxets.test.mjs
 node tests/asia-mrv-compat.test.js
 node tests/asia-source-dock.test.mjs
+node tests/ieee-asia-source-dock.test.mjs
 node tests/asia-native-field-header.test.mjs
 python3 tests/asia-ephemeral-provenance.test.py
 node tests/ipcc-stage-reference.test.mjs

@@ -40,3 +40,10 @@ python3 tests/asia-ephemeral-provenance.test.py
 \`\`\`
 
 **Next research-only stage**: authorized raw original retrieval and license review → site-specific QC and calendar mapping → independent physical-unit conversion and integration → external model comparison with measured residuals → separately review possible jurisdiction methods. IEEE climate evidence hashing and Sepolia historical witnesses remain untouched.
+
+
+## Stage-2 acceptance guard: paper reference is not a scientific claim
+
+The [IEEE-specific metadata handoff verifier](../scripts/ieee-asia-source-dock.mjs) checks that **every upstream original SHA256 in the six-file verification log corresponds to the advertised MD5 filename in the eight-source catalog**. It rejects modified or duplicate file claims, falsified approval flags, mismatched MD5, and any attempt to present regional model data as official observations. Output [can be recomputed using the exporter](../scripts/ieee-asia-dock-export.mjs) and is protected by [deliberate adversarial tests](../tests/ieee-asia-source-dock.test.mjs).
+
+The source CSV/ZIP/Excel bytes are not present in this IEEE repository. The SHA-256 digests were observed by **Japanese GitHub Actions**, not re-downloaded or scientifically verified here. The handoff explicitly holds field-observation imports, model outputs, Japanese AG-005/GX-ETS eligibility, licensed redistribution, scientific replication, and certified CO₂e at false/zero/null. The IEEE claim compiler and demonstration remain untouched.
