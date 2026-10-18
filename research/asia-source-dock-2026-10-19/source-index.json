@@ -1,0 +1,246 @@
+{
+  "schema": "naft-asia-source-index-v1",
+  "prepared_date": "2026-10-19",
+  "scope": "PUBLIC_SOURCE_DISCOVERY_AND_EPHEMERAL_INTEGRITY_ONLY",
+  "license_note": "Public access is not redistribution permission. The GitHub index contains metadata only. No source dataset is redistributed.",
+  "independent_download_attempt": {
+    "environment": "assistant-container",
+    "result": "FAILED_NETWORK_DNS_OR_CONNECTIVITY",
+    "verified_original_file_count": 0
+  },
+  "ieee_dock": {
+    "contract": "naft-ieee-observation-source-dock-v1",
+    "transfer_policy": "METADATA_ONLY",
+    "required_checklist": [
+      "doi",
+      "source_class",
+      "jurisdiction",
+      "file_md5_match",
+      "original_sha256",
+      "license_reviewed",
+      "units_verified",
+      "time_semantics_verified",
+      "qc_semantics_verified"
+    ],
+    "block_auto_qualification": true,
+    "block_cross_jurisdiction_factor_transfer": true,
+    "block_observation_vs_model_mix": true
+  },
+  "sources": [
+    {
+      "id": "KR_GIMJE_DAILY_2022_2024",
+      "doi": "10.5281/zenodo.17111992",
+      "record_url": "https://zenodo.org/records/17111992",
+      "source_class": "CHAMBER_DAILY_RESEARCH_OBSERVATION",
+      "jurisdiction": "KR",
+      "priority": 0,
+      "published_metadata_checked": true,
+      "downloaded_original_bytes": false,
+      "original_sha256": null,
+      "license_status": "REVIEW_REQUIRED",
+      "redistribution_permitted": null,
+      "independent_field_environment_verified": false,
+      "certified_jcredit_usable": false,
+      "adapter_status": "SOURCE_SPECIFIC_MAPPING_REQUIRED",
+      "notes": "Daily CH4 g/m2/day; DAT, temperature, rainfall, water management. Published study 2026 Nature Scientific Reports.",
+      "authors": [
+        "Hyoung Seok Lee"
+      ],
+      "files": [
+        {
+          "filename": "ch4.zip",
+          "md5_published": "b9ada3a76a2bce1dbd3c9c77f51424f7",
+          "size_approx_bytes": 66300,
+          "kind": "RAW_CANDIDATE"
+        },
+        {
+          "filename": "input_fields_meta.xlsx",
+          "md5_published": "ba661a41238697b7ac1915c0d3890aa2",
+          "size_approx_bytes": 16700,
+          "kind": "SITE_METADATA"
+        }
+      ],
+      "target_adapter": "DAILY_G_CH4_M2_DAY_V1",
+      "method": "STATIC_CHAMBER_DAILY_FLUX",
+      "associated_paper": "https://doi.org/10.1038/s41598-026-49883-4",
+      "reference_software": {
+        "url": "https://github.com/lhs0218/gimje_ch4",
+        "commit_sha": "45525f01642c3069d03177e8801070da1dcb3450"
+      }
+    },
+    {
+      "id": "CN_RICE_EDDY_EAST_2023",
+      "doi": "10.5281/zenodo.8067998",
+      "record_url": "https://zenodo.org/records/8067998",
+      "source_class": "EDDY_OBSERVATION_AND_METADATA",
+      "jurisdiction": "CN",
+      "priority": 0,
+      "published_metadata_checked": true,
+      "downloaded_original_bytes": false,
+      "original_sha256": null,
+      "license_status": "REVIEW_REQUIRED",
+      "redistribution_permitted": null,
+      "independent_field_environment_verified": false,
+      "certified_jcredit_usable": false,
+      "adapter_status": "SOURCE_SPECIFIC_MAPPING_REQUIRED",
+      "notes": "Publisher SHA-confirmed files show two DISTINCT forms: data1.csv CH4-umol/m2/s with Year/Month/Day/Hour/Minute; data2.csv CH4-gC/m2/day with Year/DOY. Unit, timezone, temporal support and QC must be source-reviewed before ingestion.",
+      "files": [
+        {
+          "filename": "Supporting information data2.csv",
+          "md5_published": "08ff8209e69bc6719a70fe5e83a1bd0c",
+          "size_approx_bytes": 150800,
+          "kind": "SUPPORTING_AGGREGATE_CANDIDATE"
+        },
+        {
+          "filename": "Supporting information data1.csv",
+          "md5_published": "d131f18e37fe0a19ef7d65c2c69d0d58",
+          "size_approx_bytes": 13300000,
+          "kind": "HOURLY_OBSERVATION_CANDIDATE"
+        }
+      ],
+      "target_adapter": "SOURCE_SPECIFIC_CH4_C_DAILY_AND_UMOL_HOURLY_REVIEW",
+      "method": "EDDY_COVARIANCE_UNIT_UNCONFIRMED",
+      "associated_paper": "https://doi.org/10.1029/2023JG007632"
+    },
+    {
+      "id": "JP_HIRATSUKA_JAPANFLUX_2024",
+      "doi": "10.17592/001.2024121020",
+      "record_url": "https://ads.nipr.ac.jp/data/meta/A20241210-020",
+      "source_class": "SITE_EDDY_COVARIANCE_DATASET",
+      "jurisdiction": "JP",
+      "priority": 0,
+      "published_metadata_checked": true,
+      "downloaded_original_bytes": false,
+      "original_sha256": null,
+      "license_status": "REVIEW_REQUIRED",
+      "redistribution_permitted": null,
+      "independent_field_environment_verified": false,
+      "certified_jcredit_usable": false,
+      "adapter_status": "SOURCE_SPECIFIC_MAPPING_REQUIRED",
+      "notes": "JP-Hrt Hiratsuka Rice Paddy, 2013 coverage candidate; data paper has corrigendum. Determine whether site-specific CH4 variable exists before ingesting.",
+      "data_paper": "https://doi.org/10.5194/essd-17-3807-2025",
+      "corrigendum_notice": true,
+      "files": [],
+      "target_adapter": "SOURCE_SPECIFIC_REVIEW"
+    },
+    {
+      "id": "KR_CRK_FLUXNET_CH4",
+      "doi": "10.18140/FLX/1669649",
+      "record_url": "https://fluxnet.org/data/fluxnet-ch4-community-product/",
+      "source_class": "HARMONIZED_TOWER_DATASET",
+      "jurisdiction": "KR",
+      "priority": 1,
+      "published_metadata_checked": true,
+      "downloaded_original_bytes": false,
+      "original_sha256": null,
+      "license_status": "REVIEW_REQUIRED",
+      "redistribution_permitted": null,
+      "independent_field_environment_verified": false,
+      "certified_jcredit_usable": false,
+      "adapter_status": "SOURCE_SPECIFIC_MAPPING_REQUIRED",
+      "notes": "FLUXNET-CH4 V1 policies Tier 1/2 per site; timestamps local standard time; -9999 missing, columns by name; cannot assume UTC.",
+      "data_portal": "https://fluxnet.org/download-data/",
+      "target_adapter": "EDDY_NMOL_CH4_M2_S_V1",
+      "files": [],
+      "policy_must_check_site": true
+    },
+    {
+      "id": "ASIA_OUYANG_8DAY_2022",
+      "doi": "10.5281/zenodo.7145497",
+      "record_url": "https://zenodo.org/records/7145497",
+      "source_class": "MODEL_GRID_ESTIMATE_NOT_FIELD_OBSERVATION",
+      "jurisdiction": "ASIA",
+      "priority": 2,
+      "published_metadata_checked": true,
+      "downloaded_original_bytes": false,
+      "original_sha256": null,
+      "license_status": "REVIEW_REQUIRED",
+      "redistribution_permitted": null,
+      "independent_field_environment_verified": false,
+      "certified_jcredit_usable": false,
+      "adapter_status": "SOURCE_SPECIFIC_MAPPING_REQUIRED",
+      "notes": "Upscaled gridded 5km/8-day model outputs based on 23 EC sites; never use as unmodified raw field flux.",
+      "files": [
+        {
+          "filename": "RiceCH4_mgCH4m2day_annual.zip",
+          "md5_published": "59743e36d366b4d25691d7069d0adea4",
+          "size_approx_bytes": 2500000,
+          "kind": "ANNUAL_GRID_MODEL"
+        },
+        {
+          "filename": "RiceCH4_mgCH4m2day_8-day.zip",
+          "md5_published": "c429358f3cb960ef80833f7dbd361dec",
+          "size_approx_bytes": 272000000,
+          "kind": "EIGHT_DAY_GRID_MODEL"
+        }
+      ],
+      "target_adapter": "GRID_MODEL_COMPARISON_ONLY"
+    },
+    {
+      "id": "SEA9_TIER2_INVENTORY_2026",
+      "doi": "10.5281/zenodo.20453139",
+      "record_url": "https://zenodo.org/records/20453139",
+      "source_class": "MODEL_INVENTORY_AND_UNCERTAINTY_NOT_FIELD_OBSERVATION",
+      "jurisdiction": "SEA9",
+      "priority": 2,
+      "published_metadata_checked": true,
+      "downloaded_original_bytes": false,
+      "original_sha256": null,
+      "license_status": "REVIEW_REQUIRED",
+      "redistribution_permitted": null,
+      "independent_field_environment_verified": false,
+      "certified_jcredit_usable": false,
+      "adapter_status": "SOURCE_SPECIFIC_MAPPING_REQUIRED",
+      "notes": "Derived regional Tier2 inventory, MC2000 and Shapley decomposition; associated manuscript under review, not peer reviewed confirmed.",
+      "files": [
+        {
+          "filename": "zenodo_package_v1.0.0.zip",
+          "md5_published": "409c255193b6044efc5b6e699eb71994",
+          "size_approx_bytes": 3900000,
+          "kind": "MODEL_MONTE_CARLO_PACKAGE"
+        }
+      ],
+      "target_adapter": "MODEL_UNCERTAINTY_BENCHMARK_ONLY",
+      "peer_review_status": "UNDER_REVIEW"
+    },
+    {
+      "id": "JP_YAGI_1996_PUBLISHED",
+      "doi": "10.1029/96GB00517",
+      "record_url": "https://doi.org/10.1029/96GB00517",
+      "source_class": "PUBLISHED_AGGREGATE_NO_RAW_TIMESERIES",
+      "jurisdiction": "JP",
+      "priority": 1,
+      "published_metadata_checked": true,
+      "downloaded_original_bytes": false,
+      "original_sha256": null,
+      "license_status": "REVIEW_REQUIRED",
+      "redistribution_permitted": null,
+      "independent_field_environment_verified": false,
+      "certified_jcredit_usable": false,
+      "adapter_status": "SOURCE_SPECIFIC_MAPPING_REQUIRED",
+      "notes": "1991/1993 water-management CH4 totals; underlying time series not retrieved.",
+      "files": [],
+      "target_adapter": "PUBLISHED_AGGREGATE_ONLY"
+    },
+    {
+      "id": "JP_NISHIMURA_2004_PUBLISHED",
+      "doi": "10.1029/2003GB002207",
+      "record_url": "https://doi.org/10.1029/2003GB002207",
+      "source_class": "PUBLISHED_AGGREGATE_NO_RAW_TIMESERIES",
+      "jurisdiction": "JP",
+      "priority": 1,
+      "published_metadata_checked": true,
+      "downloaded_original_bytes": false,
+      "original_sha256": null,
+      "license_status": "REVIEW_REQUIRED",
+      "redistribution_permitted": null,
+      "independent_field_environment_verified": false,
+      "certified_jcredit_usable": false,
+      "adapter_status": "SOURCE_SPECIFIC_MAPPING_REQUIRED",
+      "notes": "Chamber concentration regression required before interval flux integration; no concentration originals acquired.",
+      "files": [],
+      "target_adapter": "PUBLISHED_AGGREGATE_ONLY"
+    }
+  ],
+  "acquisition_log_note": "Separate verified-ephemeral-acquisition.json records GitHub-hosted 6-file publisher MD5 matching & SHA-256 digests, but files not redistributed. This index remains catalog-only."
+}

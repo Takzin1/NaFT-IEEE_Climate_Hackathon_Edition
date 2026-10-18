@@ -166,3 +166,7 @@ See [LICENSE](LICENSE). This is a research prototype, not a certified carbon-cre
 ## Cross-language IPCC/JCM independent oracle (research only)
 
 [Independent stage/PH scope audit](docs/asia-ipcc-jcm-independent-oracle-2026-10-18.md): exact-rational JavaScript vs independently coded Python Decimal reproduction of IPCC 2019 worked-example EF rounding (410.472 vs 409.7277036 Gg CH4); Philippines PH_AM004 synthetic GWP, Ud schedule and optional reference / mandatory project pump conditions. Run `node scripts/asia-independent-replay.mjs`, `node tests/ipcc-stage-reference.test.mjs`, `python3 tests/asia-independent-oracle.test.py`. Never identifies real farm credit eligibility or certified reductions.
+
+## Asia rice methane original-source metadata dock (2026-10-19)
+
+[IEEE source-index Dock contract](docs/ieee-asia-source-dock-2026-10-19.md): 8 original dataset/study DOI references, 6 publisher-MD5-matched transient original file SHA-256 digests and site-specific CH4-C vs umol source-header guards imported unchanged from [Japanese NaFT PR #32](https://github.com/Takzin1/NaFT/pull/32). **Metadata and provenance only**, not raw scientific observations; no official climate credits, emission reductions or measurement simulation is inferred.

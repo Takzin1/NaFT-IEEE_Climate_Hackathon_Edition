@@ -1,0 +1,21 @@
+import assert from 'node:assert/strict';
+import {nativeHeaderGate,syntheticCarbonToMethaneResearch} from '../scripts/lib/asia-native-field-header.mjs';
+let n=0;const yes=x=>{assert.ok(x);n++},eq=(x,y)=>{assert.equal(x,y);n++},bad=(f,s)=>{assert.throws(f,new RegExp(s));n++};
+const kr=nativeHeaderGate('KR_GIMJE_DAILY_2022_2024',['DAT','tavg','course_type','ch4_flux','rain_mm']);
+eq(kr.status,'HEADER_CLASSIFIED_NOT_MAPPED');yes(!kr.eligible_for_automatic_replay);
+yes(kr.missing_requirements.includes('VERIFIED_TRANSPLANTING_DATE_BY_FIELD'));
+yes(!kr.native_qc_column_present);
+bad(()=>nativeHeaderGate('KR_GIMJE_DAILY_2022_2024',['date','ch4_flux']),'KR_GIMJE_UNVERIFIED_HEADER');
+const cn=nativeHeaderGate('CN_RICE_EDDY_EAST_2023',
+ ['Year','DOY','Month','day','NEE-gC/m2/day','Re-gC/m2/day','GPP-gC/m2/day','CH4-gC/m2/day','LAI-m2/m2']);
+eq(cn.mass_basis,'CH4_C');eq(cn.status,'CARBON_MASS_BASIS_REQUIRES_EXPLICIT_CONVERSION');
+yes(!cn.eligible_for_automatic_replay);
+bad(()=>nativeHeaderGate('CN_RICE_EDDY_EAST_2023',['Year','DOY','Month','day','NEE-gC/m2/day','Re-gC/m2/day','GPP-gC/m2/day','CH4-gCH4/m2/day']),'CN_CH4_CARBON_HEADER_NOT_VERIFIED');
+bad(()=>nativeHeaderGate('ASIA_OUYANG_8DAY_2022',[]),'UNREGISTERED_NATIVE_SOURCE');
+const z=syntheticCarbonToMethaneResearch('0.012000');
+eq(z.output_mg_ch4_per_m2_day,'16.000000000');eq(z.actual_source_flux_replayed,false);
+eq(z.official_jcredit_eligibility,null);
+eq(syntheticCarbonToMethaneResearch('-0.006000').output_mg_ch4_per_m2_day,'-8.000000000');
+bad(()=>syntheticCarbonToMethaneResearch('1000000'),'CH4_CARBON_INVALID_DECIMAL');
+bad(()=>syntheticCarbonToMethaneResearch('1.2345678'),'CH4_CARBON_INVALID_DECIMAL');
+console.log('ASIA_NATIVE_SCHEMA_PASS: '+n+' native-source header and CH4_C / CH4 unit gates');
