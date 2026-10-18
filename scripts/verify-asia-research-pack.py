@@ -112,6 +112,16 @@ def normalized():
             and len({r.get('id') for r in full_citations})==10
             and all(str(r.get('url','')).startswith('https://') for r in full_citations),
             'FULL_SOURCE_CATALOG_INVALID')
+    # Canonical JSON locks the author's originally uploaded reference values,
+    # not the original scientific publisher files.
+    ref_digest=sha(json.dumps(full_cases,sort_keys=True,separators=(',',':'),
+                             ensure_ascii=False).encode('utf-8'))
+    citation_digest=sha(json.dumps(full_citations,sort_keys=True,separators=(',',':'),
+                                  ensure_ascii=False).encode('utf-8'))
+    require(ref_digest=='85e1b24230974dfd9810a019e531a6546b9ab1903c1ed9f740a57d3e80d63f88',
+            'FULL_REFERENCE_ARCHIVE_PARITY_MISMATCH')
+    require(citation_digest=='d8254beb663c6e8f8f0eb1b1a41de32abc4d00d4fdc5e917c05506402851e475',
+            'FULL_SOURCE_ARCHIVE_PARITY_MISMATCH')
     return fixtures,sources
 
 def verify_archive(file):
