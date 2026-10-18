@@ -48,6 +48,10 @@ with tempfile.TemporaryDirectory(prefix='naft-asia-source-') as tmp:
     run(fixtures,s,'CURATED_SOURCE_URL_MISMATCH')
     s=copy.deepcopy(sources);s['sources'][0]['id']=s['sources'][1]['id']
     run(fixtures,s,'CURATED_SOURCE_INDEX_INVALID')
+    # Restore clean curated fixtures before testing the missing-archive boundary.
+    (module.DIR/'fixtures.json').write_text(json.dumps(fixtures),encoding='utf-8')
+    (module.DIR/'source-manifest.json').write_text(json.dumps(sources),encoding='utf-8')
+    module.normalized()
     try:
         module.verify_archive(module.DIR/'missing.zip')
     except ValueError as error:
