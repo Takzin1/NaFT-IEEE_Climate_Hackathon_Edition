@@ -29,6 +29,9 @@ node tests/ieee-source-snapshot.test.mjs
 node tests/japan-mrv-baseline.test.mjs
 node --check src/asia-mrv-research.mjs
 node tests/asia-mrv-research.test.mjs
+node scripts/asia-mrv-research.mjs inspect >/dev/null
+node scripts/asia-mrv-research.mjs ipcc >/dev/null
+python3 -c "import ast; ast.parse(open('scripts/verify-asia-research-pack.py', encoding='utf-8').read())"
 node tests/ag005-engine.test.mjs
 node tests/ag005-v33-gxets.test.mjs
 node tests/ag005-formula-parity-regression.test.mjs
