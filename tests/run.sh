@@ -41,6 +41,8 @@ node tests/japan-observation-adapters.test.mjs
 python3 tests/japan-observation-adapters-independent.test.py
 node tests/japan-ieee-oracle-parity.test.mjs
 node tests/ieee-observation-receipt.test.mjs
+python3 -m py_compile scripts/ieee-observation-independent-oracle.py
+node tests/ieee-observation-dual-replay.test.mjs
 node tests/japan-field-study-replay.test.js
 python3 tests/japan-field-independent-oracle.test.py
 node tests/asia-native-field-header.test.mjs
