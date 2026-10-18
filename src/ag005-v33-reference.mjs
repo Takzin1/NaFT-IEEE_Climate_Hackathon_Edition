@@ -142,7 +142,8 @@ export function evaluateAg005V33Reference(input) {
   const gwp=guardedValue(input.gwp.value,'0.000000000001','1000','synthetic_gwp');
   if(!Array.isArray(input.segments)||input.segments.length<1||input.segments.length>100)
     STOP('AG_SEGMENTS_INVALID');
-  const allIds=new Set(),outputs=[],issues=[],totalStart=dec('0'),totalEnd=dec('0');
+  const allIds=new Set(),outputs=[],issues=[];
+  let sumBL=dec('0'),sumPJ=dec('0');
   for(const seg of input.segments){
     if(!obj(seg))STOP('AG_SEGMENT_INVALID');
     requireId(seg.id,'AG_FIELD_ID_INVALID');
@@ -179,13 +180,13 @@ export function evaluateAg005V33Reference(input) {
       emissions={em_bl:repr(baseline),em_pj:repr(project),er:repr(sub(baseline,project)),
         ratio:'0.7',ef_m0:repr(ef),ef_m1:repr(mul(ef,dec('0.7'))),
         unit:'indicative_tCO2e_per_year'};
-      totalStart.n; // read-only marker: no mutation of the exact arithmetic library.
     } else issues.push({id:seg.id,code:'OFFICIAL_COEFFICIENT_CONFIG_REQUIRED'});
     const allowed=!issues.some(i=>i.id===seg.id);
     if(allowed&&emissions){
       const factor=div(mul(gwp,dec('16')),dec('12000'));
       const baseline=mul(mul(area,organic.ef_rational),factor);
-      totalStart.n; // no implicit numeric conversion
+      sumBL=add(sumBL,baseline);
+      sumPJ=add(sumPJ,mul(baseline,dec('0.7')));
       outputs.push({id:seg.id,days:dayResult,drainage,organic_branch:organic.branch,
         arithmetic_reference:emissions,evidence_gate:'PASSED_SELF_DECLARED_SYNTHETIC'});
     }else outputs.push({id:seg.id,days:dayResult,drainage,
@@ -200,6 +201,10 @@ export function evaluateAg005V33Reference(input) {
     from_input_sha256:sha(input),method_version:'3.3-reference',
     rules_status:'REFERENCE_UNVERIFIED_ORIGINAL',status,issues,segments:outputs,
     preview_available:status==='RESEARCH_PREVIEW_ONLY',
+    aggregate_reference:status==='RESEARCH_PREVIEW_ONLY'?{
+      em_bl:repr(sumBL),em_pj:repr(sumPJ),er:repr(sub(sumBL,sumPJ)),
+      formula:'sum(area * (E0/Eorganic - 0.7 * E0/Eorganic) * (16/12) * illustrative_GWP / 1000)',
+      unit:'indicative_tCO2e_per_year',official_rounding_applied:false}:null,
     certified_tco2e:null,credits_issued:null,certification:false,
     gx_ets_combination_allowed:false,onchain_writes:false};
   return {...payload,report_sha256:sha(payload)};
@@ -222,4 +227,14 @@ export function compareAg005ReferenceDependencies(oldInput,newInput) {
   return {status:changed.length?'REVERIFY_REQUIRED':'NO_DEPENDENCY_CHANGE',
     changed_dependencies:changed,automated_official_eligibility:false,
     certification:false,old_sha256:sha(oldInput),new_sha256:sha(newInput)};
+}
+
+/** Source-bound replay refuses forged report fields even after re-hashing. */
+export function verifyAg005V33ReferenceReport(input,report){
+  if(!obj(report)||typeof report.report_sha256!=='string')STOP('AG_REPORT_INVALID');
+  const {report_sha256,...body}=report;
+  if(sha(body)!==report_sha256)STOP('AG_REPORT_DIGEST_MISMATCH');
+  if(canon(evaluateAg005V33Reference(input))!==canon(report))
+    STOP('AG_SOURCE_BOUND_REPLAY_MISMATCH');
+  return {verified:true,report_sha256};
 }
