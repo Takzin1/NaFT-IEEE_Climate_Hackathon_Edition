@@ -96,7 +96,7 @@ for(const [change,error] of [
  [x=>x.strata[0].straw=693,'NID_SUBSET_TRANSCRIPTION'],
  [x=>x.strata[1].printed_page='5-99','NID_SUBSET_TRANSCRIPTION'],
  [x=>x.strata[0].extra=1,'NID_SUBSET_STRATUM_SCHEMA'],
- [x=>x.strata[1].drainage=x.strata[0].drainage,'NID_SUBSET_TRANSCRIPTION'],
+ [x=>x.strata[1].water_management=x.strata[0].water_management,'NID_SUBSET_TRANSCRIPTION'],
  [x=>x.strata.pop(),'NID_PRINTED_SUBSET_SOURCE']
 ]){
  const doc=structuredClone(printed);change(doc);
