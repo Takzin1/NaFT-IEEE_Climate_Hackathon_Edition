@@ -156,3 +156,7 @@ See [LICENSE](LICENSE). This is a research prototype, not a certified carbon-cre
 ## Monsoon Asia published-reference parity checks (research only)
 
 [Asia–Japan 2026-10-18 gap audit](docs/asia-mrv-baseline-parity-2026-10-18.md) and [provenance-locked comparison fixtures](research/asia-mrv-2026-10-18/fixtures.json) replay the published IPCC rounded worked example (410.47 Gg CH₄/year), check kg-CH₄-C ↔ kg-CH₄, distinguish annual and crop-season quantities, and prevent Philippines/Japan method transfer and Taiwan cross-year averaging. Run `node tests/asia-mrv-compat.test.js`. The full user-supplied Python ZIP remains separately archived; only normalized, selected fixture excerpts are committed. **Neither actual field measurements nor official approved Japan AG-005 rules have been added.**
+
+## Cross-language IPCC/JCM independent oracle (research only)
+
+[Independent stage/PH scope audit](docs/asia-ipcc-jcm-independent-oracle-2026-10-18.md): exact-rational JavaScript vs independently coded Python Decimal reproduction of IPCC 2019 worked-example EF rounding (410.472 vs 409.7277036 Gg CH4); Philippines PH_AM004 synthetic GWP, Ud schedule and optional reference / mandatory project pump conditions. Run `node scripts/asia-independent-replay.mjs`, `node tests/ipcc-stage-reference.test.mjs`, `python3 tests/asia-independent-oracle.test.py`. Never identifies real farm credit eligibility or certified reductions.
