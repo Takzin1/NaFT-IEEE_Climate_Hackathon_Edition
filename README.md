@@ -1,15 +1,18 @@
 # NaFT — Version-Aware Climate MRV
 
-> **Carbon markets need evidence that survives methodology change.**
+**Problem — What needs re-verification when climate MRV rules change?** NaFT traces methodology and evidence dependencies so operators can identify which historical claims need review, and why.
 
-**Core value:** Selective re-verification of versioned MRV evidence.
-**Blockchain role:** External witness of package lineage, **not climate certification**.
+**Try it in one step — [Open the live demo](https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain) → click “Run 100-claim methodology update.”** No installation, login or wallet required.
+
+**Demo video — [Watch/download the 4:12 real-browser walkthrough (silent MP4)](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/39035967949/artifacts/12102053650).** This is a GitHub Actions artifact ZIP; GitHub sign-in may be required. A publicly hosted, narrated version has **not** been confirmed.
+
+> **Carbon markets need evidence that survives methodology change.** NaFT is a version-aware MRV evidence compiler and selective re-verification engine. Its Ethereum Sepolia evidence records package lineage, **not climate certification**.
+
+**What the demo proves:** In a **synthetic 100-claim scenario**, 30 claims are flagged for re-verification, 70 are unaffected; of the 30, 15 are automatically re-evaluated and 15 require new evidence. This is **not** a measured carbon reduction or a 70% cost/time saving.
 
 ## IEEE ClimateChain 2026 — Independent repository
 
-**Status: PUBLIC. Independent GitHub Pages and real-browser smoke validation passed on October 15, 2026. Automated video recorder preview passed on October 17, 2026; the full narrated demo and final Devpost submission are not yet confirmed.**
-
-Destination `main` preserves the original IEEE source HEAD as a real parent/ancestor of a two-parent migration merge commit. The destination bootstrap history remains its first-parent lineage. Eighty IEEE files were transferred byte-identically before destination-only changes, which are recorded separately. The original `NaFT/main`, Source PR #20, frozen refs, Sepolia contract and P1/P2 history have not been modified.
+**Release status:** Public app, GitHub Pages browser smoke, core CI and [Sepolia source-bound read-only verification](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/39039752142) have passed on `main` (October 17, 2026). The silent full-length demo is recorded; the narrated public video and Devpost submission are **not confirmed**.
 
 | Resource | Link |
 | --- | --- |
@@ -47,7 +50,7 @@ node tests/climatechain-contract-behavior.test.mjs
 bash scripts/verify-live-sepolia.sh
 ```
 
-Solidity local EVM and browser CI run in GitHub Actions. The [October 17 release CI run](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/39012705183) passed core regression, full-history secret scanning, Pages deployment and live-browser checks on source revision `3564daa9105d324099ca72e828bb560b029db072` (before later documentation updates). **Sepolia read-only verification did not pass on that revision:** the [October 17 RPC run](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/39012705244) could not retrieve the historical transaction receipts reliably from public providers (some also returned HTTP 522/400). An [earlier source-bound Sepolia verification](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189786240) did pass, but its result must not be presented as a successful fresh check. Re-run the read-only verification before making current-chain verification claims; do not infer new transactions or altered proofs from RPC unavailability.
+Solidity local EVM, browser smoke and history-security scanning are checked by [the latest successful `main` CI](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/39039752123). The [independent Sepolia read-only verification](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/39039752142) also passed on the **same release SHA** (`ea43dcbdb97b3c1cfa233784ae90577cbec56f69`), reconstructing recorded Solidity bytecode, P1/P2 calldata and events, and package lineage. Earlier October 17 RPC runs failed because public endpoints returned missing transaction/receipt data or HTTP 522/400; adding alternative public RPC fallbacks restored full read-only validation. This is evidence of testnet **lineage**, not independently certified emissions outcomes.
 
 ### Deterministic reviewer audit receipt (synthetic)
 
@@ -77,13 +80,15 @@ The English `#/climatechain` demo now lets reviewers filter and select every syn
 
 ### Standalone publication gate
 
-GitHub Actions includes public-only `deploy-pages` and a **post-deploy real-Chrome HTTP/UI smoke test**. The independent Pages site was deployed on October 15, 2026, and the [October 17 source-revision CI run](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/39012705183) passed both `deploy-pages` and `smoke-public-pages`, including public assets, the star logo, the 100/30/70/15/15 browser computation, P1/P2 links and the architecture SVG. The earlier lazy-loaded-image test issue was fixed; it is no longer an outstanding release gate. No keys or chain transactions are required.
+GitHub Actions includes public-only `deploy-pages` and a **post-deploy real-Chrome HTTP/UI smoke test**. The [October 17 `main` release CI](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/39039752123) passed both checks, including public assets, the star logo, the 100/30/70/15/15 browser computation, P1/P2 links and the architecture SVG. No keys or chain transactions are required.
 
 ### Independent verification evidence
 
-[Full IEEE migration and destination verification report](docs/INDEPENDENT_VERIFICATION_REPORT.md) records the historical 257-commit scan and original source-bound verification. For current release evidence, use the [October 17 full-ref security audit](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/39012705183) (357 reachable commits; Gitleaks scanned 327) and the latest available chain-verification result, rather than treating the older report as a current status page.
+[Full IEEE migration and destination verification report](docs/INDEPENDENT_VERIFICATION_REPORT.md) records the historical 257-commit scan and original source-bound verification. For up-to-date, source-SHA-specific release evidence, use the [latest passing `main` CI](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/39039752123) and [read-only Sepolia verification](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/39039752142), rather than treating the older report as a live status page.
 
 ### Important origin distinction
+
+Destination `main` preserves the original IEEE source HEAD as a real parent/ancestor of a two-parent migration merge commit. The destination bootstrap history remains its first-parent lineage. Eighty IEEE files were transferred byte-identically before destination-only changes, which are recorded separately. The original `NaFT/main`, Source PR #20, frozen refs, Sepolia contract and P1/P2 history have not been modified.
 
 The original source deployment commit `fb9016c6c3041ec0e77098e631d62138fbae582e` and Sepolia transaction links deliberately refer to **Takzin1/NaFT**, where the witness was originally deployed. Do not rewrite historical source references merely to make them appear native to the new repository.
 
