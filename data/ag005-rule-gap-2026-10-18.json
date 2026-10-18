@@ -1,0 +1,203 @@
+{
+  "title": "NaFT — J-Credit AG-005 & GX-ETS 計算ロジック技術仕様",
+  "version": "0.1.0-research",
+  "prepared_at": "2026-10-18",
+  "status": "RESEARCH_ONLY / NOT_CERTIFIED",
+  "focus": [
+    "AG-005",
+    "rule pack",
+    "evidence dependency",
+    "formula selection",
+    "GX-ETS isolation"
+  ],
+  "source_control": {
+    "METHOD_INDEX": "https://japancredit.go.jp/about/methodology/",
+    "AG005_V35_PDF": "https://japancredit.go.jp/pdf/methodology/AG-005_v3.5.pdf",
+    "AG005_V33_PRIMARY": "https://public-comment.e-gov.go.jp/pcm/download?seqNo=0000288301",
+    "MAFF_2026_GUIDE": "https://www.maff.go.jp/j/kanbo/kihyo03/gityo/g_kihon_sisin/attach/pdf/r8sisin-2.pdf",
+    "NID_2026": "https://www.nies.go.jp/gio/aboutghg/",
+    "NID_2026_AGRI_TABLES": "https://www.nies.go.jp/gio/archive/nirdata/2026.html",
+    "MAFF_AG_SIMULATOR": "https://www.maff.go.jp/j/kanbo/kankyo/seisaku/climate/jcredit/241226.html",
+    "GX_ETS_MANUAL": "https://www.meti.go.jp/policy/energy_environment/global_warming/ets_santeihoukoku.pdf",
+    "GX_ETS_VERIFICATION": "https://www.meti.go.jp/policy/energy_environment/global_warming/ets_kakunin.pdf",
+    "GX_ETS_PORTAL": "https://www.meti.go.jp/policy/energy_environment/global_warming/ets.html"
+  },
+  "source_review": {
+    "supplied_by": "user's 2026-10-18 technical gap specification",
+    "claimed_method_index_version": "3.5",
+    "claimed_revision_date": "2026-03-04",
+    "official_v35_pdf_bytes_retrieved": false,
+    "official_v35_pdf_sha256": null,
+    "v33_pdf_sha256_independently_pinned": null,
+    "claims_about_v33_clauses_independently_reverified_in_this_change": false,
+    "v33_status": "USER_SUPPLIED_PRIMARY_TEXT_TRANSCRIPTION_REFERENCE_ONLY",
+    "v35_status": "CONFIG_REQUIRED",
+    "last_method_access": "UNAVAILABLE_NO_WEB_SEARCH",
+    "certification_allowed": false
+  },
+  "rule_pack": {
+    "methodology_id": "AG-005",
+    "methodology_version": "3.5",
+    "rules_status": "CONFIG_REQUIRED",
+    "original_url": "https://japancredit.go.jp/pdf/methodology/AG-005_v3.5.pdf",
+    "original_sha256": null,
+    "official_effective_from": null,
+    "official_effective_to": null,
+    "applicability_transition_policy": null,
+    "verified_clause_map": [],
+    "coefficient_inventory_edition": null,
+    "coefficient_table_sha256": null,
+    "rounding_spec": null,
+    "gwp": null,
+    "certification_allowed": false
+  },
+  "v33_reference": {
+    "status": "REFERENCE_ONLY_V35_DIFF_REQUIRED",
+    "equations": {
+      "er": "ER = EM_BL - EM_PJ",
+      "embl": "Σ A_BL_f * EF_f_m0 * 16/12 * GWP_CH4 * 1e-3",
+      "empj": "Σ A_PJ_f * EF_f_m1 * 16/12 * GWP_CH4 * 1e-3",
+      "project_ef": "EF_m1 = EF_m0 * (1 - 0.3)",
+      "exact_unit": "area [ha] * EF [kg_CH4-C/ha/year] * 16/12 * GWP * 1e-3 = tCO2e/year"
+    },
+    "rate_constants": [
+      {
+        "key": "project_ef_ratio",
+        "value": "0.7",
+        "reference": "user-supplied v3.3 p.8 eq(8)",
+        "verified_for_v35": false
+      },
+      {
+        "key": "drainage_calibration",
+        "value": "1.22",
+        "reference": "user-supplied v3.3 p.7",
+        "verified_for_v35": false
+      },
+      {
+        "key": "drainage_poor_upper_exclusive",
+        "value": "7.5",
+        "unit": "mm/day",
+        "verified_for_v35": false
+      },
+      {
+        "key": "drainage_daily_upper_exclusive",
+        "value": "12.5",
+        "unit": "mm/day",
+        "verified_for_v35": false
+      },
+      {
+        "key": "straw_full_incorporation",
+        "value": "90",
+        "unit": "percent",
+        "verified_for_v35": false
+      },
+      {
+        "key": "compost_full_application",
+        "value": "1",
+        "unit": "t/10a",
+        "verified_for_v35": false
+      },
+      {
+        "key": "minimum_extension_days",
+        "value": "7",
+        "unit": "calendar days",
+        "verified_for_v35": false
+      }
+    ],
+    "factor_keys": [
+      "inventory_edition",
+      "factor_year",
+      "region",
+      "drainage",
+      "water_management",
+      "organic"
+    ],
+    "source_or_formula_review_gates": [
+      "inventory sha256 and edition",
+      "GWP applicability",
+      "factor year policy",
+      "stratum-to-plot evidence binding",
+      "source clause line spans",
+      "rollup and rounding version",
+      "farm measurements",
+      "human transition review"
+    ],
+    "hold_values": [
+      "original_sha256",
+      "official_effective_from",
+      "gwp",
+      "rounding_spec",
+      "coefficient_table_sha256"
+    ]
+  },
+  "gxets_domain": {
+    "id": "GX_ETS",
+    "separate_from": "J_CREDIT_AG005",
+    "fuel_only_reference_formula": "Q_fuel * heating_value_GJ_per_unit * carbon_factor_tC_per_GJ * 44/12",
+    "emission_result_unit": "tCO2",
+    "status": "RESEARCH_ONLY",
+    "unsupported_sources": [
+      "INDUSTRIAL_PROCESS",
+      "REDUCTANT",
+      "BYPRODUCT_FUEL",
+      "PURCHASED_ELECTRICITY",
+      "SCOPE_BOUNDARY_CHANGE"
+    ],
+    "official_reportable_tco2": null,
+    "allowances": null,
+    "third_party_verified": false
+  },
+  "number_kinds": {
+    "RESEARCH_OBSERVATION": "field or study observation, never certified",
+    "METHOD_CALCULATION": "reviewable rule-bound calculation, not itself certified",
+    "CERTIFIED_AMOUNT": "external registry or scheme record only",
+    "separate_domains": true
+  },
+  "impact_dependencies": [
+    "method_version",
+    "inventory_edition",
+    "factor_year",
+    "gwp_version",
+    "organic_material",
+    "drainage_measurement",
+    "midseason_dates",
+    "field_geometry",
+    "field_lineage",
+    "raw_evidence_bytes",
+    "human_review_decision"
+  ],
+  "acceptance_gates": [
+    {
+      "gate": "official_v35_original_sha256",
+      "pass": false
+    },
+    {
+      "gate": "v33_to_v35_clause_review",
+      "pass": false
+    },
+    {
+      "gate": "nid_required_year_coefficients",
+      "pass": false
+    },
+    {
+      "gate": "independent_maff_excel_parity",
+      "pass": false
+    },
+    {
+      "gate": "official_rounding_allocation",
+      "pass": false
+    },
+    {
+      "gate": "farm_evidence",
+      "pass": false
+    },
+    {
+      "gate": "scientific_and_certified_number_separated",
+      "pass": true
+    },
+    {
+      "gate": "gxets_separate_module",
+      "pass": true
+    }
+  ]
+}
