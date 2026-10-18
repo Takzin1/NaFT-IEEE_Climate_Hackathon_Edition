@@ -1,0 +1,115 @@
+{
+  "schema": "naft-japan-primary-source-register-1",
+  "prepared_at": "2026-10-18",
+  "policy": {
+    "research_only": true,
+    "official_jcredit_factor_bytes_verified": false,
+    "official_ag005_v35_adoption_verified": false,
+    "certified_tco2e": null,
+    "original_publisher_flux_file_downloaded": false
+  },
+  "sources": [
+    {
+      "id": "NID_JAPAN_2026",
+      "source_class": "OFFICIAL_NATIONAL_INVENTORY_PUBLICATION",
+      "authority": "National Institute for Environmental Studies / GIO",
+      "publication_date": "2026-04-14",
+      "source_url": "https://www.nies.go.jp/gio/archive/nir/qu9bd60000050ys2-att/NID-JPN-2026-v3.0_J_gioweb.pdf",
+      "access": "OFFICIAL_PDF_LINK_IDENTIFIED_BYTES_NOT_DOWNLOADED",
+      "source_sha256": null,
+      "scope": "National inventory of Japan, not AG-005 credit methodology",
+      "emission_factor_rows_ingested": 0
+    },
+    {
+      "id": "NID_AGRI_TABLES_2026",
+      "source_class": "OFFICIAL_NATIONAL_INVENTORY_TIME_SERIES_PORTAL",
+      "authority": "National Institute for Environmental Studies / GIO",
+      "publication_date": "2026-05-29",
+      "source_url": "https://www.nies.go.jp/gio/archive/nirdata/2026.html",
+      "access": "OFFICIAL_AGRICULTURE_DOWNLOAD_LINK_IDENTIFIED_BYTES_NOT_DOWNLOADED",
+      "source_sha256": null,
+      "scope": "NID agriculture (chapter 5) public time series; no year-stratified factor cells independently audited",
+      "emission_factor_rows_ingested": 0
+    },
+    {
+      "id": "AG005_OFFICIAL_CATALOG",
+      "source_class": "J_CREDIT_METHOD_CATALOG",
+      "authority": "J-Credit Scheme",
+      "publication_date": null,
+      "source_url": "https://japancredit.go.jp/about/methodology/",
+      "access": "CATALOG_LISTING_IDENTIFIED_METHOD_PDF_NOT_BYTE_VERIFIED",
+      "source_sha256": null,
+      "scope": "AG-005 claimed v3.5 (2026-03-04) pending verified adopted PDF and transition rules",
+      "method_revision_claim": "3.5",
+      "adopted_method_original_verified": false,
+      "emission_factor_rows_ingested": 0
+    },
+    {
+      "id": "ITOH_2011",
+      "source_class": "ORIGINAL_PEER_REVIEWED_PAPER_AGGREGATED_EXPERIMENT",
+      "authority": "Itoh et al. / Agriculture, Ecosystems & Environment",
+      "publication_date": "2011-05-01",
+      "source_url": "https://doi.org/10.1016/j.agee.2011.03.019",
+      "publisher_url": "https://www.sciencedirect.com/science/article/abs/pii/S0167880911001034",
+      "access": "PUBLISHER_ABSTRACT_AND_METHOD_SUMMARY_VERIFIED_FULL_RAW_FLUX_UNAVAILABLE",
+      "source_sha256": null,
+      "scope": "Nine Japanese sites, 2-year experiments; published means for selected treatment subset, NOT each plot's raw measurements",
+      "experiment_sites": 9,
+      "published_selected_treatment_ratios": [
+        {
+          "id": "SEASONAL_CH4_TO_CONVENTIONAL",
+          "value_percent": 69.5,
+          "standard_error_percent": 3.4
+        },
+        {
+          "id": "NET_GWP_TO_CONVENTIONAL",
+          "value_percent": 72,
+          "standard_error_percent": 3.1
+        },
+        {
+          "id": "GRAIN_YIELD_TO_CONVENTIONAL",
+          "value_percent": 96.2,
+          "standard_error_percent": 2
+        }
+      ],
+      "selection": "Only selected treatments with CH4 below 90% and yield above 85% of conventional",
+      "raw_field_flux_rows_ingested": 0
+    },
+    {
+      "id": "JAPANFLUX2024_JP_HRT",
+      "source_class": "RESEARCH_DATASET_WITH_PRIMARY_MEASUREMENTS",
+      "authority": "JapanFlux2024 / Komiya / Arctic Data archive System",
+      "publication_date": "2025-01-01",
+      "source_url": "https://doi.org/10.17592/001.2024121020",
+      "source_paper": "https://doi.org/10.5194/essd-17-3807-2025",
+      "access": "DOI_IDENTIFIED_ORIGINAL_CSV_NOT_DOWNLOADED",
+      "source_sha256": null,
+      "scope": "JP-Hrt rice paddy eddy-covariance CH4; observational site, no AG-005 treatment/control comparison; CH4 not generally gap-filled",
+      "license_claim": "CC BY 4.0 per JapanFlux2024 paper; site-specific conditions need verification",
+      "flux_rows_ingested": 0
+    },
+    {
+      "id": "IPCC_2019_RICE_GUIDELINE",
+      "source_class": "OFFICIAL_SCIENTIFIC_INVENTORY_GUIDELINE",
+      "authority": "IPCC 2019 Refinement, Volume 4 Chapter 5",
+      "publication_date": "2019-01-01",
+      "source_url": "https://www.ipcc-tfi.iges.or.jp/public/2019rf/pdf/4_Volume4/19R_V4_Ch05_Cropland.pdf",
+      "access": "ORIGINAL_LINK_IDENTIFIED_EXISTING_RESEARCH_STAGE_REPLAY",
+      "source_sha256": null,
+      "scope": "General Tier 1 worked examples, not an approved Japan J-Credit factor table",
+      "emission_factor_rows_ingested": 0
+    },
+    {
+      "id": "GLOBAL_RICE_1961_2020",
+      "source_class": "MODELLED_ESTIMATES_NOT_FIELD_MEASUREMENTS",
+      "authority": "Qin / figshare",
+      "publication_date": "2025-06-16",
+      "source_url": "https://figshare.com/articles/dataset/Global_rice_paddy_methane_emissions_from_1961_to_2020/29287904",
+      "access": "DATASET_DESCRIPTION_IDENTIFIED_BYTES_NOT_DOWNLOADED",
+      "source_sha256": null,
+      "scope": "CH4MOD, random-forest CH4-ML and IPCC-style CH4-EF simulations; NOT direct field observations",
+      "field_measurements_present": false,
+      "license_claim": "CC BY 4.0"
+    }
+  ]
+}
