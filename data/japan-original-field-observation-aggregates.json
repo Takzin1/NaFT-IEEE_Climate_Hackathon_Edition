@@ -1,0 +1,132 @@
+{
+  "schema": "naft-jp-original-published-observation-1",
+  "prepared_date": "2026-10-18",
+  "legal_status": "RESEARCH_AGGREGATE_ONLY_NOT_J_CREDIT",
+  "source_file_integrity": "ORIGINAL_FULLTEXT_BYTES_NOT_RETRIEVED_OR_HASHED",
+  "published_reported_aggregates_not_raw_measurements": true,
+  "scientific_reproduction_limit": "Published observed aggregates can be independently recalculated; original temperature, rainfall, soil chemistry, time-resolved fluxes, and environmental simulation cannot be reconstructed here.",
+  "studies": [
+    {
+      "id": "YAGI_1996",
+      "title": "Effect of water management on methane emission from a Japanese rice paddy field: Automated methane monitoring",
+      "authors": "Yagi, Tsuruta, Kanda, Minami",
+      "doi": "10.1029/96GB00517",
+      "url": "https://doi.org/10.1029/96GB00517",
+      "data_kind": "PEER_REVIEWED_PUBLISHED_MEASURED_AGGREGATES",
+      "measurement": "automated methane monitoring",
+      "site_id": "YAGI_EXPERIMENTAL_JAPAN_FIELD",
+      "matched_by": "same reported research site and calendar year; different treatment plots",
+      "environment": {
+        "same_site_design": true,
+        "actual_daily_air_temperature": null,
+        "soil_eh_series": null,
+        "precipitation_series": null,
+        "raw_flux_series": null,
+        "match_verified": false
+      },
+      "unit": "g_CH4_m2_cropping_season",
+      "contrasts": [
+        {
+          "year": 1991,
+          "baseline_regime": "CONTINUOUS_FLOOD",
+          "alternative_regime": "INTERMITTENT_DRAINAGE",
+          "baseline_g_ch4_m2": "14.8",
+          "alternative_g_ch4_m2": "8.63",
+          "raw_daily_measurements_available": false
+        },
+        {
+          "year": 1993,
+          "baseline_regime": "CONTINUOUS_FLOOD",
+          "alternative_regime": "INTERMITTENT_DRAINAGE",
+          "baseline_g_ch4_m2": "9.49",
+          "alternative_g_ch4_m2": "5.18",
+          "raw_daily_measurements_available": false
+        }
+      ]
+    },
+    {
+      "id": "NISHIMURA_2004",
+      "title": "Methane and nitrous oxide emissions from a paddy field with Japanese conventional water management and fertilizer application",
+      "authors": "Nishimura, Sawamoto, Akiyama, Sudo, Yagi",
+      "doi": "10.1029/2003GB002207",
+      "url": "https://doi.org/10.1029/2003GB002207",
+      "data_kind": "PEER_REVIEWED_PUBLISHED_MEASURED_AGGREGATES",
+      "measurement": "duplicated closed chamber automated gas sampling",
+      "site_id": "NISHIMURA_JAPAN_LYSIMETER_2002",
+      "year": 2002,
+      "environment": {
+        "crop_period_start": "2002-05-09",
+        "crop_period_end": "2002-09-24",
+        "annual_period_start": "2002-01-01",
+        "annual_period_end": "2002-12-31",
+        "first_flood_date": "2002-05-09",
+        "approximately_flooded_until": "2002-07-03",
+        "final_drain_approx": "2002-09-05",
+        "precipitation_series": null,
+        "air_temperature_series": null,
+        "water_depth_series": null,
+        "soil_eh_series": null,
+        "raw_flux_series": null,
+        "percolation_approx_cm_day": "1",
+        "nitrogen_fertilizer_kg_n_ha_annual": "90",
+        "daily_gap_filling": "adjacent-date linear interpolation, original interpolated raw series unavailable",
+        "raw_2hour_chamber_measurements_available": false,
+        "environment_match_verified": false
+      },
+      "cumulative": [
+        {
+          "gas": "CH4",
+          "mass_basis": "mg_CH4_m2",
+          "crop_period": "3180",
+          "fallow_period": "-51",
+          "annual": "3128",
+          "standard_deviation": {
+            "crop": "1728",
+            "fallow": "10",
+            "annual": "1718"
+          },
+          "printed_resolution_mg_m2": "1"
+        },
+        {
+          "gas": "N2O",
+          "mass_basis": "mg_N2O_N_m2",
+          "crop_period": "2.6",
+          "fallow_period": "57.7",
+          "annual": "60.2",
+          "standard_deviation": {
+            "crop": "10.1",
+            "fallow": "8.7",
+            "annual": "1.4"
+          },
+          "printed_resolution_mg_m2": "0.1"
+        }
+      ]
+    }
+  ],
+  "future_source": {
+    "id": "KOREA_GIMJE_ZENODO_2022_2024",
+    "doi": "10.5281/zenodo.17111992",
+    "url": "https://zenodo.org/records/17111992",
+    "license": "NOT_CONFIRMED",
+    "file_expected": [
+      "ch4.zip",
+      "input_fields_meta.xlsx"
+    ],
+    "original_bytes_downloaded": false,
+    "original_csv_rows_ingested": false,
+    "expected_environment_fields": [
+      "latitude",
+      "longitude",
+      "rice_variety",
+      "planting_date",
+      "harvest_date",
+      "soil_texture",
+      "water_management",
+      "DAT",
+      "air_temperature_c",
+      "daily_ch4_flux_g_m2_day",
+      "precipitation_mm_day"
+    ],
+    "status": "SOURCE_METADATA_VERIFIED_FILE_IMPORT_PENDING"
+  }
+}
