@@ -42,9 +42,12 @@ function naftAsiaRegulatoryFactorGate(factor,request){
 }
 function naftAsiaIpcc2019Example(strata){
  if(!Array.isArray(strata)||strata.length!==5)naftAsiaFail('IPCC_EXPECTED_FIVE_REFERENCE_STRATA');
+ var published={CF:[1500000,1.48,102],MD:[1500000,.81,102],rainfed:[900000,.59,102],upland:[450000,0,102],deepwater:[150000,.18,220]};
  var seen=new Set(),sum=0;
  for(var x of strata){
   naftAsiaText(x.id,'stratum_id');if(seen.has(x.id))naftAsiaFail('IPCC_DUPLICATE_STRATUM');seen.add(x.id);
+  var pinned=published[x.id];
+  if(!pinned||x.harvested_area_ha_year!==pinned[0]||x.daily_ef_kg_ch4_ha_day!==pinned[1]||x.season_days!==pinned[2])naftAsiaFail('IPCC_REFERENCE_RECORD_MISMATCH');
   if(x.unit!=='kg_CH4_ha_day'||x.status!=='PUBLISHED_ROUNDED_REFERENCE')naftAsiaFail('IPCC_UNIT_OR_SCOPE_MISMATCH');
   var n=naftAsiaNum(x.harvested_area_ha_year,'area')*naftAsiaNum(x.daily_ef_kg_ch4_ha_day,'daily_EF')*naftAsiaNum(x.season_days,'days')/1e6;
   if(!Number.isFinite(n))naftAsiaFail('IPCC_OVERFLOW');sum+=n;
