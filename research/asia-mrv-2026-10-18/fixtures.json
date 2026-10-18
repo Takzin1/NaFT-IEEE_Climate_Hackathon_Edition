@@ -1,0 +1,99 @@
+{
+  "schema": "naft-asia-comparison-fixtures-1",
+  "research_only": true,
+  "source_file": "NaFT_Asia_MRV_Research_And_TestPack_2026-10-18(1).zip",
+  "source_original_zip_sha256": "f8d4460d8a6e3fa4129469a7e4df5995998d82484a90b7a75fdd8b610e933406",
+  "official_jcredit_outputs_enabled": false,
+  "ipcc2019_rounded_strata": [
+    {
+      "id": "CF",
+      "harvested_area_ha_year": 1500000,
+      "daily_ef_kg_ch4_ha_day": 1.48,
+      "season_days": 102,
+      "unit": "kg_CH4_ha_day",
+      "status": "PUBLISHED_ROUNDED_REFERENCE"
+    },
+    {
+      "id": "MD",
+      "harvested_area_ha_year": 1500000,
+      "daily_ef_kg_ch4_ha_day": 0.81,
+      "season_days": 102,
+      "unit": "kg_CH4_ha_day",
+      "status": "PUBLISHED_ROUNDED_REFERENCE"
+    },
+    {
+      "id": "rainfed",
+      "harvested_area_ha_year": 900000,
+      "daily_ef_kg_ch4_ha_day": 0.59,
+      "season_days": 102,
+      "unit": "kg_CH4_ha_day",
+      "status": "PUBLISHED_ROUNDED_REFERENCE"
+    },
+    {
+      "id": "upland",
+      "harvested_area_ha_year": 450000,
+      "daily_ef_kg_ch4_ha_day": 0,
+      "season_days": 102,
+      "unit": "kg_CH4_ha_day",
+      "status": "PUBLISHED_ROUNDED_REFERENCE"
+    },
+    {
+      "id": "deepwater",
+      "harvested_area_ha_year": 150000,
+      "daily_ef_kg_ch4_ha_day": 0.18,
+      "season_days": 220,
+      "unit": "kg_CH4_ha_day",
+      "status": "PUBLISHED_ROUNDED_REFERENCE"
+    }
+  ],
+  "published_case_metadata": [
+    {
+      "id": "TAIWAN_2023_SECOND",
+      "calendar_year": "2023",
+      "season": "second",
+      "unit": "kg_CH4_per_ha_season",
+      "cf": 676,
+      "conventional": 346,
+      "intermittent": 167,
+      "source_id": "TW_2025_YANG",
+      "status": "PUBLISHED_AGGREGATE_NOT_REGULATORY_FACTOR"
+    },
+    {
+      "id": "TAIWAN_2024_FIRST",
+      "calendar_year": "2024",
+      "season": "first",
+      "unit": "kg_CH4_per_ha_season",
+      "cf": 317,
+      "conventional": 76,
+      "intermittent": 38,
+      "source_id": "TW_2025_YANG",
+      "status": "PUBLISHED_AGGREGATE_NOT_REGULATORY_FACTOR"
+    },
+    {
+      "id": "KOREA_ANSEONG_2026",
+      "climate": "temperate monsoon",
+      "max_reduction_percent": 74.6,
+      "source_id": "KR_2026_JANG",
+      "status": "ABSTRACT_ONLY_NOT_REGULATORY_FACTOR"
+    },
+    {
+      "id": "VIETNAM_CENTRAL_2019_2021",
+      "reduction_ch4_percent": 34,
+      "increase_n2o_percent": 46,
+      "reduction_water_percent": 33,
+      "source_id": "VN_CENTRAL",
+      "status": "ABSTRACT_ONLY_NOT_REGULATORY_FACTOR"
+    },
+    {
+      "id": "PH_AM004",
+      "source_id": "PH_AM004",
+      "uncertainty_by_schedule": {
+        "DIRECT_MEASUREMENT:3": 0.05,
+        "DIRECT_MEASUREMENT:4": 0.1,
+        "DIRECT_MEASUREMENT:5": 0.1,
+        "COUNTRY_FACTOR_PLUS_MEASUREMENT:5": 0.15
+      },
+      "status": "PH_JCM_ONLY_NOT_JAPAN"
+    }
+  ]
+}

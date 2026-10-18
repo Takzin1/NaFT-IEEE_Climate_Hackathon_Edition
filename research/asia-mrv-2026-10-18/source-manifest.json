@@ -1,0 +1,45 @@
+{
+  "schema": "naft-asia-mrv-source-lock-1",
+  "prepared_at": "2026-10-18",
+  "source_uploaded_zip_sha256": "f8d4460d8a6e3fa4129469a7e4df5995998d82484a90b7a75fdd8b610e933406",
+  "original_publisher_bytes_independently_verified": false,
+  "approved_in_japan": false,
+  "source_scope": "Transcribed from ZIP, not original field measurements; exact original ZIP and checksums retained in user attachment.",
+  "sources": [
+    {
+      "id": "IPCC2019",
+      "url": "https://www.ipcc-tfi.iges.or.jp/public/2019rf/pdf/4_Volume4/19R_V4_Ch05_Cropland.pdf",
+      "type": "IPCC_PUBLISHED_ROUNDED_REFERENCE"
+    },
+    {
+      "id": "PH_AM004",
+      "url": "https://www.jcm.go.jp/jc/wp-content/uploads/sites/3/JCM_PH_AM004_ver01.0.pdf",
+      "type": "PH_FOREIGN_JCM_ONLY"
+    },
+    {
+      "id": "JAPAN_AG005",
+      "url": "https://japancredit.go.jp/about/methodology/",
+      "type": "JP_ADOPTED_CURRENT_SOURCE_NOT_BYTE_VERIFIED"
+    },
+    {
+      "id": "JP_GXETS",
+      "url": "https://www.meti.go.jp/policy/energy_environment/global_warming/ets.html",
+      "type": "JP_CO2_CORPORATE_SEPARATE"
+    },
+    {
+      "id": "TW_2025_YANG",
+      "url": "https://doi.org/10.6165/tai.2025.70.530",
+      "type": "PUBLISHED_FIELD_AGGREGATE"
+    },
+    {
+      "id": "KR_2026_JANG",
+      "url": "https://doi.org/10.1016/j.agee.2026.110406",
+      "type": "PUBLISHED_STUDY_ABSTRACT"
+    },
+    {
+      "id": "VN_CENTRAL",
+      "url": "https://www.sciencedirect.com/science/article/pii/S1161030123002605",
+      "type": "PUBLISHED_STUDY_ABSTRACT"
+    }
+  ]
+}
