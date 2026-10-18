@@ -126,4 +126,3 @@ export function preflightJapanFluxObservations(x){
   seasonal_integrated_kg_ch4:null,methodology_emission_reduction_tco2e:null,
   credits_issued:null};
 }
-
