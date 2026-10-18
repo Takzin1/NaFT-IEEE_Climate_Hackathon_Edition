@@ -42,3 +42,21 @@ The original ZIP's separate 21 Python tests and seven-fixture checker were execu
 - **P1** Obtain consented field records or open-licensed originals, verify sensor calibration and source identity.
 - **P1** Expand adversarial tests for malformed IDs, temporal discontinuity, field lineage, multi-harvest accounting, measured uncertainties, and document-to-rule dependencies.
 - **P2** Replace assumed equal labor time per flagged claim with measured per-status effort; keep cost arithmetic separate from tCO₂e.
+
+## Follow-up: explicit annual coverage and archive source-lock (2026-10-18)
+
+**Corrected interpretation:** The existing `naftAsiaSeasonalAggregate()` returns a result for *recorded seasons only* and explicitly reports `annual_coverage_verified:false`. One missing season can no longer silently be represented by its status as a whole-year observation.
+
+**New guard:** `naftAsiaDeclaredAnnualCoverage(rows,declaration)` requires declared `country`, `calendar_year`, `field_id`, `methodology_id`, `data_status` (SYNTHETIC or RESEARCH_REFERENCE), `source_manifest_sha256`, positive `field_area_ha`, and 1–4 unique `expected_season_ids`. Every row must be for the same field/year, method, source digest and data status, match the field area, and include an identifiable `source_record_id` and `source_uri`. All expected seasons must be present exactly once; extra seasons and mismatches fail closed.
+
+Passing this gate demonstrates only *operator-declared* coverage, **not independently verified completeness**, approved factors, or field evidence. Outputs explicitly retain `annual_coverage_verified:false`, `original_sources_verified:false`, and `official_jcredit_tco2e:null`. A negative research reduction receives a separate negative status.
+
+**Original ZIP verifier:** Uses the pinned original uploaded Asia ZIP SHA-256 and all ten per-file checksums. Original data is never extracted or executed. CI can check the curated, committed metadata without the ZIP; archive verification additionally requires the exact user-provided local file.
+
+```bash
+python3 scripts/verify-asia-research-pack.py local
+python3 tests/asia-archive-verifier.test.py
+python3 scripts/verify-asia-research-pack.py verify /path/to/NaFT_Asia_MRV_Research_And_TestPack_2026-10-18.zip
+```
+
+Neither local nor ZIP verification authenticates the original publishers' PDF bytes, licenses, sensors, current adopted Japanese methodology, institutional credits, or on-chain claims. The IEEE synthetic demo and Sepolia lineage code remain unchanged.
