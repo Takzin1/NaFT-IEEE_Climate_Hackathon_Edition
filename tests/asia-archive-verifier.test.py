@@ -52,6 +52,10 @@ with tempfile.TemporaryDirectory(prefix='naft-asia-source-') as tmp:
     run(fixtures,s,'CURATED_SOURCE_URL_MISMATCH')
     s=copy.deepcopy(sources);s['sources'][0]['id']=s['sources'][1]['id']
     run(fixtures,s,'CURATED_SOURCE_INDEX_INVALID')
+    # Restore the two normalized excerpts after preceding adversarial mutations.
+    (module.DIR/'fixtures.json').write_text(json.dumps(fixtures),encoding='utf-8')
+    (module.DIR/'source-manifest.json').write_text(json.dumps(sources),encoding='utf-8')
+    module.normalized()
     forged=copy.deepcopy(full_cases)
     forged['reference_cases'][0]['expected_exact']=999
     (module.DIR/'full-reference-cases.json').write_text(json.dumps(forged),encoding='utf-8')
