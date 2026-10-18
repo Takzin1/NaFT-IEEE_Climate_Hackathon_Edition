@@ -146,3 +146,7 @@ The original source deployment commit `fb9016c6c3041ec0e77098e631d62138fbae582e`
 ## License
 
 See [LICENSE](LICENSE). This is a research prototype, not a certified carbon-credit registry, token minting service or operational claim of climate truth.
+
+## Monsoon Asia published-reference parity checks (research only)
+
+[Asia–Japan 2026-10-18 gap audit](docs/asia-mrv-baseline-parity-2026-10-18.md) and [provenance-locked comparison fixtures](research/asia-mrv-2026-10-18/fixtures.json) replay the published IPCC rounded worked example (410.47 Gg CH₄/year), check kg-CH₄-C ↔ kg-CH₄, distinguish annual and crop-season quantities, and prevent Philippines/Japan method transfer and Taiwan cross-year averaging. Run `node tests/asia-mrv-compat.test.js`. The full user-supplied Python ZIP remains separately archived; only normalized, selected fixture excerpts are committed. **Neither actual field measurements nor official approved Japan AG-005 rules have been added.**
