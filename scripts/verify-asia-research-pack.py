@@ -89,6 +89,29 @@ def normalized():
     index={r['id']:r['url'] for r in urls}
     require(all(index.get(k)==v for k,v in known.items()),
             'CURATED_SOURCE_URL_MISMATCH')
+    full_cases=json.loads((DIR/'full-reference-cases.json').read_text(encoding='utf-8'))
+    full_sources=json.loads((DIR/'full-source-manifest.json').read_text(encoding='utf-8'))
+    expected_ids={'IPCC2019_TIER1_MULTIPLE_DRAINAGE','IPCC2019_TIER1_CONTINUOUS_FLOOD',
+                  'TAIWAN_2023_SECOND_SEASON','TAIWAN_2024_FIRST_SEASON',
+                  'KOREA_ANSEONG_2026','VIETNAM_CENTRAL_2019_2021','JCM_PH_AM004_V1'}
+    ref_rows=full_cases.get('reference_cases')
+    require(full_cases.get('schema')=='naft-asia-mrv-research-fixtures-1'
+            and isinstance(ref_rows,list) and len(ref_rows)==7
+            and {r.get('id') for r in ref_rows}==expected_ids,
+            'FULL_REFERENCE_COVERAGE_INVALID')
+    require('RESEARCH_BENCHMARK_ONLY' in full_cases.get('policy','')
+            and full_cases.get('source_status')==
+                'Source URLs and published abstracts checked; primary research instrument files and individual flux records not independently downloaded',
+            'FULL_REFERENCE_SCOPE_INVALID')
+    full_citations=full_sources.get('citations')
+    require(full_sources.get('schema')=='naft-asia-mrv-benchmark-sources-1'
+            and full_sources.get('original_archive_sha256')==ORIGINAL_SHA
+            and full_sources.get('official_validation') is False
+            and full_sources.get('downloaded_original_document_sha256_verified') is False
+            and isinstance(full_citations,list) and len(full_citations)==10
+            and len({r.get('id') for r in full_citations})==10
+            and all(str(r.get('url','')).startswith('https://') for r in full_citations),
+            'FULL_SOURCE_CATALOG_INVALID')
     return fixtures,sources
 
 def verify_archive(file):
@@ -134,6 +157,10 @@ def verify_archive(file):
         require(b.get('official_validation') is False
                 and b.get('downloaded_original_document_sha256_verified') is False,
                 'BENCHMARK_AUTHORITY_OVERCLAIM')
+        full_refs=json.loads((DIR/'full-reference-cases.json').read_text(encoding='utf-8'))
+        full_sources=json.loads((DIR/'full-source-manifest.json').read_text(encoding='utf-8'))
+        require(full_refs==original,'FULL_REFERENCE_ARCHIVE_PARITY_MISMATCH')
+        require(full_sources['citations']==b['citations'],'FULL_SOURCE_ARCHIVE_PARITY_MISMATCH')
         citations={r['id']:r['url'] for r in b['citations']}
         source_index={r['id']:r['url'] for r in sources['sources']}
         for source_id,benchmark_id in [('PH_AM004','PH_AM004@1.0'),
