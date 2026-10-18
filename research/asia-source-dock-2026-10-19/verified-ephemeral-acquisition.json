@@ -1,0 +1,168 @@
+{
+  "schema": "naft-ephemeral-upstream-byte-verification-v1",
+  "captured_date": "2026-10-19",
+  "acquired_in": "GITHUB_ACTIONS_UBUNTU_EPHEMERAL",
+  "github_action_run_url": "https://github.com/Takzin1/NaFT/actions/runs/39142424578",
+  "source_commit_sha": "776463701ffeaa0488b92f0e86acdce5aefe449e",
+  "publisher_checksum_algorithm": "MD5",
+  "actual_digest_algorithm": "SHA256",
+  "verified_ephemeral_file_count": 6,
+  "permanently_redistributed_file_count": 0,
+  "data_license_independently_reviewed": false,
+  "raw_observation_columns_inspected_not_values": true,
+  "original_bytes_available_in_repo": false,
+  "formal_calculation_or_certification_allowed": false,
+  "export_to_ieee": "SOURCE_PROVENANCE_METADATA_ONLY",
+  "files": [
+    {
+      "dataset_id": "KR_GIMJE_DAILY_2022_2024",
+      "filename": "ch4.zip",
+      "published_md5": "b9ada3a76a2bce1dbd3c9c77f51424f7",
+      "downloaded_sha256": "719b148d1a4f08e31bc146f412c920ae1472ca1a3a4d6dd81d882c1ef79fe813",
+      "size_bytes": 66312,
+      "integrity_status": "PUBLISHER_MD5_MATCHED_IN_EPHEMERAL_RUN",
+      "original_dataset_republished": false,
+      "license_reviewed": false,
+      "source_specific_adapter_approved": false,
+      "structural_findings": {
+        "type": "ZIP",
+        "csv_members": 60,
+        "example_member": "ch4/GJ2022010111.csv",
+        "header": [
+          "DAT",
+          "tavg",
+          "course_type",
+          "ch4_flux",
+          "rain_mm"
+        ],
+        "required_review": [
+          "TRANSPLANT_DATES",
+          "COURSE_TYPE_MAPPING",
+          "QC",
+          "SAMPLING_INTERVAL"
+        ]
+      }
+    },
+    {
+      "dataset_id": "KR_GIMJE_DAILY_2022_2024",
+      "filename": "input_fields_meta.xlsx",
+      "published_md5": "ba661a41238697b7ac1915c0d3890aa2",
+      "downloaded_sha256": "6c609759ab25bc84cb909830800be4bac086e42a51ac43a11c4367a9c52b1298",
+      "size_bytes": 16705,
+      "integrity_status": "PUBLISHER_MD5_MATCHED_IN_EPHEMERAL_RUN",
+      "original_dataset_republished": false,
+      "license_reviewed": false,
+      "source_specific_adapter_approved": false,
+      "structural_findings": {
+        "type": "XLSX",
+        "required_review": [
+          "WORKBOOK_COLUMNS",
+          "FIELD_JOIN_KEYS",
+          "TRANSPLANT_DATE"
+        ]
+      }
+    },
+    {
+      "dataset_id": "CN_RICE_EDDY_EAST_2023",
+      "filename": "Supporting information data2.csv",
+      "published_md5": "08ff8209e69bc6719a70fe5e83a1bd0c",
+      "downloaded_sha256": "391dc360ca653782b87f15c43142ced239ba006103a7644d498bbe7f7629e224",
+      "size_bytes": 150805,
+      "integrity_status": "PUBLISHER_MD5_MATCHED_IN_EPHEMERAL_RUN",
+      "original_dataset_republished": false,
+      "license_reviewed": false,
+      "source_specific_adapter_approved": false,
+      "structural_findings": {
+        "type": "CSV",
+        "header": [
+          "Year",
+          "DOY",
+          "Month",
+          "day",
+          "NEE-gC/m2/day",
+          "Re-gC/m2/day",
+          "GPP-gC/m2/day",
+          "CH4-gC/m2/day"
+        ],
+        "mass_basis": "CH4_C",
+        "required_review": [
+          "DAILY_PERIOD_SUPPORT",
+          "TIMEZONE",
+          "QC",
+          "ENCODING"
+        ]
+      }
+    },
+    {
+      "dataset_id": "CN_RICE_EDDY_EAST_2023",
+      "filename": "Supporting information data1.csv",
+      "published_md5": "d131f18e37fe0a19ef7d65c2c69d0d58",
+      "downloaded_sha256": "6b0418f1cb6d95be9330109cffaff05f86c135507c3b3ce6d281c1a11f0738e0",
+      "size_bytes": 13280065,
+      "integrity_status": "PUBLISHER_MD5_MATCHED_IN_EPHEMERAL_RUN",
+      "original_dataset_republished": false,
+      "license_reviewed": false,
+      "source_specific_adapter_approved": false,
+      "structural_findings": {
+        "type": "CSV",
+        "header": [
+          "Year",
+          "Month",
+          "Day",
+          "Hour",
+          "Minute",
+          "DOY",
+          "Ta-<?>",
+          "RH-%",
+          "VPD-kpa",
+          "Rg-W/m2",
+          "SWC-m3/m3",
+          "Rain-mm",
+          "WTD-cm",
+          "Gc-mm/s",
+          "NEE-mgCO2/m2/s",
+          "Re-mgCO2/m2/s",
+          "GPP-mgCO2/m2/s",
+          "CH4-umol/m2/s"
+        ],
+        "mass_basis": "CH4_MOLECULAR",
+        "required_review": [
+          "TIMEZONE",
+          "INSTANTANEOUS_OR_INTERVAL_MEAN",
+          "QC",
+          "SOURCE_ENCODING"
+        ]
+      }
+    },
+    {
+      "dataset_id": "ASIA_OUYANG_8DAY_2022",
+      "filename": "RiceCH4_mgCH4m2day_annual.zip",
+      "published_md5": "59743e36d366b4d25691d7069d0adea4",
+      "downloaded_sha256": "082cab760b66e217529f58898890eb408ffd2e757177359ffb04f1c9653d9f98",
+      "size_bytes": 2517191,
+      "integrity_status": "PUBLISHER_MD5_MATCHED_IN_EPHEMERAL_RUN",
+      "original_dataset_republished": false,
+      "license_reviewed": false,
+      "source_specific_adapter_approved": false,
+      "structural_findings": {
+        "type": "ZIP",
+        "source_class": "MODEL_GRID_NOT_FIELD_MEASUREMENT"
+      }
+    },
+    {
+      "dataset_id": "SEA9_TIER2_INVENTORY_2026",
+      "filename": "zenodo_package_v1.0.0.zip",
+      "published_md5": "409c255193b6044efc5b6e699eb71994",
+      "downloaded_sha256": "41750fd4d1e1b83a0a5855808d9b9cbed78eebbfa2282c331cf1602cdc635b09",
+      "size_bytes": 3863169,
+      "integrity_status": "PUBLISHER_MD5_MATCHED_IN_EPHEMERAL_RUN",
+      "original_dataset_republished": false,
+      "license_reviewed": false,
+      "source_specific_adapter_approved": false,
+      "structural_findings": {
+        "type": "ZIP",
+        "source_class": "MODEL_INVENTORY_MONTE_CARLO_NOT_FIELD_MEASUREMENT"
+      }
+    }
+  ]
+}
