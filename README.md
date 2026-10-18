@@ -33,6 +33,18 @@
 
 **Honest scope:** No Berkeley workbook or other external field dataset has yet been ingested in the IEEE demo. This preflight identifies **data-drift review candidates**, not proven methodology-affected claims, real-world carbon impacts, verified source completeness or on-chain anchored outcomes.
 
+## Asia rice-MRV research comparator (not official J-Credit)
+
+The optional [Asia research integration](docs/asia-mrv-research-integration-2026-10-18.md) adds seven attributed Asian/IPCC examples, a 10-source inventory, a research-only calculator, and deterministic fail-closed tests for CH4/N2O mass basis, crop seasons, country-specific method identity and Philippine JCM pump/scope requirements. Offline replay:
+
+```bash
+node scripts/asia-mrv-research.mjs inspect
+node scripts/asia-mrv-research.mjs ipcc
+node tests/asia-mrv-research.test.mjs
+```
+
+The independently published IPCC rounded national-inventory example replays **410.47 Gg CH4/year**; it is **not** a Japan AG-005 emission factor, a field result, a verified credit or a measured cost saving. The original user-supplied Japan research ZIP matches the already-integrated Japan baseline; the Asia ZIP is separately SHA-256 tracked and can be verified offline. Neither ZIP contains authenticated original PDFs or actual farmer flux observations. No IEEE production or synthetic 100-claim logic is replaced.
+
 ## J-Credit AG-005 v3.5 Rule Lock / GX-ETS isolated research logic
 
 The new [Japanese AG-005 & GX-ETS gap specification](docs/ag005-gxets-rule-gap-2026-10-18.md) and [versioned research-source baseline](data/ag005-rule-gap-2026-10-18.json) are checked into the independent IEEE repository. **AG-005@3.5 remains `CONFIG_REQUIRED / UNSUPPORTED`** because authoritative PDF bytes, SHA-256, effective date, approved NID coefficient tables and transition rules have not been independently acquired. No certification or official credit outputs are emitted.
