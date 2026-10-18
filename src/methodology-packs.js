@@ -16,6 +16,28 @@ var VERSIONED_PACKS = [
     unsupported_conditions: {adoption: 'UNKNOWN', complete_translation: 'UNSUPPORTED', current_coefficients: 'CONFIG_REQUIRED'}
   },
   {
+    // Version 3.5 is a *blocked placeholder*, never an approved executable pack.
+    // The PDF URL and revision date are from a user-supplied 2026-10-18
+    // research summary; no original v3.5 bytes, SHA or transition rules verified.
+    methodology_id: 'AG-005', methodology_version: '3.5',
+    rule_pack_version: 'naft-ag005-3.5-unverified-placeholder-1',
+    effective_from: 'UNKNOWN', effective_to: 'UNKNOWN',
+    source_url: 'https://japancredit.go.jp/pdf/methodology/AG-005_v3.5.pdf',
+    source_hash: 'UNKNOWN', source_checked_at: '2026-10-18',
+    status: 'CONFIG_REQUIRED', provenance: 'user_supplied_unverified',
+    scope: 'AG-005 Ver.3.5 original PDF inaccessible; no certified formula, coefficients or approval status',
+    original_sha256: null, transition_policy: null, rounding_spec: null,
+    parameters: {emission_factors: {value:'UNKNOWN',status:'CONFIG_REQUIRED'},
+      gwp: {value:'UNKNOWN',status:'CONFIG_REQUIRED'}},
+    evidence_requirements: {}, rules: {},
+    calculation_spec: {operation:'UNSUPPORTED',result:null,
+      reason:'V3.5 original, transition rules, coefficients and rounding not verified'},
+    exceptions: {},
+    unsupported_conditions: {method_adoption:'UNVERIFIED',source_bytes:'MISSING',
+      factor_inventory:'CONFIG_REQUIRED'},
+    formal_certification:false
+  },
+  {
     methodology_id: 'AG-004', methodology_version: 'UNKNOWN', rule_pack_version: 'naft-ag004-placeholder-1',
     effective_from: 'UNKNOWN', effective_to: 'UNKNOWN', source_url: 'https://public-comment.e-gov.go.jp/pcm/download?seqNo=0000298548',
     source_hash: 'UNKNOWN', source_checked_at: '2026-09-23', status: 'UNSUPPORTED', provenance: 'public',
