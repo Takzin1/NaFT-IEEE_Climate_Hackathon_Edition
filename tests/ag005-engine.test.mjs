@@ -1,0 +1,106 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {spawnSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+import {evaluateAg005Scenario,compareAg005Scenarios,verifyAg005Report}
+  from '../src/ag005-research-engine.mjs';
+
+const cli='scripts/ag005-engine.mjs';
+const shell=(...args)=>spawnSync(process.execPath,[cli,...args],{encoding:'utf8'});
+const original=shell('example');
+assert.equal(original.status,0,original.stderr);
+const example=JSON.parse(original.stdout);
+const clone=x=>structuredClone(x);
+const expectation=(mutate,code,label)=>{
+  const data=clone(example);mutate(data);
+  assert.throws(()=>evaluateAg005Scenario(data),e=>e.message.startsWith(code),label);
+};
+const report=evaluateAg005Scenario(example);
+assert.equal(report.schema,'naft-ag005-research-result-1');
+assert.equal(report.status,'RESEARCH_PREVIEW_ONLY');
+assert.equal(report.coverage.days_above_historical_max,7);
+assert.equal(report.coverage.days_above_historical_mean,7);
+assert.deepEqual(report.coverage.baseline_drainage_days,[14,14]);
+assert.equal(report.coverage.project_drainage_days,21);
+assert.equal(report.arithmetic_preview.indicative_net_tco2e,2.52);
+assert.equal(report.official_outputs.approved_emission_reduction_tco2e,null);
+assert.equal(report.official_outputs.methodology_compliance,null);
+assert.equal(report.official_outputs.certification,false);
+assert.equal(report.official_outputs.credits_issued,null);
+assert.equal(report.evidence_manifests.length,4);
+assert.ok(report.evidence_manifests.every(x=>x.content_sha256.length===64));
+assert.equal(evaluateAg005Scenario(clone(example)).report_sha256,report.report_sha256);
+assert.deepEqual(verifyAg005Report(example,report),{verified:true,report_sha256:report.report_sha256});
+
+expectation(x=>x.field.area_ha='1.5','AG005_AREA_HA_INVALID','numeric string rejected');
+expectation(x=>x.field.area_ha=-1,'AG005_AREA_HA_INVALID','negative area refused');
+expectation(x=>x.method.confirmed_adopted=true,'AG005_UNVERIFIED_METHOD_NOT_ALLOWED_AS_OFFICIAL','not official');
+expectation(x=>x.method.original_bytes_verified=true,'AG005_UNVERIFIED_METHOD_NOT_ALLOWED_AS_OFFICIAL','source not independently verified');
+expectation(x=>x.baseline[1].year=2023,'AG005_DUPLICATE_BASELINE_YEAR','duplicate year');
+expectation(x=>x.baseline[0].end='2023-06-30','AG005_BASELINE_0_INVALID_RANGE','end before start');
+expectation(x=>x.baseline[0].end='2023-02-29','AG005_BASELINE_0_END_INVALID','invalid nonleap');
+expectation(x=>x.project.start='2024-07-01','AG005_PROJECT_INVALID_RANGE','wrong project year');
+expectation(x=>x.evidence[0].content+='tamper','AG005_EVIDENCE_HASH_MISMATCH','byte modification detected');
+expectation(x=>x.evidence[0].field_id='OTHER','AG005_EVIDENCE_BOUND_TO_DIFFERENT_CLAIM','binding mismatch');
+expectation(x=>x.evidence[0].id=x.evidence[1].id,'AG005_DUPLICATE_EVIDENCE_ID','duplicate evidence rejected');
+expectation(x=>x.evidence[0].category='registry_issued','AG005_EVIDENCE_CATEGORY_UNSUPPORTED','unsupported category');
+expectation(x=>x.factors.baseline_ch4_kg_ha_season=NaN,'AG005_BASELINE_FACTOR_INVALID','invalid factor');
+expectation(x=>x.factors.project_ch4_kg_ha_season=-1,'AG005_PROJECT_FACTOR_INVALID','negative factor');
+expectation(x=>x.factors.gwp100_ch4=0,'AG005_GWP_INVALID','zero GWP');
+expectation(x=>x.factors.mode='OFFICIAL','AG005_FACTOR_PROVENANCE_INVALID','official calculations not enabled');
+expectation(x=>x.factors.source.reviewed_approved_version=true,'AG005_FACTOR_PROVENANCE_INVALID','no false approval');
+expectation(x=>x.unsupported_special_conditions=['x',2],'AG005_SPECIAL_CONDITIONS_INVALID','untyped special case');
+
+const noFactors=clone(example);delete noFactors.factors;
+const noF=evaluateAg005Scenario(noFactors);
+assert.equal(noF.status,'CONFIG_REQUIRED');
+assert.equal(noF.arithmetic_preview,null);
+const noEvidence=clone(example);noEvidence.evidence.pop();
+const missing=evaluateAg005Scenario(noEvidence);
+assert.equal(missing.status,'EVIDENCE_REQUIRED');
+assert.equal(missing.arithmetic_preview,null);
+assert.ok(missing.issues.some(x=>x.code==='MISSING_EVIDENCE:production_record'));
+const special=clone(example);
+special.unsupported_special_conditions=['land_reorganization'];
+const exception=evaluateAg005Scenario(special);
+assert.equal(exception.status,'HUMAN_REVIEW_REQUIRED');
+assert.equal(exception.arithmetic_preview,null);
+const adverse=clone(example);adverse.factors.project_ch4_kg_ha_season=190;
+const inc=evaluateAg005Scenario(adverse);
+assert.ok(inc.arithmetic_preview.indicative_net_tco2e<0,'emission increase is not clipped to zero');
+assert.equal(inc.official_outputs.credits_issued,null);
+const delta=compareAg005Scenarios(example,noFactors);
+assert.deepEqual(delta.changed_dependency_groups,['factors']);
+assert.equal(delta.requires_research_review,true);
+assert.equal(delta.new_status,'CONFIG_REQUIRED');
+assert.equal(delta.official_credit_impact,null);
+const identical=compareAg005Scenarios(example,clone(example));
+assert.deepEqual(identical.changed_dependency_groups,[]);
+assert.equal(identical.requires_research_review,false);
+assert.throws(()=>compareAg005Scenarios(example,{...example,scenario_id:'another'}),/AG005_DIFFERENT_SCENARIO_OR_FIELD/);
+const corrupted=clone(report);corrupted.official_outputs.credits_issued=100;
+assert.throws(()=>verifyAg005Report(example,corrupted),/AG005_REPORT_TAMPERED/);
+const canonical=v=>Array.isArray(v)?'['+v.map(canonical).join(',')+']':
+  v && typeof v==='object'?'{'+Object.keys(v).sort().map(k=>JSON.stringify(k)+':'+canonical(v[k])).join(',')+'}':JSON.stringify(v);
+const forged=clone(corrupted);const {report_sha256,...body}=forged;
+forged.report_sha256=createHash('sha256').update(canonical(body)).digest('hex');
+assert.throws(()=>verifyAg005Report(example,forged),/AG005_SOURCE_BOUND_REPLAY_MISMATCH/);
+
+const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'ag005-research-'));
+try{
+  const inp=path.join(tmp,'scenario.json'),output=path.join(tmp,'result.json');
+  fs.writeFileSync(inp,JSON.stringify(example));
+  let run=shell('evaluate',inp);assert.equal(run.status,0,run.stderr);
+  fs.writeFileSync(output,run.stdout);
+  run=shell('verify',inp,output);
+  assert.equal(run.status,0,run.stderr);
+  assert.equal(JSON.parse(run.stdout).verified,true);
+  let changed=clone(example);changed.project.end='2025-07-28';
+  const current=path.join(tmp,'new.json');
+  fs.writeFileSync(current,JSON.stringify(changed));
+  run=shell('compare',inp,current);assert.equal(run.status,0,run.stderr);
+  assert.deepEqual(JSON.parse(run.stdout).changed_dependency_groups,['project']);
+}finally{fs.rmSync(tmp,{recursive:true,force:true});}
+console.log('AG005_RESEARCH_ENGINE_PASS: strict date, evidence, factor, replay and conditional preview gates');

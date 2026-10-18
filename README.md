@@ -33,6 +33,18 @@
 
 **Honest scope:** No Berkeley workbook or other external field dataset has yet been ingested in the IEEE demo. This preflight identifies **data-drift review candidates**, not proven methodology-affected claims, real-world carbon impacts, verified source completeness or on-chain anchored outcomes.
 
+## Japan AG-005 research calculation engine (fail closed)
+
+The new [AG-005 research engine](docs/ag005-research-engine.md) accepts per-field area, years of drainage-date history, current drainage interval, field-bound SHA-256 evidence and explicitly **illustrative** seasonal methane factors. It calculates days relative to history and an **optional research-only CH₄ arithmetic preview**. It is **not** the legally applicable AG-005 rule pack, and cannot produce official J-Credit eligibility, certified tCO₂e or issued credits.
+
+```bash
+node scripts/ag005-engine.mjs example > /tmp/ag005-training.json
+node scripts/ag005-engine.mjs evaluate /tmp/ag005-training.json > /tmp/ag005-result.json
+node scripts/ag005-engine.mjs verify /tmp/ag005-training.json /tmp/ag005-result.json
+```
+
+The example is invented training data; the source research pack contains **no actual farm monitoring measurements** and does not supply binding coefficients. Incomplete cases become `CONFIG_REQUIRED` / `EVIDENCE_REQUIRED` rather than silently using academic means as official rates.
+
 ## Japan MRV research baseline (attributed; **not** certified field data)
 
 The [2026-10-18 research baseline](data/japan-mrv-research-2026-10-18/baseline.json) normalizes **9 experimental treatment designs**, **3 selected study ratios with standard errors**, **4 program-level publicly reported totals**, and **10 AG-005 descriptive evidence fields** from the uploaded research compilation, with **16 source links and pinned original ZIP/file SHA-256s**. The [live demo](https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain) now links this baseline beside the separate synthetic rule-change scenario.
