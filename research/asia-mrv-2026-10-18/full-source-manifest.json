@@ -1,0 +1,86 @@
+{
+  "schema": "naft-asia-mrv-benchmark-sources-1",
+  "research_date": "2026-10-18",
+  "original_archive_sha256": "f8d4460d8a6e3fa4129469a7e4df5995998d82484a90b7a75fdd8b610e933406",
+  "official_validation": false,
+  "downloaded_original_document_sha256_verified": false,
+  "only_independent_published_arithmetic_fixture": "IPCC2019-5.14a-c",
+  "citations": [
+    {
+      "id": "JP_GXETS",
+      "type": "japan_regulation",
+      "url": "https://www.meti.go.jp/policy/energy_environment/global_warming/ets.html"
+    },
+    {
+      "id": "JP_AG005_CATALOG",
+      "type": "japan_methodology_catalog",
+      "url": "https://japancredit.go.jp/about/methodology/",
+      "latest_original_bytes_confirmed": false
+    },
+    {
+      "id": "JP_MAFF_2026",
+      "type": "japan_report_aggregate",
+      "url": "https://www.maff.go.jp/hokkaido/midori/attach/pdf/top-74.pdf",
+      "midseason_certified_tco2_through_2026_03": 544712,
+      "note": "not project field-level observations"
+    },
+    {
+      "id": "IPCC2019-5.14a-c",
+      "type": "official_scientific_guideline",
+      "url": "https://www.ipcc-tfi.iges.or.jp/public/2019rf/pdf/4_Volume4/19R_V4_Ch05_Cropland.pdf",
+      "reported_gg_ch4_per_year": 410.47,
+      "note": "published illustrative national-inventory example"
+    },
+    {
+      "id": "PH_AM004@1.0",
+      "type": "approved_jcm_methodology_ph_only",
+      "url": "https://www.jcm.go.jp/jc/wp-content/uploads/sites/3/JCM_PH_AM004_ver01.0.pdf",
+      "approval_date": "2025-02-03",
+      "gwp_ch4": 28,
+      "gwp_n2o": 265,
+      "approval_does_not_extend_to_jp_ag005": true
+    },
+    {
+      "id": "KR_2026_LEE",
+      "type": "journal_science",
+      "doi": "10.1038/s41598-026-49883-4",
+      "url": "https://doi.org/10.1038/s41598-026-49883-4",
+      "code_url": "https://github.com/lhs0218/gimje_ch4"
+    },
+    {
+      "id": "KR_2026_JANG",
+      "type": "journal_science",
+      "doi": "10.1016/j.agee.2026.110406",
+      "url": "https://doi.org/10.1016/j.agee.2026.110406"
+    },
+    {
+      "id": "TW_2025_YANG",
+      "type": "journal_science",
+      "doi": "10.6165/tai.2025.70.530",
+      "url": "https://doi.org/10.6165/tai.2025.70.530",
+      "reported_pct_reduction_2023": {
+        "crop_1": 41.97,
+        "crop_2": 31.98,
+        "annual": 34.29
+      }
+    },
+    {
+      "id": "TW_2026_SPATIAL",
+      "type": "journal_science",
+      "url": "https://www.sciencedirect.com/science/article/pii/S116103012600273X"
+    },
+    {
+      "id": "REG_MONSOON_2024",
+      "type": "journal_science",
+      "doi": "10.1016/j.scitotenv.2024.173441",
+      "url": "https://doi.org/10.1016/j.scitotenv.2024.173441"
+    }
+  ],
+  "policy": {
+    "dataset_class": "research_metadata_and_selected_aggregates",
+    "raw_field_measurements_included": false,
+    "cross_border_official_factor_reuse_permitted": false,
+    "original_source_licenses_verified": false,
+    "official_credit_issuance_possible": false
+  }
+}
