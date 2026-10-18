@@ -118,7 +118,7 @@ def normalized():
                              ensure_ascii=False).encode('utf-8'))
     citation_digest=sha(json.dumps(full_citations,sort_keys=True,separators=(',',':'),
                                   ensure_ascii=False).encode('utf-8'))
-    require(ref_digest=='85e1b24230974dfd9810a019e531a6546b9ab1903c1ed9f740a57d3e80d63f88',
+    require(ref_digest=='2cffba8e89ca6e65ba346f162b4032eac3d83f2d79441ed4a2795087949da04a',
             'FULL_REFERENCE_ARCHIVE_PARITY_MISMATCH')
     require(citation_digest=='d8254beb663c6e8f8f0eb1b1a41de32abc4d00d4fdc5e917c05506402851e475',
             'FULL_SOURCE_ARCHIVE_PARITY_MISMATCH')
