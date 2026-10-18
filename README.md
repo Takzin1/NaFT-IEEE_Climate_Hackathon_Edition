@@ -33,6 +33,14 @@
 
 **Honest scope:** No Berkeley workbook or other external field dataset has yet been ingested in the IEEE demo. This preflight identifies **data-drift review candidates**, not proven methodology-affected claims, real-world carbon impacts, verified source completeness or on-chain anchored outcomes.
 
+## J-Credit AG-005 v3.5 Rule Lock / GX-ETS isolated research logic
+
+The new [Japanese AG-005 & GX-ETS gap specification](docs/ag005-gxets-rule-gap-2026-10-18.md) and [versioned research-source baseline](data/ag005-rule-gap-2026-10-18.json) are checked into the independent IEEE repository. **AG-005@3.5 remains `CONFIG_REQUIRED / UNSUPPORTED`** because authoritative PDF bytes, SHA-256, effective date, approved NID coefficient tables and transition rules have not been independently acquired. No certification or official credit outputs are emitted.
+
+The reference-only [v3.3 research math module](src/ag005-v33-reference-math.mjs) tests exact organic-amendment interpolation/caps, drainage thresholds, drainage dates/heading cutoff, parcel area allocation, `16/12` CH₄-C unit conversion, and 3.3's **provisionally transcribed** `0.7` project EF. [GX-ETS fuel calculation](src/gxets-fuel-research.mjs) is deliberately a **separate domain**, rejecting purchased electricity and unsupported emission sources. Both use synthetic, unapproved coefficients and are **not institutionally validated**.
+
+`node tests/ag005-v33-gxets.test.mjs` runs their exact-boundary tests. The existing synthetic IEEE 100-claim demonstration and Sepolia proofs remain unchanged.
+
 ## Japan AG-005 research calculation engine (fail closed)
 
 The new [AG-005 research engine](docs/ag005-research-engine.md) accepts per-field area, years of drainage-date history, current drainage interval, field-bound SHA-256 evidence and explicitly **illustrative** seasonal methane factors. It calculates days relative to history and an **optional research-only CH₄ arithmetic preview**. It is **not** the legally applicable AG-005 rule pack, and cannot produce official J-Credit eligibility, certified tCO₂e or issued credits.

@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 // AG-005 research-only command line runner. All numbers in "example" are invented.
+import {referenceOrganicEF,referenceDrainageClass,referenceMidseasonEligibility,
+  referenceAreaAllocation,referenceCarbonCalculation,referenceFactorSelector,
+  ag005DependencyDiff} from '../src/ag005-v33-reference-math.mjs';
+import {evaluateGxEtsFuel} from '../src/gxets-fuel-research.mjs';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import {
@@ -46,7 +50,25 @@ try {
     result=compareAg005Scenarios(load(files[0]),load(files[1]));
   else if(command==='verify'&&files.length===2)
     result=verifyAg005Report(load(files[0]),load(files[1]));
-  else throw Error('USAGE: node scripts/ag005-engine.mjs example | evaluate INPUT.json | compare BEFORE.json AFTER.json | verify INPUT.json REPORT.json');
+  else if(command==='v33-organic'&&files.length===1){
+    const data=load(files[0]);result=referenceOrganicEF(data.factors,data.organic);
+  }
+  else if(command==='v33-drainage'&&files.length===1)
+    result=referenceDrainageClass(load(files[0]));
+  else if(command==='v33-days'&&files.length===1)
+    result=referenceMidseasonEligibility(load(files[0]));
+  else if(command==='v33-allocate'&&files.length===1)
+    result=referenceAreaAllocation(load(files[0]));
+  else if(command==='v33-factor'&&files.length===1){
+    const data=load(files[0]);result=referenceFactorSelector(data.table,data.keys);
+  }
+  else if(command==='v33-calc'&&files.length===1)
+    result=referenceCarbonCalculation(load(files[0]));
+  else if(command==='v33-diff'&&files.length===2)
+    result=ag005DependencyDiff(load(files[0]),load(files[1]));
+  else if(command==='gxets-fuel'&&files.length===1)
+    result=evaluateGxEtsFuel(load(files[0]));
+  else throw Error('USAGE: node scripts/ag005-engine.mjs example | evaluate INPUT.json | compare BEFORE.json AFTER.json | verify INPUT.json REPORT.json | v33-organic|v33-drainage|v33-days|v33-allocate|v33-factor|v33-calc INPUT.json | v33-diff BEFORE.json AFTER.json | gxets-fuel INPUT.json');
   process.stdout.write(JSON.stringify(result,null,2)+'\n');
 } catch(e) {
   console.error('AG005_ENGINE_FAIL:'+e.message);

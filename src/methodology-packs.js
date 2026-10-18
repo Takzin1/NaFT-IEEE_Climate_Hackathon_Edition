@@ -2,6 +2,28 @@
 // Data only. UNKNOWN is an explicit absence of verified institutional requirements.
 var VERSIONED_PACKS = [
   {
+    // Claimed version index was supplied by the user, but its authoritative PDF
+    // bytes, effective date and adoption/transition rules are NOT yet verified.
+    methodology_id:'AG-005', methodology_version:'3.5',
+    rule_pack_version:'naft-ag005-3.5-locked-20261018',
+    effective_from:'UNKNOWN', effective_to:'UNKNOWN',
+    source_url:'https://japancredit.go.jp/pdf/methodology/AG-005_v3.5.pdf',
+    source_hash:'UNKNOWN', source_checked_at:'2026-10-18',
+    status:'CONFIG_REQUIRED', provenance:'public',
+    scope:'USER-SUPPLIED VERSION POINTER ONLY. PDF 403/not retrieved; no verified 3.5 semantics; do not upgrade 3.3 reference calculations to current binding method.',
+    original_sha256:null, official_effective_from:null,official_effective_to:null,
+    applicability_transition_policy:null, verified_clause_map:[],
+    coefficient_inventory_edition:null,coefficient_table_sha256:null,
+    rounding_spec:null,certification_allowed:false,
+    parameters:{approved_emission_factors:{value:'UNKNOWN',status:'CONFIG_REQUIRED'},
+      approved_ch4_gwp:{value:'UNKNOWN',status:'CONFIG_REQUIRED'}},
+    evidence_requirements:{}, rules:{},
+    calculation_spec:{operation:'UNSUPPORTED',result:null,
+      reason:'Missing verified AG-005 v3.5 original, clause mapping, coefficient tables, rounding and transition rules'},
+    exceptions:{},unsupported_conditions:{official_original:'UNVERIFIED',
+      full_rule_translation:'UNSUPPORTED',factor_inventory:'CONFIG_REQUIRED'}
+  },
+  {
     methodology_id: 'AG-005', methodology_version: '3.1-reference', rule_pack_version: 'naft-ag005-compiler-1',
     effective_from: 'UNKNOWN', effective_to: 'UNKNOWN',
     source_url: 'https://public-comment.e-gov.go.jp/pcm/download?seqNo=0000281460',
