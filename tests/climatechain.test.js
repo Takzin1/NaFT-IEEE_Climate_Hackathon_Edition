@@ -167,6 +167,19 @@ check(scenarioSource.includes('Verify all 3 pillars')&&
       scenarioSource.includes('Download 3-pillar proof JSON'),
       'reviewer UI exposes the verification action and downloadable proof');
 
+// Exercise the actual page action, not just the underlying helper.
+ClimateChainDemo.impact=impact;
+handleClimateChainAction('climatechain-triad');
+check(!!ClimateChainDemo.triad&&ClimateChainDemo.triad.proof_sha256===triad.proof_sha256,
+  'browser action generates the identical proof');
+const triadMarkup=pgClimateChainDemo();
+check(triadMarkup.includes('aria-labelledby="climate-triad-title"')&&
+      triadMarkup.includes('Download 3-pillar proof JSON')&&
+      triadMarkup.includes('does not independently query RPC'),
+  'rendered browser view shows all 3 stages and explicit on-chain limitation');
+handleClimateChainAction('climatechain-run');
+check(ClimateChainDemo.triad===null,'rerunning the demo clears a prior proof to prevent stale PASS');
+
 const contract=fs.readFileSync('contracts/NaFTMRVAnchor.sol','utf8');
 check(contract.includes('address public anchorWriter'),'anchor writer state present');
 check(contract.includes('error UnauthorizedWriter(address caller)'),'unauthorized writer guard declared');
