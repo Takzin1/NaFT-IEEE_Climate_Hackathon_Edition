@@ -82,8 +82,10 @@ function report(data,mode,siteId) {
 }
 try{
  const args=process.argv.slice(2),mode=args[0];
- if(!['inspect','site'].includes(mode)||
-    mode==='inspect'&&args.length!==1||mode==='site'&&args.length!==2)
-    reject('USAGE: node scripts/japan-mrv-baseline.mjs inspect | site SITE_ID');
- console.log(JSON.stringify(report(load(),mode,args[1]),null,2));
+ const expected=mode==='inspect'?1:mode==='site'?2:-1;
+ if(expected<0||![expected,expected+2].includes(args.length)||
+    args.length===expected+2&&args[expected]!=='--file')
+    reject('USAGE: node scripts/japan-mrv-baseline.mjs inspect [--file PATH] | site SITE_ID [--file PATH]');
+ const file=args.length===expected+2?args[expected+1]:sourceFile;
+ console.log(JSON.stringify(report(load(file),mode,args[1]),null,2));
 }catch(e){console.error('JAPAN_MRV_BASELINE_FAIL: '+e.message);process.exitCode=1;}
