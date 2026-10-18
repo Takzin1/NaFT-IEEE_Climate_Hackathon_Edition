@@ -118,4 +118,28 @@ assert.throws(()=>evaluateGxEtsFuel({...gxInput,
   boundary:{...gxInput.boundary,purchased_electricity:true}}),/GX_ETS_SCOPE_BOUNDARY_REVIEW_REQUIRED/);
 assert.equal(compareGxEtsBoundary(gxInput,{...gxInput,
   boundary:{...gxInput.boundary,organizational_boundary_reviewed:false}}).status,'HUMAN_REVIEW_REQUIRED');
+// CLI integration: reference math and isolated GX-ETS are actually reachable.
+const {mkdtempSync,writeFileSync,rmSync}=await import('node:fs');
+const {tmpdir}=await import('node:os');
+const {join}=await import('node:path');
+const {spawnSync}=await import('node:child_process');
+const tmp=mkdtempSync(join(tmpdir(),'naft-rule-gap-'));
+const call=(command,data)=>{
+ const path=join(tmp,command+'.json');
+ writeFileSync(path,JSON.stringify(data));
+ return spawnSync(process.execPath,['scripts/ag005-engine.mjs',command,path],{encoding:'utf8'});
+};
+try{
+ const testCarbon=call('v33-calc',{segments:[{area_ha:'2',ef_m0:'100',
+  project_factor:'0.7',factor_unit:'kg_CH4_C_per_ha_year',
+  provenance:'SYNTHETIC',official_adopted:false}],gwp100_ch4:'30',rounding:null});
+ assert.equal(testCarbon.status,0,testCarbon.stderr);
+ assert.equal(JSON.parse(testCarbon.stdout).indicative_er_tco2e.decimal,'2.4');
+ const testGx=call('gxets-fuel',gxInput);
+ assert.equal(testGx.status,0,testGx.stderr);
+ assert.equal(JSON.parse(testGx.stdout).indicative_tco2,'29.333333333');
+ const badGx=call('gxets-fuel',{...gxInput,source_type:'PURCHASED_ELECTRICITY'});
+ assert.notEqual(badGx.status,0);
+ assert.match(badGx.stderr,/GX_ETS_UNSUPPORTED_EMISSION_DOMAIN/);
+}finally{rmSync(tmp,{recursive:true,force:true});}
 console.log('AG005_V33_GXETS_REFERENCE_PASS: clauses, exact boundaries, evidence/units, separate domains');
