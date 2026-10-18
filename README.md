@@ -35,6 +35,10 @@ The [Japan-to-IEEE observation bridge](docs/ieee-japan-observation-migration-202
 
 [Two original Japanese paddy-field studies](docs/ieee-japan-original-studies-migration-2026-10-19.md) are now pinned as **published measured aggregates only**: Yagi (1996) within-year methane treatment contrasts, and Nishimura (2004) crop/fallow/annual CH₄ and N₂O-N reported totals with explicit rounding residuals. The transplanted replay is cross-checked by a separate Python Decimal implementation and excludes the Japanese Gikuten-only UI. This is **not raw flux reconstruction or Japanese J-Credit eligibility**. External environmental covariates, publisher source-file hashes and certified amounts remain unverified/null.
 
+## Local CH₄ observation audit receipt (source-bound)
+
+The [observation receipt CLI](docs/ieee-observation-source-bound-receipt-2026-10-19.md) connects the imported Japan five-format CSV/QC intake to a deterministic, verifiable provenance artifact. It locks the **exact local CSV bytes, manifest bytes, two calculation-source files and replay output** and rejects changed, rehashed or context-swapped receipts. This extends the separate synthetic 100-claim audit without changing it. `node scripts/ieee-observation-receipt.mjs generate MANIFEST.json INPUT.csv` produces a JSON receipt; `verify MANIFEST.json INPUT.csv RECEIPT.json` recomputes it. Missing coverage never becomes a complete-period result; source publisher authentication, dual-engine execution on arbitrary uploads and carbon-credit certification remain explicitly **unverified**.
+
 ## External-source change preflight (experimental)
 
 **New optional bridge:** `node scripts/ieee-source-snapshot.mjs compare old.json new.json` audits two operator-supplied, publisher-attributed JSON releases. It fails closed on locally declared catalog omissions/duplicate IDs and identifies added, removed or modified records; a source-bound `verify` command rejects tampered or rehashed reports. [Source format, commands and official Berkeley dataset candidate](docs/ieee-real-source-onramp.md).
