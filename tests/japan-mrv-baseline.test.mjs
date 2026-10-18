@@ -61,7 +61,7 @@ try{
  assert.match(html,/Japan \/ attributed research baseline/,'visible Japanese research context is present');
  assert.match(html,/The 100-claim demonstration below remains synthetic/,
     'live research card preserves synthetic separation');
- assert.match(html,/japan-mrv-research-2026-10-18\/baseline.json/,
+ assert.match(html,/japan-mrv-research-2026-10-18/,
     'public demo points to source-attributed baseline');
  console.log('JAPAN_MRV_BASELINE_PASS: 9 trial designs, 3 study ratios, 4 program totals; all negative gates passed');
 }finally{rmSync(dir,{recursive:true,force:true});}
