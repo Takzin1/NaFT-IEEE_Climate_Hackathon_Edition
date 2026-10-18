@@ -52,7 +52,7 @@ bad(()=>box.naftJpNishimuraReplay(badN2o),/NISHIMURA_PUBLISHED_MEAN_MUTATED/);
 const badSource=clone();badSource.studies[0].doi='wrong';
 bad(()=>box.naftJpYagiReplay(badSource),/OBS_SOURCE_ID_OR_DOI_MISMATCH/);
 yes(fixture.future_source.original_bytes_downloaded===false&&fixture.future_source.license==='NOT_CONFIRMED');
-// IEEE migration deliberately excludes the Japanese Gikuten browser/fixture. 
+// IEEE migration deliberately excludes the Japanese Gikuten browser/fixture.
 // Published source JSON and deterministic replay are tested independently.
 yes(fixture.legal_status==='RESEARCH_AGGREGATE_ONLY_NOT_J_CREDIT');
 yes(fixture.published_reported_aggregates_not_raw_measurements===true);
