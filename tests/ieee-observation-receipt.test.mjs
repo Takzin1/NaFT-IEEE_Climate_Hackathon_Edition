@@ -50,7 +50,7 @@ const mt=JSON.parse(m.toString());
 bad(()=>createObservationReceipt(Buffer.from(JSON.stringify({...mt,official_eligibility_verified:true})),c),'OBS_ATTESTATION');
 bad(()=>createObservationReceipt(Buffer.from(JSON.stringify({...mt,data_class:'PUBLISHER_VERIFIED'})),c),'OBS_DATA_CLASS');
 bad(()=>createObservationReceipt(Buffer.from(JSON.stringify({...mt,adapter_id:'EDDY_NMOL_CH4_M2_S_V1'})),c),'OBS_UNIT_OR_ADAPTER');
-bad(()=>createObservationReceipt(Buffer.from(JSON.stringify({...mt,source_uri:'https://publisher.example/data'})),c),'OBS_SHA256|UNSAFE_REPLAY_STATUS|MANIFEST');
+bad(()=>verifyObservationReceipt(Buffer.from(JSON.stringify({...mt,source_uri:'https://publisher.example/data'})),c,original),'SOURCE_BOUND_REPLAY_MISMATCH');
 for(const [field,value] of [
  ['full_window_total_mg_ch4_m2','1.250000000'],
  ['coverage_status','COMPLETE_OBSERVED'],
