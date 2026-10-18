@@ -1,0 +1,138 @@
+{
+  "schema": "naft-ipcc-ph-independent-fixtures-1",
+  "research_only": true,
+  "original_pdf_bytes_verified": false,
+  "sources": {
+    "IPCC_2019_5_14BC": "https://www.ipcc-tfi.iges.or.jp/public/2019rf/pdf/4_Volume4/19R_V4_Ch05_Cropland.pdf",
+    "PH_AM004_1_0": "https://www.jcm.go.jp/jc/wp-content/uploads/sites/3/JCM_PH_AM004_ver01.0.pdf"
+  },
+  "ipcc": {
+    "policy": "ROUND_ADJUSTED_EF_2DP_THEN_MULTIPLY",
+    "table": "IPCC 2019 Refinement Vol 4 Ch 5, Tables 5.14B/C printed p.5.59",
+    "rows": [
+      {
+        "id": "CF",
+        "area_ha_year": "1500000",
+        "efc": "1.22",
+        "sfw": "1.00",
+        "sfp": "1.00",
+        "sfo": "1.21",
+        "published_adjusted_ef": "1.48",
+        "season_days": "102",
+        "published_gg": "226.44"
+      },
+      {
+        "id": "MD",
+        "area_ha_year": "1500000",
+        "efc": "1.22",
+        "sfw": "0.55",
+        "sfp": "1.00",
+        "sfo": "1.21",
+        "published_adjusted_ef": "0.81",
+        "season_days": "102",
+        "published_gg": "123.93"
+      },
+      {
+        "id": "rainfed",
+        "area_ha_year": "900000",
+        "efc": "1.22",
+        "sfw": "0.54",
+        "sfp": "0.89",
+        "sfo": "1.00",
+        "published_adjusted_ef": "0.59",
+        "season_days": "102",
+        "published_gg": "54.16"
+      },
+      {
+        "id": "upland",
+        "area_ha_year": "450000",
+        "efc": "1.22",
+        "sfw": "0.00",
+        "sfp": "0.89",
+        "sfo": "1.00",
+        "published_adjusted_ef": "0.00",
+        "season_days": "102",
+        "published_gg": "0.00"
+      },
+      {
+        "id": "deepwater",
+        "area_ha_year": "150000",
+        "efc": "1.22",
+        "sfw": "0.06",
+        "sfp": "2.41",
+        "sfo": "1.00",
+        "published_adjusted_ef": "0.18",
+        "season_days": "220",
+        "published_gg": "5.94"
+      }
+    ],
+    "published_total_gg": "410.47"
+  },
+  "ph": {
+    "base": {
+      "country": "PH",
+      "methodology_id": "PH_AM004@1.0",
+      "data_status": "SYNTHETIC",
+      "reference_pump_policy": "REPORTED_EXPLICIT",
+      "reference_tco2e": {
+        "CH4": 120,
+        "N2O": 8,
+        "PUMP_CO2": 0
+      },
+      "project_tco2e": {
+        "CH4": 60,
+        "N2O": 12,
+        "PUMP_CO2": 6
+      },
+      "boundary": {
+        "paired_water_regime": true,
+        "soil_stratum_recorded": true,
+        "fertilizer_n_recorded": true,
+        "preseason_water_recorded": true,
+        "pump_boundary_recorded": true,
+        "evidence_manifest_present": true
+      }
+    },
+    "schedules": [
+      {
+        "approach": "DIRECT_MEASUREMENT",
+        "measurement_interval_years": 3,
+        "expected_tco2e": "47.5"
+      },
+      {
+        "approach": "DIRECT_MEASUREMENT",
+        "measurement_interval_years": 4,
+        "expected_tco2e": "45"
+      },
+      {
+        "approach": "DIRECT_MEASUREMENT",
+        "measurement_interval_years": 5,
+        "expected_tco2e": "45"
+      },
+      {
+        "approach": "COUNTRY_FACTOR_PLUS_MEASUREMENT",
+        "measurement_interval_years": 5,
+        "expected_tco2e": "42.5"
+      }
+    ],
+    "optional_reference": {
+      "reference_pump_policy": "OMITTED_PER_PH_AM004_REFERENCE_OPTIONAL",
+      "reference_tco2e": {
+        "CH4": 120,
+        "N2O": 8
+      },
+      "expected_tco2e": "47.5"
+    },
+    "mass_conversion": {
+      "method": "PH_AM004@1.0",
+      "data_status": "SYNTHETIC",
+      "ch4_kg": 1000,
+      "ch4_mass_basis": "kg_CH4",
+      "n2o_n_kg": 28,
+      "n2o_mass_basis": "kg_N2O_N",
+      "pump_tco2": 3.2,
+      "pump_unit": "tCO2",
+      "expected_total_tco2e": "42.86"
+    }
+  }
+}

@@ -33,6 +33,12 @@
 
 **Honest scope:** No Berkeley workbook or other external field dataset has yet been ingested in the IEEE demo. This preflight identifies **data-drift review candidates**, not proven methodology-affected claims, real-world carbon impacts, verified source completeness or on-chain anchored outcomes.
 
+## Asia research comparison: annual completeness & source-byte provenance
+
+An [Asia–Japan research compatibility layer](docs/asia-mrv-baseline-parity-2026-10-18.md) supports CH4 / CH4-C and N2O / N2O-N unit interpretation, foreign JCM isolation and cross-region physical comparisons. The guarded `naftAsiaDeclaredAnnualCoverage()` adds **explicit declared season coverage** and rejects country, year, method, source, field, planted-area and missing-season drift. The previous seasonal aggregate is now labeled **recorded seasons only** (not automatically a complete year). All official credit outputs remain null.
+
+Original uploaded Asia ZIP provenance can be reproduced separately with `python3 scripts/verify-asia-research-pack.py verify ORIGINAL_ZIP`; `python3 scripts/verify-asia-research-pack.py local` checks only the repository's normalized research excerpts and **does not** authenticate external publisher originals. Neither calculation nor source checks alter the IEEE 100-claim synthetic demo or create Sepolia transactions.
+
 ## J-Credit AG-005 v3.5 Rule Lock / GX-ETS isolated research logic
 
 The new [Japanese AG-005 & GX-ETS gap specification](docs/ag005-gxets-rule-gap-2026-10-18.md) and [versioned research-source baseline](data/ag005-rule-gap-2026-10-18.json) are checked into the independent IEEE repository. **AG-005@3.5 remains `CONFIG_REQUIRED / UNSUPPORTED`** because authoritative PDF bytes, SHA-256, effective date, approved NID coefficient tables and transition rules have not been independently acquired. No certification or official credit outputs are emitted.
@@ -150,3 +156,7 @@ See [LICENSE](LICENSE). This is a research prototype, not a certified carbon-cre
 ## Monsoon Asia published-reference parity checks (research only)
 
 [Asia–Japan 2026-10-18 gap audit](docs/asia-mrv-baseline-parity-2026-10-18.md) and [provenance-locked comparison fixtures](research/asia-mrv-2026-10-18/fixtures.json) replay the published IPCC rounded worked example (410.47 Gg CH₄/year), check kg-CH₄-C ↔ kg-CH₄, distinguish annual and crop-season quantities, and prevent Philippines/Japan method transfer and Taiwan cross-year averaging. Run `node tests/asia-mrv-compat.test.js`. The full user-supplied Python ZIP remains separately archived; only normalized, selected fixture excerpts are committed. **Neither actual field measurements nor official approved Japan AG-005 rules have been added.**
+
+## Independent IPCC and PH_AM004 calculation oracle (research only)
+
+The [2026-10-18 cross-language verification report](docs/asia-ipcc-jcm-independent-oracle-2026-10-18.md) introduces a 5-row IPCC Table 5.14B/C intermediate-rounding replay (410.472 Gg CH4/yr vs 409.7277036 unrounded) plus 4 Philippines PH_AM004 research uncertainty cases. JavaScript BigInt and independently implemented Python Decimal verify results, mutations, and optional reference/mandatory project pumping boundaries. Run `node scripts/asia-independent-replay.mjs`, `node tests/ipcc-stage-reference.test.mjs`, `python3 tests/asia-independent-oracle.test.py`. No certified emissions, actual farm observation or Japan AG-005 v3.5 compatibility is claimed.

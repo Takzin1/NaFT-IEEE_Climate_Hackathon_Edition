@@ -30,6 +30,11 @@ node tests/japan-mrv-baseline.test.mjs
 node tests/ag005-engine.test.mjs
 node tests/ag005-v33-gxets.test.mjs
 node tests/asia-mrv-compat.test.js
+node tests/ipcc-stage-reference.test.mjs
+python3 tests/asia-independent-oracle.test.py
+python3 scripts/verify-asia-research-pack.py local
+python3 tests/asia-archive-verifier.test.py
+python3 -c "import ast; ast.parse(open('scripts/verify-asia-research-pack.py', encoding='utf8').read())"
 node tests/ag005-formula-parity-regression.test.mjs
 python3 -c "import ast; ast.parse(open('scripts/verify-japan-research-pack.py', encoding='utf-8').read())"
 node tests/ieee-benchmark.test.mjs
