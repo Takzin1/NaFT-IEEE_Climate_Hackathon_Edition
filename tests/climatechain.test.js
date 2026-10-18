@@ -1,6 +1,6 @@
 'use strict';
 const fs=require('fs'),vm=require('vm'),assert=require('assert/strict');
-for(const name of ['mrv-core','methodology-packs','mrv-compiler','compiler-demo','climatechain-testnet-record','climatechain-demo']) {
+for(const name of ['mrv-core','methodology-packs','mrv-compiler','compiler-demo','climatechain-testnet-record','climatechain-demo','mrv-ui']) {
   vm.runInThisContext(fs.readFileSync('src/'+name+'.js','utf8'));
 }
 let passed=0,failed=0;
