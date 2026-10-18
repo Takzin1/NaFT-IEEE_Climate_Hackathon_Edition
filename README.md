@@ -27,6 +27,10 @@
 | Automated real-browser video capture | [GitHub Actions capture runbook](docs/automated-video-recording.md) |
 | Security/migration gate | [docs/DESTINATION_MIGRATION_STATUS.md](docs/DESTINATION_MIGRATION_STATUS.md) |
 
+## Japanese observation normalization port (2026-10-19)
+
+The [Japan-to-IEEE observation bridge](docs/ieee-japan-observation-migration-2026-10-19.md) ports the Japanese edition's strict offline methane interval-CSV loader and five typed observation/QC adapters (mg/g CH₄, eddy nmol/µmol and CH₄-C mass basis), plus positive/negative JavaScript tests, independent Python Decimal oracles and a **five-case cross-edition parity gate** against IEEE's already separate BigInt/Decimal research engines. Only synthetic test CSVs are versioned; no original publisher observations were fetched or authenticated, no partial-season methane total is inferred, and no J-Credit credit or Sepolia transaction is created. Run `node tests/japan-ieee-oracle-parity.test.mjs` or `bash tests/run.sh`.
+
 ## External-source change preflight (experimental)
 
 **New optional bridge:** `node scripts/ieee-source-snapshot.mjs compare old.json new.json` audits two operator-supplied, publisher-attributed JSON releases. It fails closed on locally declared catalog omissions/duplicate IDs and identifies added, removed or modified records; a source-bound `verify` command rejects tampered or rehashed reports. [Source format, commands and official Berkeley dataset candidate](docs/ieee-real-source-onramp.md).

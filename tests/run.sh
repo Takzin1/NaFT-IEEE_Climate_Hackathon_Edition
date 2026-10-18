@@ -35,6 +35,11 @@ node tests/asia-mrv-compat.test.js
 node tests/asia-source-dock.test.mjs
 node tests/ieee-asia-source-dock.test.mjs
 node tests/independent-observation-dual.test.mjs
+node tests/japan-raw-flux.test.mjs
+python3 tests/japan-raw-flux-independent.test.py
+node tests/japan-observation-adapters.test.mjs
+python3 tests/japan-observation-adapters-independent.test.py
+node tests/japan-ieee-oracle-parity.test.mjs
 node tests/asia-native-field-header.test.mjs
 python3 tests/asia-ephemeral-provenance.test.py
 node tests/ipcc-stage-reference.test.mjs
