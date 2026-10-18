@@ -82,6 +82,13 @@ def normalized():
             and len({r.get('id') for r in urls})==len(urls)
             and all(isinstance(r.get('url'),str) and r['url'].startswith('https://')
                     for r in urls),'CURATED_SOURCE_INDEX_INVALID')
+    known={'IPCC2019':'https://www.ipcc-tfi.iges.or.jp/public/2019rf/pdf/4_Volume4/19R_V4_Ch05_Cropland.pdf',
+           'PH_AM004':'https://www.jcm.go.jp/jc/wp-content/uploads/sites/3/JCM_PH_AM004_ver01.0.pdf',
+           'TW_2025_YANG':'https://doi.org/10.6165/tai.2025.70.530',
+           'KR_2026_JANG':'https://doi.org/10.1016/j.agee.2026.110406'}
+    index={r['id']:r['url'] for r in urls}
+    require(all(index.get(k)==v for k,v in known.items()),
+            'CURATED_SOURCE_URL_MISMATCH')
     return fixtures,sources
 
 def verify_archive(file):
