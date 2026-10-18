@@ -28,6 +28,7 @@ node tests/ieee-triad-proof.test.mjs
 node tests/ieee-source-snapshot.test.mjs
 node tests/japan-mrv-baseline.test.mjs
 node tests/japan-primary-evidence-preflight.test.mjs
+node tests/nid-2026-published-subset.test.mjs
 node tests/ag005-engine.test.mjs
 node tests/ag005-v33-gxets.test.mjs
 node tests/asia-mrv-compat.test.js
