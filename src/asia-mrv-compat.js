@@ -91,7 +91,60 @@ function naftAsiaSeasonalAggregate(rows){
  }
  if(!Number.isFinite(ref)||!Number.isFinite(proj))naftAsiaFail('SEASON_OVERFLOW');
  if(ref===0)naftAsiaFail('SEASON_ZERO_REFERENCE');
- return {status:'RESEARCH_WEIGHTED_ANNUAL_COMPARISON',calendar_year:first.calendar_year,
-  baseline_kg_ch4:ref,project_kg_ch4:proj,reduction_percent:(ref-proj)/ref*100,
+ var pct=(ref-proj)/ref*100;
+ if(!Number.isFinite(pct))naftAsiaFail('SEASON_REDUCTION_OVERFLOW');
+ return {status:'RESEARCH_WEIGHTED_RECORDED_SEASONS_ONLY',calendar_year:first.calendar_year,
+  baseline_kg_ch4:ref,project_kg_ch4:proj,reduction_percent:pct,
+  annual_coverage_verified:false,original_sources_verified:false,
   derived_from_absolute_seasonal_amounts:true,official_jcredit_tco2e:null};
+}
+
+/**
+ * Explicit declared-coverage research gate, not registry eligibility. The supplied
+ * source manifest digest checks internal identity only; it cannot authenticate the publisher.
+ * One rice cropping season can be a full declared year ONLY when the declaration lists one.
+ */
+function naftAsiaDeclaredAnnualCoverage(rows,declaration){
+ if(!declaration||typeof declaration!=='object'||Array.isArray(declaration))
+  naftAsiaFail('ANNUAL_DECLARATION_REQUIRED');
+ for(var k of ['country','calendar_year','field_id','methodology_id','data_status','source_manifest_sha256'])
+  naftAsiaText(declaration[k],k);
+ if(!['SYNTHETIC','RESEARCH_REFERENCE'].includes(declaration.data_status))
+  naftAsiaFail('ANNUAL_UNVERIFIED_DATA_STATUS');
+ if(!/^[0-9a-f]{64}$/.test(declaration.source_manifest_sha256))
+  naftAsiaFail('ANNUAL_SOURCE_DIGEST_REQUIRED');
+ var expected=declaration.expected_season_ids;
+ if(!Array.isArray(expected)||!expected.length||expected.length>4||
+    expected.some(id=>typeof id!=='string'||id.length>100||!id.trim())||
+    new Set(expected).size!==expected.length)
+  naftAsiaFail('ANNUAL_EXPECTED_SEASON_IDS_INVALID');
+ var area=naftAsiaNum(declaration.field_area_ha,'field_area_ha');
+ if(area<=0)naftAsiaFail('ANNUAL_POSITIVE_FIELD_AREA_REQUIRED');
+ if(!Array.isArray(rows)||rows.length!==expected.length)
+  naftAsiaFail('ANNUAL_INCOMPLETE_CROP_COVERAGE');
+ var allowed=new Set(expected),seen=new Set();
+ for(var row of rows){
+  if(!row||typeof row!=='object')naftAsiaFail('ANNUAL_ROW_REQUIRED');
+  for(var key of ['country','calendar_year','field_id']){
+   if(row[key]!==declaration[key])naftAsiaFail('ANNUAL_FIELD_OR_PERIOD_MISMATCH:'+key);
+  }
+  for(var key of ['methodology_id','data_status','source_manifest_sha256']){
+   if(row[key]!==declaration[key])naftAsiaFail('ANNUAL_SOURCE_OR_METHOD_MISMATCH:'+key);
+  }
+  if(!allowed.has(row.season_id)||seen.has(row.season_id))
+   naftAsiaFail('ANNUAL_SEASON_NOT_DECLARED_OR_DUPLICATE');
+  seen.add(row.season_id);
+  if(naftAsiaNum(row.area_ha,'area_ha')!==area)
+   naftAsiaFail('ANNUAL_FIELD_AREA_CHANGED');
+  naftAsiaText(row.source_record_id,'source_record_id');
+  naftAsiaText(row.source_uri,'source_uri');
+ }
+ var result=naftAsiaSeasonalAggregate(rows);
+ return {...result,schema:'naft-asia-declared-annual-coverage-1',
+  status:result.reduction_percent<0?'RESEARCH_DECLARED_COVERAGE_NEGATIVE_REDUCTION':'RESEARCH_DECLARED_COVERAGE_ONLY',
+  declared_seasons:expected.slice().sort(),declared_complete:true,
+  annual_coverage_verified:false,original_sources_verified:false,
+  source_manifest_sha256:declaration.source_manifest_sha256,
+  methodology_id:declaration.methodology_id,
+  claims_based_on_operator_declaration_only:true,official_jcredit_tco2e:null};
 }
