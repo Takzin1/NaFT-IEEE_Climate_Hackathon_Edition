@@ -27,6 +27,8 @@ node tests/ieee-audit.test.mjs
 node tests/ieee-triad-proof.test.mjs
 node tests/ieee-source-snapshot.test.mjs
 node tests/japan-mrv-baseline.test.mjs
+node --check src/asia-mrv-research.mjs
+node tests/asia-mrv-research.test.mjs
 node tests/ag005-engine.test.mjs
 node tests/ag005-v33-gxets.test.mjs
 node tests/ag005-formula-parity-regression.test.mjs
