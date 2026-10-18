@@ -1,0 +1,42 @@
+{
+  "schema": "naft-japanflux-jp-hrt-native-intake-v1",
+  "state": "ORIGINAL_ARCHIVE_LOCALLY_REPLAYED_SOURCE_QC_AND_UNITS_UNVERIFIED",
+  "dataset_id": "A20241210-020",
+  "dataset_version": "2.00",
+  "source_attribution": "Komiya, S. (2025). JapanFlux2024 JP-Hrt Hiratsuka Rice Paddy, v2.00, Arctic Data archive System, DOI:10.17592/001.2024121020 (CC BY 4.0 shown in bundled metadata PDF)",
+  "archive_sha256": "bffad17bd7acf962eb1af9fa4f2092c038a813291b9fc4c79e548674101d40eb",
+  "source_hh_csv_sha256": "3692a7b3d4da4b8fb19eade724f785289c74e94a63de4742e62d9e08c01d2e95",
+  "source_metadata_pdf_sha256": "855100367b84c856801119571fe0b3bd98a9a6782d7de8acfbb9818352f408ed",
+  "source_site_badm_sha256": "ed2c231a290eab9aa297b491104e8c0977a986152f4a1658cfe913bad4e7f847",
+  "native_series_sha256": "a6629e61fea92526bb0e2ec1f3454820fba428590875f996cec35669a1b6dcfb",
+  "archive_file_count": 33,
+  "coverage": {
+    "row_count": 17520,
+    "valid_native_fch4_rows": 1915,
+    "missing_native_fch4_rows": 15605,
+    "valid_ch4_concentration_rows": 4619,
+    "native_fch4_days_with_any_value": 103,
+    "first_source_timestamp_local": "201301010000",
+    "last_source_timestamp_end_local": "201401010000",
+    "source_time_interval_minutes": 30,
+    "observed_seconds_native_presence_only": 3447000,
+    "window_seconds": 31536000,
+    "presence_coverage_percent": "10.930365",
+    "source_fch4_native_min": "0.5722",
+    "source_fch4_native_max": "2167.33431875",
+    "fch4_aliased_columns_equal": true
+  },
+  "science_gate": {
+    "timestamp_basis": "LOCAL_TIME_SITE_BADM_UTC_OFFSET_PLUS_9_REVIEWED",
+    "measurement_method": "CONFLICT_PDF_HREA_CHAMBER_BADM_EC_REQUIRES_REVIEW",
+    "fch4_flux_unit_confirmed": false,
+    "ch4_qc_flags_assessed": false,
+    "missing_intervals_gap_filled": false,
+    "real_source_timeseries_present": true,
+    "real_source_publisher_authenticated_independently": false,
+    "integrated_mg_ch4_m2": null,
+    "annual_ch4_total": null,
+    "official_ag005_factor_verified": false,
+    "certified_tco2e": null
+  }
+}
