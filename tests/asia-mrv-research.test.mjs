@@ -4,6 +4,11 @@ import {inspectAsiaReferences,inventoryIpcc2019Replay,methaneMassKg,n2oMassKg,
   compareMethaneSeasons,replayPhAm004Synthetic} from '../src/asia-mrv-research.mjs';
 const fixture=JSON.parse(readFileSync(new URL('../data/asia-mrv-research-2026-10-18/reference-cases.json',import.meta.url),'utf8'));
 const copy=()=>structuredClone(fixture);
+const manifest=JSON.parse(readFileSync(new URL('../data/asia-mrv-research-2026-10-18/source-manifest.json',import.meta.url),'utf8'));
+assert.equal(manifest.original_archive_sha256,'f8d4460d8a6e3fa4129469a7e4df5995998d82484a90b7a75fdd8b610e933406');
+assert.equal(manifest.official_validation,false);
+assert.equal(manifest.downloaded_original_document_sha256_verified,false);
+assert.equal(manifest.citations.length,10);
 const fail=(fn,code)=>assert.throws(fn,new RegExp(code));
 const r=inspectAsiaReferences(fixture);
 assert.equal(r.scope,'RESEARCH_ONLY');
@@ -31,8 +36,9 @@ for(const fn of [
  d=>{d.reference_cases[2].units='kg_CH4_ha_year';},
  d=>{d.reference_cases[5].awdcf_n2o_increase_percent=-1;},
  d=>{d.reference_cases[6].status='JAPAN_AG005_APPROVED';},
+ d=>{d.reference_cases[4].source='https://example.org/forged';},
  d=>{d.policy='CERTIFIED';}
-]){const x=copy();fn(x);fail(()=>inspectAsiaReferences(x),'INVALID|MISMATCH|FORGED|LOST|UNMET|SCOPE|DUPLICATE|SCHEMA');}
+]){const x=copy();fn(x);fail(()=>inspectAsiaReferences(x),'INVALID|MISMATCH|FORGED|LOST|UNMET|SCOPE|DUPLICATE|SCHEMA|PROVENANCE');}
 const flags=Object.fromEntries(['project_drainage_pump_included','paired_water_regime','same_soil_stratum',
   'preseason_regime_recorded','fertilizer_n_recorded','evidence_verified'].map(x=>[x,true]));
 const p={country:'PH',method:'PH_AM004@1.0',approach:'DIRECT_MEASUREMENT',interval_years:3,
