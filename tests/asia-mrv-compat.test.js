@@ -68,4 +68,42 @@ reject(()=>ctx.naftAsiaSeasonalAggregate([rows[0],{...rows[1],season_id:'1'}]),'
 reject(()=>ctx.naftAsiaSeasonalAggregate([{...rows[0],reference_kg_ch4_ha_season:0,project_kg_ch4_ha_season:0}]),'SEASON_ZERO_REFERENCE');
 ok(fixture.published_case_metadata.find(x=>x.id==='TAIWAN_2024_FIRST').calendar_year==='2024');
 ok(fixture.published_case_metadata.find(x=>x.id==='PH_AM004').status.includes('NOT_JAPAN'));
+// Research-only annual coverage must NEVER be inferred from partial seasonal rows.
+ok(tw.status==='RESEARCH_WEIGHTED_RECORDED_SEASONS_ONLY');
+ok(tw.annual_coverage_verified===false&&tw.original_sources_verified===false);
+const sourceHash='a'.repeat(64);
+const annual={country:'TW',calendar_year:'2023',field_id:'TEST',methodology_id:'TW-LAB@1',
+  data_status:'RESEARCH_REFERENCE',source_manifest_sha256:sourceHash,
+  field_area_ha:1,expected_season_ids:['1','2']};
+const record=season=>({...season,methodology_id:annual.methodology_id,
+  data_status:annual.data_status,source_manifest_sha256:sourceHash,
+  source_record_id:'TW-STUDY-'+season.season_id,source_uri:'https://doi.org/10.6165/tai.2025.70.530'});
+const yr=[record(rows[0]),record(rows[1])];
+const locked=ctx.naftAsiaDeclaredAnnualCoverage(yr,annual);
+eq(locked.reduction_percent,27.5);
+ok(locked.declared_complete===true&&locked.annual_coverage_verified===false&&
+   locked.original_sources_verified===false&&locked.official_jcredit_tco2e===null);
+ok(locked.status==='RESEARCH_DECLARED_COVERAGE_ONLY'&&locked.declared_seasons.length===2);
+reject(()=>ctx.naftAsiaDeclaredAnnualCoverage(yr.slice(0,1),annual),'ANNUAL_INCOMPLETE');
+reject(()=>ctx.naftAsiaDeclaredAnnualCoverage([...yr,record({...rows[0],season_id:'3'})],annual),'ANNUAL_INCOMPLETE');
+reject(()=>ctx.naftAsiaDeclaredAnnualCoverage([yr[0],yr[0]],annual),'ANNUAL_SEASON');
+reject(()=>ctx.naftAsiaDeclaredAnnualCoverage([yr[0],{...yr[1],season_id:'3'}],annual),'ANNUAL_SEASON');
+reject(()=>ctx.naftAsiaDeclaredAnnualCoverage(yr,{...annual,expected_season_ids:['1','1']}),'ANNUAL_EXPECTED');
+reject(()=>ctx.naftAsiaDeclaredAnnualCoverage(yr,{...annual,expected_season_ids:['1']}),'ANNUAL_INCOMPLETE');
+reject(()=>ctx.naftAsiaDeclaredAnnualCoverage(yr,{...annual,field_area_ha:0}),'ANNUAL_POSITIVE');
+reject(()=>ctx.naftAsiaDeclaredAnnualCoverage(yr,{...annual,source_manifest_sha256:'bad'}),'ANNUAL_SOURCE_DIGEST');
+reject(()=>ctx.naftAsiaDeclaredAnnualCoverage(yr,{...annual,data_status:'CERTIFIED'}),'ANNUAL_UNVERIFIED');
+for(const [key,value,code] of [
+ ['country','JP','ANNUAL_FIELD_OR_PERIOD'],['calendar_year','2024','ANNUAL_FIELD_OR_PERIOD'],
+ ['field_id','DIFFERENT','ANNUAL_FIELD_OR_PERIOD'],['methodology_id','AG-005','ANNUAL_SOURCE_OR_METHOD'],
+ ['data_status','SYNTHETIC','ANNUAL_SOURCE_OR_METHOD'],
+ ['source_manifest_sha256','b'.repeat(64),'ANNUAL_SOURCE_OR_METHOD'],
+ ['source_record_id',null,'MISSING_METADATA'],['source_uri',null,'MISSING_METADATA'],
+ ['area_ha',2,'ANNUAL_FIELD_AREA_CHANGED']
+])reject(()=>ctx.naftAsiaDeclaredAnnualCoverage([yr[0],{...yr[1],[key]:value}],annual),code);
+const negativeYear=ctx.naftAsiaDeclaredAnnualCoverage(
+ [{...yr[0],project_kg_ch4_ha_season:130}, {...yr[1],project_kg_ch4_ha_season:360}],annual);
+ok(negativeYear.status==='RESEARCH_DECLARED_COVERAGE_NEGATIVE_REDUCTION'&&
+   negativeYear.reduction_percent<0&&negativeYear.official_jcredit_tco2e===null);
+
 console.log('ASIA_MRV_COMPAT_PASS: '+passed+' research assertions, 0 failures');
