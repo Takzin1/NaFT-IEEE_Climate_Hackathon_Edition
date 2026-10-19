@@ -91,3 +91,35 @@ attempts fail closed if the publisher record metadata changes; offline receipt
 verification also rejects fabricated 64-character record hashes. **A record
 hash match is not a cryptographic publisher signature or an independent legal
 license review.**
+
+## Gimje structural preflight (new; no calendar/QC inference)
+
+The pinned original archives are now inspected **without extracting any ZIP
+member**. Run:
+
+```sh
+python3 tests/ieee-gimje-structure-preflight.test.py
+python3 scripts/ieee-gimje-structure-preflight.py \
+  --output /tmp/gimje-structure-preflight.json
+```
+
+The deterministic JSON report lists each source CSV member name, original
+member SHA-256, row count, expected header, missing/non-numeric token counts
+and repeated **literal** DAT values. It also enumerates the Excel workbook's
+sheets and *literal* first-row cell contents (not guessed field join keys).
+Both whole-file SHA-256 digests are rechecked against the acquisition catalog
+and receipt before/after inspection. The ZIP and XLSX are bounded, treated as
+untrusted archives and never extracted to a destination path. Dangerous ZIP
+members, symlinks, excessive expansion, malformed CSV and XML external
+references are rejected.
+
+The report's explicit blockers are **not automatically satisfied**: DAT
+values may be relative to rice transplanting rather than ISO calendar dates;
+source workbook meanings and field identity still require a reviewed
+data dictionary. Units of `ch4_flux`, chamber observation support, quality
+flags and site matching are still unverified. Numeric-token diagnostics
+do not make measurements scientifically valid. The report never computes
+methane reductions, certified tCO2e, regulatory eligibility, or offsets.
+
+The GitHub CI retains the full inspection JSON as a downloadable
+`ieee-gimje-structural-preflight` artifact for independent inspection.

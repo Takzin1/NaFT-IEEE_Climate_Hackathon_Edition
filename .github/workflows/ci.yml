@@ -34,6 +34,13 @@ jobs:
           node -e "JSON.parse(require('fs').readFileSync('tools/climatechain-testnet-deploy/package.json','utf8'))"
       - name: Run Core regression, Compiler Corpus, syntax and security checks
         run: bash tests/run.sh
+      - name: Archive Gimje offline structural-preflight report
+        uses: actions/upload-artifact@v4
+        with:
+          name: ieee-gimje-structural-preflight
+          path: /tmp/naft-ieee-gimje-structure-preflight.json
+          if-no-files-found: error
+          retention-days: 21
       - name: Execute ClimateChain contract behavior on local EVM
         run: node tests/climatechain-contract-behavior.test.mjs
       - name: Browser Reviewer, Evidence file, six-route and Compiler role-flow checks
