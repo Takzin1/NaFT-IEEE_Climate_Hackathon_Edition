@@ -26,6 +26,8 @@ for finding in findings[:10]:
     print("Finding rule:", finding.get("RuleID", "<unknown>"),
           "commit:", str(finding.get("Commit", ""))[:12],
           "line:", finding.get("StartLine", "?"))
+    print("Finding fingerprint (no credential content):",
+          finding.get("Fingerprint", "<unavailable>"))
 PY
   exit 1
 fi
