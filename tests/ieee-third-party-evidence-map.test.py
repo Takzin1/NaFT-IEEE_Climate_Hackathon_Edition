@@ -29,11 +29,14 @@ class TestIndependentEvidence(unittest.TestCase):
         self.assertEqual(result,self.make())
         self.assertEqual(result["third_party_references_count"],9)
         self.assertEqual(result["source_primary_evidence_gaps"],9)
-        self.assertEqual(result["external_dataset_files_downloaded"],1)
+        self.assertEqual(result["external_dataset_files_downloaded"],3)
+        self.assertEqual(result["distinct_external_source_origins_with_raw_data"],2)
+        self.assertEqual(result["Harvard_analyzer_sha256"],m.HARVARD_RAW_SHA)
+        self.assertEqual(result["Harvard_event_key_sha256"],m.HARVARD_KEY_SHA)
         self.assertEqual(result["third_party_algorithms_executed"],0)
         self.assertEqual(result["independent_human_reviewer_signoffs"],0)
         self.assertEqual(result["status"],
-                         "ONE_LICENSED_THIRD_PARTY_BENCHMARK_SUBSET_IMPORTED_REPLAY_VERIFIED_SEPARATELY")
+                         "TWO_THIRD_PARTY_RAW_SUBSETS_IMPORTED_REPLAY_AND_QC_ASSESSED_SEPARATELY")
         self.assertEqual(result["source_file_sha256"]["ch4.zip"],m.GIMJE_HASH)
         self.assertIs(result["strict_boundaries"]["independent_field_level_validation"],False)
         self.assertIs(result["strict_boundaries"]["cross_ec_chamber_value_equivalence"],False)
@@ -41,7 +44,7 @@ class TestIndependentEvidence(unittest.TestCase):
         self.assertTrue(all(claim["independently_validated"] is False
                             for claim in result["independent_claims"]))
         acquired=[x["id"] for x in result["external_references"] if x["source_acquired"]]
-        self.assertEqual(acquired,["GASFLUXES_CRAN_2026"])
+        self.assertEqual(acquired,["GASFLUXES_CRAN_2026","HARVARD_FOREST_CHAMBER_FLUX"])
         self.assertEqual(result["imported_subset_records"],20)
         self.assertEqual(result["imported_subset_sha256"],m.GASFLUXES_SAMPLE_SHA)
         for ref in result["external_references"]:
@@ -81,7 +84,12 @@ class TestIndependentEvidence(unittest.TestCase):
             self.make(forged)
         forged=copy.deepcopy(self.registry)
         other=next(x for x in forged["sources"] if x["id"]=="HARVARD_FOREST_CHAMBER_FLUX")
-        other["external_bytes_imported"]=True
+        other["source_data_download_sha256"]="0"*64
+        with self.assertRaisesRegex(ValueError,"HARVARD_RAW_SOURCE_IMPORT_INVALID"):
+            self.make(forged)
+        forged=copy.deepcopy(self.registry)
+        pending=next(x for x in forged["sources"] if x["id"]=="FLUXNET_SHUTTLE")
+        pending["external_bytes_imported"]=True
         with self.assertRaisesRegex(ValueError,"FORGED_EXTERNAL_VALIDATION_STATUS"):
             self.make(forged)
 
