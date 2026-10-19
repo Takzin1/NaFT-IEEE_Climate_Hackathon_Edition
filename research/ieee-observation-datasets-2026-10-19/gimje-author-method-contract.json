@@ -1,0 +1,99 @@
+{
+  "schema": "naft-ieee-gimje-author-method-contract-v1",
+  "mode": "RESEARCH_REFERENCE_NOT_QC_AUTHORIZATION",
+  "dataset": {
+    "id": "KR_GIMJE_DAILY_2022_2024",
+    "doi": "10.5281/zenodo.17111992",
+    "chamber_original_sha256": "719b148d1a4f08e31bc146f412c920ae1472ca1a3a4d6dd81d882c1ef79fe813",
+    "workbook_original_sha256": "6c609759ab25bc84cb909830800be4bac086e42a51ac43a11c4367a9c52b1298"
+  },
+  "upstream_software": {
+    "repository": "https://github.com/lhs0218/gimje_ch4",
+    "pinned_commit": "45525f01642c3069d03177e8801070da1dcb3450",
+    "license": "MIT",
+    "license_file_blob_sha": "5f9512b381f2e7730a1b034a30102f58dc666895",
+    "rf_training_blob_sha": "236857e8df4c86ea182c1e02742d0a5156b99594",
+    "xgb_training_blob_sha": "761bb3f17ccf6530793f15712cfa616cf7118c5a",
+    "ported_code": false,
+    "logic_independently_reimplemented": true
+  },
+  "rules": [
+    {
+      "id": "FIELD_FILENAME",
+      "origin": "01.train_RF_gimje.R",
+      "lines": "90-99",
+      "upstream_rule": "field_id from source CSV basename; match metadata field_id",
+      "naft_check": "CANDIDATE_EXACT_ONLY",
+      "scientifically_approved": false
+    },
+    {
+      "id": "DAT_DATE",
+      "origin": "01.train_RF_gimje.R",
+      "lines": "100-105",
+      "upstream_rule": "df$date <- planting_date + df$DAT",
+      "naft_check": "PROPOSED_DATE_ONLY_AFTER_1900_SERIAL_AND_DAT_SYNTAX_CHECK",
+      "scientifically_approved": false
+    },
+    {
+      "id": "DAT_STAGES",
+      "origin": "01.train_RF_gimje.R",
+      "lines": "130-135",
+      "upstream_rule": "DAT <= 10 rooting, <= 45 tillering, <= 90 reproductive, else ripening",
+      "naft_check": "REFERENCE_STAGE_LABEL_ONLY",
+      "scientifically_approved": false
+    },
+    {
+      "id": "TRAINING_MISSING",
+      "origin": "01.train_RF_gimje.R",
+      "lines": "126-128",
+      "upstream_rule": "drop_na(ch4_flux, DAT, tavg, EVI)",
+      "naft_check": "COUNT_MISSING_CH4_ONLY_DO_NOT_ZERO_FILL_OR_TRAIN",
+      "scientifically_approved": false
+    }
+  ],
+  "source_token_families": {
+    "water_management": [
+      "cf",
+      "md_14days",
+      "md_21days",
+      "md_28days",
+      "md_14days+awd",
+      "md_21days+awd",
+      "md_28days+awd"
+    ],
+    "status": "LITERAL_SOURCE_TOKENS_NOT_HYDROLOGIC_EVENT_CERTIFICATION",
+    "ch4_flux_unit_publisher_claim": "g CH4 m-2 day-1",
+    "ch4_flux_units_accepted_for_MRV": false
+  },
+  "date_semantics": {
+    "candidate_excel_epoch": "1899-12-30",
+    "excel_1904_workbooks": "REJECT",
+    "accepted_serial_range": [
+      40000,
+      50000
+    ],
+    "source_years": [
+      2022,
+      2023,
+      2024
+    ],
+    "converted_dates_are": "DERIVED_CANDIDATES_ONLY",
+    "time_zone": "NOT_RELEVANT_TO_DATE_ONLY_NO_TIME_OF_DAY_AVAILABLE"
+  },
+  "integrity_guards": {
+    "source_sha_locked": true,
+    "strict_literals": true,
+    "do_not_extract_untrusted_archive": true,
+    "workbook_formulas_rejected": true,
+    "registry_eligibility": false,
+    "biological_QC_approved": false,
+    "interval_support_approved": false
+  },
+  "prohibited_actions": [
+    "do not interpolate blanks",
+    "do not train models",
+    "do not integrate flux to seasonal totals",
+    "do not claim causal reduction or carbon credit",
+    "do not auto-authorize data for J-Credit"
+  ]
+}

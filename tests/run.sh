@@ -53,6 +53,9 @@ python3 scripts/ieee-gimje-structure-preflight.py --output /tmp/naft-ieee-gimje-
 python3 -m py_compile scripts/ieee-gimje-field-crosswalk.py tests/ieee-gimje-field-crosswalk.test.py
 python3 tests/ieee-gimje-field-crosswalk.test.py
 python3 scripts/ieee-gimje-field-crosswalk.py --output /tmp/naft-ieee-gimje-field-crosswalk.json
+python3 -m py_compile scripts/ieee-gimje-reference-method-gates.py tests/ieee-gimje-reference-method-gates.test.py
+python3 tests/ieee-gimje-reference-method-gates.test.py
+python3 scripts/ieee-gimje-reference-method-gates.py --output /tmp/naft-ieee-gimje-reference-method-gates.json
 python3 -m py_compile scripts/japanflux-jp-hrt-v200.py tests/japanflux-jp-hrt-v200.test.py
 python3 tests/japanflux-jp-hrt-v200.test.py
 python3 -m py_compile scripts/japanflux-jp-hrt-v200-consistency.py tests/japanflux-jp-hrt-v200-consistency.test.py
