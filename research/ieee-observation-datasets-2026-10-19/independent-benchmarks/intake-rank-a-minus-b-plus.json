@@ -49,7 +49,9 @@
       },
       "why_not_A_minus": "no matching event window in this source slice; nonzero alarm code QC meaning unapproved; concentration and physical chamber volume/area not bound; raw data-specific reuse rights unconfirmed",
       "chamber_flux_approved": false,
-      "regulatory_claims_approved": false
+      "regulatory_claims_approved": false,
+      "original_raw_sha256": "f6e65ff4b655db059edae321282b5641a4b5786be99bbac1739e629c007ba92a",
+      "original_event_key_sha256": "18bf6d01c9dcd1a25f01e8b64990f3d5924fb4b8fb533c9d577014bf99701bd5"
     }
   ],
   "safety_gates": {
