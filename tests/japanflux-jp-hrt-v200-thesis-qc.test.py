@@ -101,4 +101,83 @@ check(profile['trust']['japanflux_original_yearly_emissions'] is None)
 check(profile['trust']['certified_tco2e'] is None)
 check(profile['source_archive_sha256']==original['archive_sha256'])
 check(profile['dissertation_pdf_sha256']==evidence['reference']['pdf_sha256'])
+
+# Exercise the *whole* scientific preflight on synthetic source bytes.  Only
+# the test-local module constant is substituted with a synthetic PDF digest;
+# published production hash pins remain unchanged.
+from tempfile import TemporaryDirectory
+from datetime import datetime,timedelta
+from hashlib import sha256
+from io import StringIO
+import csv
+import zipfile
+
+def synthetic_zip(path, change_wind=False):
+    stream=StringIO()
+    writer=csv.writer(stream,lineterminator='\\n')
+    writer.writerow(['TIMESTAMP_START','TIMESTAMP_END','FCH4','FCH4_1_1_1',
+                     'CH4_1_1_1','WD_1_1_1','USTAR_1_1_1','P_RAIN_1_1_1'])
+    dates=[datetime(2013,1,1)+timedelta(minutes=30*i) for i in range(5)]
+    rows=[
+     ('-9999.0','-9999.0','-9999.0','-9999.0','-9999.0','-9999.0'),
+     ('1.5','1.5','1.8','90' if not change_wind else '140','0.20','0.0'),
+     ('1.9','1.9','1.8','120','0.05','1.0'),
+     ('2.0','2.0','1.8','-9999.0','0.20','0.0')
+    ]
+    for i,fields in enumerate(rows):
+        writer.writerow([dates[i].strftime('%Y%m%d%H%M'),
+                         dates[i+1].strftime('%Y%m%d%H%M'),*fields])
+    members={audit.native.HH:stream.getvalue().encode(),
+       audit.native.PDF:b'%PDF-1.4 FAKE test PDF, not real ADS\\n',
+       audit.native.BADM:b'PK FAKE workbook, not real BADM\\n'}
+    with zipfile.ZipFile(path,'w',compression=zipfile.ZIP_STORED) as archive:
+        for name,data in members.items():archive.writestr(name,data)
+    pin={'schema':'naft-japanflux-jp-hrt-v200-pin-1',
+         'archive_sha256':sha256(path.read_bytes()).hexdigest(),
+         'source_hh_csv_sha256':sha256(members[audit.native.HH]).hexdigest(),
+         'source_metadata_pdf_sha256':sha256(members[audit.native.PDF]).hexdigest(),
+         'source_site_badm_sha256':sha256(members[audit.native.BADM]).hexdigest()}
+    return pin
+
+with TemporaryDirectory() as folder:
+    local=Path(folder)/'fake-jphrt.zip'
+    pin=synthetic_zip(local)
+    fake_pdf=b'FAKE-SYNTHETIC-THESIS-BYTES-FOR-TEST-NOT-RESEARCH'
+    expected_original=audit.THESIS_SHA
+    audit.THESIS_SHA=sha256(fake_pdf).hexdigest()
+    synthetic_evidence=json.loads(json.dumps(evidence))
+    synthetic_evidence['reference']['pdf_sha256']=audit.THESIS_SHA
+    try:
+        result=audit.audit(local,pin,fake_pdf,synthetic_evidence)
+        check(result['status']=='BLOCKED_EXTERNAL_QC_REQUIRED')
+        check(result['screening']['native_numeric_fch4_rows']==3)
+        check(result['screening']['native_missing_fch4_rows']==1)
+        check(result['screening']['candidate_wind_exclusion_rows']==1)
+        check(result['screening']['candidate_low_ustar_rows']==1)
+        check(result['screening']['candidate_rainfall_rows']==1)
+        check(result['screening']['candidate_flagged_any_rows']==2)
+        check(result['screening']['proxy_missing_wd_rows']==1)
+        check(result['screening']['no_candidate_flag_but_some_proxy_missing']==1)
+        check(result['screening']['qc_accepted_rows']==0)
+        check(result['gates']['safe_to_integrate_flux_mass'] is False)
+        check(result['gates']['annual_ch4_emission'] is None)
+        check(result['gates']['certified_tco2e'] is None)
+        check(audit.audit(local,pin,fake_pdf,synthetic_evidence)==result)
+        denied(lambda:audit.audit(local,pin,b'CORRUPTED',synthetic_evidence),
+               'JPHRT_THESIS_ORIGINAL_SHA_MISMATCH')
+        modified=json.loads(json.dumps(synthetic_evidence))
+        modified['site_specific_quality_filters']['japan_low_turbulence_ustar_threshold_m_s']='0.05'
+        denied(lambda:audit.audit(local,pin,fake_pdf,modified),
+               'JPHRT_METHOD_FILTER_EVIDENCE_CHANGED')
+        modified=json.loads(json.dumps(synthetic_evidence))
+        modified['review_state']['source_fch4_numeric_entries_qc_accepted']=True
+        denied(lambda:audit.audit(local,pin,fake_pdf,modified),
+               'JPHRT_METHOD_UNSAFE_ATTESTATION')
+        prior=pin
+        synthetic_zip(local,change_wind=True)
+        denied(lambda:audit.audit(local,prior,fake_pdf,synthetic_evidence),
+               'JPHRT_ARCHIVE_PIN_MISMATCH')
+    finally:
+        audit.THESIS_SHA=expected_original
+
 print('JPHRT_THESIS_QC_PRELIMINARY_PASS:',tests,'checks; no QC promotion, numerical mass or credits')
