@@ -1,3 +1,8 @@
 # Original CRLF line endings are intentional and hash-verified as third-party bytes.
 # Git diff --check should not count CR in the original research fixture as trailing space.
 research/ieee-observation-datasets-2026-10-19/independent-benchmarks/gasfluxes-v0.7-2/fluxmeas-first-five.csv -text whitespace=cr-at-eol
+
+# Harvard Picarro fixed-width measurements contain published alignment spaces.
+# Keep original byte sequence and pin Git object SHA for both original files.
+research/ieee-observation-datasets-2026-10-19/independent-benchmarks/harvard-forest-raw-2023/Picarro_CH4_20230630_160808.dat -text whitespace=-blank-at-eol,cr-at-eol
+research/ieee-observation-datasets-2026-10-19/independent-benchmarks/harvard-forest-raw-2023/times_key2.csv -text whitespace=cr-at-eol
