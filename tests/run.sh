@@ -59,6 +59,9 @@ python3 scripts/ieee-gimje-reference-method-gates.py --output /tmp/naft-ieee-gim
 python3 -m py_compile scripts/ieee-gimje-observation-support-map.py tests/ieee-gimje-observation-support-map.test.py
 python3 tests/ieee-gimje-observation-support-map.test.py
 python3 scripts/ieee-gimje-observation-support-map.py --output /tmp/naft-ieee-gimje-observation-support-map.json
+python3 -m py_compile scripts/ieee-gimje-replay-readiness.py tests/ieee-gimje-replay-readiness.test.py
+python3 tests/ieee-gimje-replay-readiness.test.py
+python3 scripts/ieee-gimje-replay-readiness.py --output /tmp/naft-ieee-gimje-replay-readiness.json
 python3 -m py_compile scripts/japanflux-jp-hrt-v200.py tests/japanflux-jp-hrt-v200.test.py
 python3 tests/japanflux-jp-hrt-v200.test.py
 python3 -m py_compile scripts/japanflux-jp-hrt-v200-consistency.py tests/japanflux-jp-hrt-v200-consistency.test.py
