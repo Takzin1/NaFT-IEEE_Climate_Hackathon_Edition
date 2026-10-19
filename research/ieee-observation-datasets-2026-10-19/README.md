@@ -62,7 +62,7 @@ python3 scripts/ieee-research-original-acquire.py acquire \
 ```
 
 The importer uses only the official Zenodo record's metadata and file endpoints,
-a strict allowlist of redistributable licenses, the publisher's MD5 values and
+a strict allowlist of redistributable licenses **plus catalog-pinned license ID**, the publisher's MD5 values and
 NaFT's previously captured original SHA-256. It rejects ambiguous/missing
 licenses, edited bytes, wrong record DOI, oversized files and path traversal.
 It never parses the original data as valid science, makes an API call during
@@ -73,3 +73,14 @@ branch. Real observation processing needs separate reviewed adapters and QC.
 **Citation**: Lee, Hyoung Seok. (2025). *Daily methane (CH₄) emission
 measurements from paddy fields in Gimje, Korea (2022–2024)*. Zenodo.
 https://doi.org/10.5281/zenodo.17111992
+
+### Audit hardening
+
+The offline verifier now explicitly rejects altered trust declarations in the
+acquisition receipt (including false certification, accepted QC or fabricated
+publisher signatures), duplicate or path-traversing filenames, unpinned source
+licenses, local symlinks and oversized files. A checksum match proves exact
+bytes match a prior record but **never authenticates the publisher**. The
+pinned CC BY claim is a metadata record of what was observed, not an ongoing
+legal assessment. A source with missing license (China) cannot be auto-imported
+until the catalog license is explicitly reviewed and pinned.

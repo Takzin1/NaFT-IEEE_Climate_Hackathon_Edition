@@ -21,7 +21,7 @@ class IntakeTests(unittest.TestCase):
         self.sha = hashlib.sha256(self.raw).hexdigest()
         self.row = {
             "id": "SYNTHETIC_ZENODO_TEST", "source": "ZENODO", "record_id": "123",
-            "doi": "10.1234/synthetic", "files": [{
+            "doi": "10.1234/synthetic", "expected_license_id": "cc-by-4.0", "files": [{
                 "filename": "synthetic.csv", "published_md5": self.md5,
                 "previous_ephemeral_sha256": self.sha,
                 "expected_size_bytes": len(self.raw)}]
@@ -95,6 +95,24 @@ class IntakeTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "NON_ZENODO_URL"):
             tool.fetch_bytes("https://example.com/data", 100)
 
+    def test_license_requires_explicit_pin(self):
+        self.row["expected_license_id"] = None
+        with self.assertRaisesRegex(ValueError, "SOURCE_LICENSE_NOT_PINNED_OR_CHANGED"):
+            tool.acquire(self.row["id"], self.dir, self.fetcher)
+        self.row["expected_license_id"] = "cc0-1.0"
+        with self.assertRaisesRegex(ValueError, "SOURCE_LICENSE_NOT_PINNED_OR_CHANGED"):
+            tool.acquire(self.row["id"], self.dir, self.fetcher)
+
+    def test_duplicate_and_reserved_filename(self):
+        self.row["expected_license_id"] = "cc-by-4.0"
+        self.row["files"].append(dict(self.row["files"][0]))
+        with self.assertRaisesRegex(ValueError, "DUPLICATE_SOURCE_FILE_NAME"):
+            tool.acquire(self.row["id"], self.dir, self.fetcher)
+        self.row["files"].pop()
+        self.row["files"][0]["filename"] = "acquisition-receipt.json"
+        with self.assertRaisesRegex(ValueError, "UNSAFE_FILE_NAME"):
+            tool.acquire(self.row["id"], self.dir, self.fetcher)
+
 
 class CommittedGimjeTests(unittest.TestCase):
     def test_exact_original_files_and_safe_source_zip(self):
@@ -103,6 +121,32 @@ class CommittedGimjeTests(unittest.TestCase):
         result = tool.verify_local("KR_GIMJE_DAILY_2022_2024", original)
         self.assertEqual(result["files_verified"], 2)
         self.assertIsNone(result["certified_tco2e"])
+        original_receipt = original / "acquisition-receipt.json"
+        with tempfile.TemporaryDirectory() as tmp:
+            mirror = pathlib.Path(tmp)
+            for path in original.iterdir():
+                (mirror / path.name).write_bytes(path.read_bytes())
+            truth = json.loads((mirror / "acquisition-receipt.json").read_text("utf-8"))
+            for field, forged in [
+                ("status", "CERTIFIED_REAL_CH4"),
+                ("certified_tco2e", 50000),
+                ("scientific_replication_verified", True),
+                ("source_specific_qc_completed", True),
+                ("independent_original_publisher_signature_authenticated", True),
+                ("license_metadata_snapshot_reviewed_for_redistribution", "true"),
+                ("record_metadata_sha256", "not-a-hash"),
+                ("license_as_claimed_by_zenodo_record", "cc0-1.0")
+            ]:
+                forged_receipt = {**truth, field: forged}
+                (mirror / "acquisition-receipt.json").write_text(json.dumps(forged_receipt))
+                with self.assertRaisesRegex(ValueError, "RECEIPT_CONTEXT_OR_TRUST"):
+                    tool.verify_local("KR_GIMJE_DAILY_2022_2024", mirror)
+            (mirror / "acquisition-receipt.json").write_text(json.dumps(truth))
+            target = mirror / "ch4.zip"
+            target.unlink()
+            target.symlink_to(original / "ch4.zip")
+            with self.assertRaisesRegex(ValueError, "ORIGINAL_FILE_UNSAFE_OR_SIZE_MISMATCH"):
+                tool.verify_local("KR_GIMJE_DAILY_2022_2024", mirror)
         with zipfile.ZipFile(original / "ch4.zip") as archive:
             entries = archive.infolist()
             csv_members = [x for x in entries if x.filename.lower().endswith(".csv")]

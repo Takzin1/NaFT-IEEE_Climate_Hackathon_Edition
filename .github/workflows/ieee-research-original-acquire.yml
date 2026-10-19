@@ -2,6 +2,7 @@ name: IEEE research dataset source acquisition
 
 # Research-only importer, never part of production MRV or Pages. This workflow
 # runs only on the dedicated author-controlled source-intake feature branch.
+# No repo write permissions, automatic external downloads or automatic commits.
 on:
   push:
     branches:
@@ -13,7 +14,7 @@ on:
       - '.github/workflows/ieee-research-original-acquire.yml'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   acquire-redistributable-originals:
@@ -22,48 +23,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          persist-credentials: true
+          persist-credentials: false
       - name: Test fail-closed downloader offline
         run: python3 tests/ieee-research-original-acquire.test.py
-      - name: Retrieve & hash-check permitted Zenodo originals
-        shell: bash
-        run: |
-          set -uo pipefail
-          passed=0
-          for id in KR_GIMJE_DAILY_2022_2024 CN_RICE_EDDY_EAST_2023_DAILY; do
-            destination="research/ieee-observation-datasets-2026-10-19/originals/$id"
-            echo "::group::$id"
-            if [ -f "$destination/acquisition-receipt.json" ]; then
-              echo "Already committed: checking source bytes again without network"
-              python3 scripts/ieee-research-original-acquire.py verify-local "$id" --destination "$destination" || exit 1
-              passed=$((passed+1))
-              echo "::endgroup::"
-              continue
-            fi
-            if python3 scripts/ieee-research-original-acquire.py acquire "$id" --destination "$destination"; then
-              python3 scripts/ieee-research-original-acquire.py verify-local "$id" --destination "$destination" || exit 1
-              passed=$((passed+1))
-            else
-              echo "::warning::$id NOT imported (download/licensing/integrity check failed). Review the logged gate."
-            fi
-            echo "::endgroup::"
-          done
-          if [ "$passed" -eq 0 ]; then
-            echo "::error::No source had verified open redistribution rights AND both original/pinned file digests."
-            exit 1
-          fi
-          echo "SOURCES_ACQUIRED=$passed" >> "$GITHUB_ENV"
-      - name: Commit only rights-cleared source originals to the feature branch
+      - name: Verify previously acquired rights-checked original files offline
         shell: bash
         run: |
           set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/ieee-observation-datasets-2026-10-19/originals/
-          if git diff --cached --quiet; then
-            echo "No new originals to commit"
-            exit 0
-          fi
-          git commit -m "data(IEEE): import rights-checked publisher bytes and source-hash receipts [skip ci]"
-          git push origin HEAD:"$GITHUB_REF_NAME"
-          echo "::notice::Imported $SOURCES_ACQUIRED source record(s) to feature branch, NOT production main."
+          python3 scripts/ieee-research-original-acquire.py verify-local KR_GIMJE_DAILY_2022_2024 --destination research/ieee-observation-datasets-2026-10-19/originals/KR_GIMJE_DAILY_2022_2024
+          echo "::notice::Only committed, previously acquired original files were checked. No download, publication or license re-approval occurred."
