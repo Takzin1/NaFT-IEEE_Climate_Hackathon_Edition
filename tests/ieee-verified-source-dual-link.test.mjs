@@ -200,6 +200,27 @@ try{
  eq(verifyVerifiedSourceDualLink(
   specFile,rawFile,manifestFile,claimed,independent,linkedWithMeta,dataciteFile)
   .status,'SOURCE_AND_DUAL_LINK_REPRODUCED');
+
+ // Both standalone reports can be individually reproducible yet disagree
+ // about the same normalized source's license declaration. Link MUST reject.
+ writeFileSync(manifestFile,JSON.stringify({
+  ...userManifest,source_license_status:'CONFLICTING_OBSERVATION_LICENSE'
+ }));
+ const inconsistentDual=generateDualObservationReceipt(manifestFile,rawFile);
+ blocked(()=>generateVerifiedSourceDualLink(
+  specFile,rawFile,manifestFile,claimed,inconsistentDual,dataciteFile),
+  'SOURCE_DUAL_LINK_CONTEXT_OR_HASH_MISMATCH');
+ writeFileSync(manifestFile,JSON.stringify(userManifest));
+ writeFileSync(specFile,JSON.stringify({
+  ...userSpec,license_claim:'CONFLICTING_SOURCE_LICENSE'
+ }));
+ const inconsistentSource=inspectSourceIntake(
+  readFileSync(specFile),csv,readFileSync(dataciteFile));
+ blocked(()=>generateVerifiedSourceDualLink(
+  specFile,rawFile,manifestFile,inconsistentSource,independent,dataciteFile),
+  'SOURCE_DUAL_LINK_CONTEXT_OR_HASH_MISMATCH');
+ writeFileSync(specFile,JSON.stringify(userSpec));
+
  try{
   process.env.PATH=temp+':'+oldPath;
   process.env.NAFT_DEBUG_MUTATE_FILE=dataciteFile;
