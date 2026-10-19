@@ -264,3 +264,60 @@ The JSON is stored as a GitHub Actions artifact named
 impossible counts, duplicated field IDs, unapproved treatment codes, fake
 approved QC and false totals trigger fail-closed errors. This is a
 report of **evidence gaps and record completeness only**.
+
+## Independent third-party evidence sources — *discovered, not validated*
+
+The source-linked registry
+[`third-party-validation-sources.json`](third-party-validation-sources.json)
+provides **nine** original DOI / source-landing pages and pinned GitHub
+code candidate records, each with independent study scope, intended
+role, source licensing, required data prerequisites and explicit reasons
+why it cannot yet certify Gimje CH4 fluxes.
+
+- **Independent QC research:** Jentzsch et al. 2025, ESSD
+  https://doi.org/10.5194/essd-17-2331-2025 and associated PANGAEA
+  expert-QC/chamber-measurement archive
+  https://doi.org/10.1594/PANGAEA.971695. Method disagreement is a
+  *risk framework*, not direct verification of 2022–24 Gimje.
+- **Independent chamber-calculation code:** CRAN `gasfluxes` (GPL ≥2,
+  external source pinned Git commit) and Harvard Forest chamber-flux
+  R workflow (MIT; pinned Git commit). They require original chamber
+  concentration time series, closure times/geometry and instrument
+  metadata **not supplied in Gimje's derived daily-flux CSV files**.
+  Neither project was vendored, executed or used to certify data.
+- **Independent rice-paddy field contexts:** FLUXNET-CH4 sites JP-Mse
+  (DOI 10.18140/FLX/1669647), KR-CRK (10.18140/FLX/1669649) and
+  PH-RiF (10.18140/FLX/1669653), supported by
+  https://doi.org/10.5194/essd-13-3607-2021. These are **eddy
+  covariance** measurements with a different time and spatial footprint
+  from the Gimje **static chamber** fluxes. FLUXNET uses -9999 missing
+  sentinels, QC qualifier variables and potentially gap-filled records.
+  Site-by-site file access, policy tier, flags and support must be
+  reconciled before any statistical comparison.
+- **External acquisition provenance:** official
+  https://fluxnet.org/download-data/ and the BSD-3-Clause
+  `fluxnet/shuttle` source are recorded as *manual acquisition leads*,
+  not an executed ingest nor a verified citation of specific data bytes.
+
+```sh
+python3 tests/ieee-third-party-evidence-map.test.py
+python3 scripts/ieee-third-party-evidence-map.py \
+  --output /tmp/naft-ieee-third-party-evidence-map.json
+```
+
+The automated offline mapper reuses the already source-hash-verified
+`ieee-gimje-replay-readiness.py`. It rejects fake external-file
+downloads, revoked scientific gates, absent upstream method commit pins,
+duplicate source IDs, malformed source DOI/URLs and attempts to pass
+FLUXNET-CH4 towers off as chamber measurements. Its output has
+**zero downloaded third-party bytes, zero third-party algorithms executed
+and zero independent human reviewer attestations**. The new GitHub
+Actions artifact is metadata only. Remote websites are NOT called by
+CI and must be rechecked manually before actual external data intake.
+
+An independent paper, a repository URL, or the presence of an unrelated
+site is not an attestation of NaFT's measurements or credits. Genuine
+cross-dataset validation requires comparable field-level data, method
+and QC protocols, units, sampling support, per-site rights and
+independent reviewer decisions. No seasonal integration, validated
+field effect or certified credit is enabled by this link.
