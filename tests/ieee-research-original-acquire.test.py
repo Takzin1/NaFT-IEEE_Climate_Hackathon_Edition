@@ -6,6 +6,7 @@ import json
 import pathlib
 import tempfile
 import unittest
+import zipfile
 
 path = pathlib.Path(__file__).resolve().parent.parent / "scripts/ieee-research-original-acquire.py"
 spec = importlib.util.spec_from_file_location("research_original_acquire", path)
@@ -93,6 +94,28 @@ class IntakeTests(unittest.TestCase):
     def test_refuse_nonpublisher_network_addresses(self):
         with self.assertRaisesRegex(ValueError, "NON_ZENODO_URL"):
             tool.fetch_bytes("https://example.com/data", 100)
+
+
+class CommittedGimjeTests(unittest.TestCase):
+    def test_exact_original_files_and_safe_source_zip(self):
+        original = (tool.ROOT / "research/ieee-observation-datasets-2026-10-19" /
+                    "originals/KR_GIMJE_DAILY_2022_2024")
+        result = tool.verify_local("KR_GIMJE_DAILY_2022_2024", original)
+        self.assertEqual(result["files_verified"], 2)
+        self.assertIsNone(result["certified_tco2e"])
+        with zipfile.ZipFile(original / "ch4.zip") as archive:
+            entries = archive.infolist()
+            csv_members = [x for x in entries if x.filename.lower().endswith(".csv")]
+            self.assertEqual(len(csv_members), 60)
+            self.assertLessEqual(sum(x.file_size for x in entries), 8_000_000)
+            for entry in entries:
+                self.assertFalse(entry.filename.startswith("/"))
+                self.assertFalse(".." in pathlib.PurePosixPath(entry.filename).parts)
+                self.assertLessEqual(entry.file_size, 500_000)
+            sample = archive.read(csv_members[0]).splitlines()[0].decode(
+                "utf-8-sig", errors="replace").strip()
+            self.assertEqual(sample.split(","),
+                             ["DAT", "tavg", "course_type", "ch4_flux", "rain_mm"])
 
 
 if __name__ == "__main__":
