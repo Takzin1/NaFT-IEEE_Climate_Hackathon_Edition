@@ -1,0 +1,196 @@
+{
+  "schema": "naft-rice-external-methodology-reference-v1",
+  "created": "2026-10-19",
+  "policy": {
+    "source_materials_are_external_not_vendored": true,
+    "reference_only": true,
+    "legal_program_adoption_status": "UNVERIFIED",
+    "certification_allowed": false,
+    "calculator_can_derive_certified_tco2e": false,
+    "gs_checklist_selection_conflict_unresolved": true,
+    "verra_qa_not_equivalent_to_gs_tier": true,
+    "j_credit_ag005_has_separate_methodology_namespace": true
+  },
+  "sources": [
+    {
+      "id": "GS_TRAINING_SCENARIOS",
+      "file": "シナリオ3類型(1).pdf",
+      "sha256": "77519262ddf83e00a3dd04f89be7cef46a79f534c50496f1c770325e5f1ef461",
+      "publisher": "Gold Standard",
+      "document": "Emission Reduction Calculation Tool - Training Exercise Scenarios",
+      "version": "TRAINING_EXERCISES",
+      "reference": "pp.1-2, scenarios 1-3",
+      "kind": "illustrative_training_not_approved_validation"
+    },
+    {
+      "id": "GS_ER_CALCULATOR",
+      "file": "計算式ツール(1).xlsx",
+      "sha256": "92ddfcf926ec2eaead54e674c06a608f8a29b8e6ff0698a0468aa29152cd8040",
+      "publisher": "Gold Standard",
+      "document": "Emission Reduction Calculation Tool",
+      "version": "VERSION_UNSTATED_IN_WORKBOOK",
+      "reference": "Instructions, Input_ER, Tier 1_Simplified, Tier 2_Country specific, Tier 3_Direct measurement, ER",
+      "kind": "training_calculation_examples_not_institutional_approval"
+    },
+    {
+      "id": "VERRA_VM0051_2026",
+      "file": "方法論2026(1).pdf",
+      "sha256": "9b9738840824f5919e3a76f8807c68743ae3d64b5d931cda27598f3ab32c64e2",
+      "publisher": "Verra",
+      "document": "VM0051 Improved Management in Rice Production Systems",
+      "version": "1.1",
+      "document_date": "2026-07-14",
+      "reference": "pp.9-10 applicability, pp.18-21 quantification approaches, pp.38-45 net reductions/uncertainty, pp.79-82 QA2 flux chambers, pp.85-87 DMRV",
+      "kind": "full_methodology_source_but_no_independent_current_adoption_verification"
+    },
+    {
+      "id": "GS_AWD_VVB_CHECKLIST_2024",
+      "file": "チェックリスト(1).docx",
+      "sha256": "532ec2c31daf95d911367b2516a5e0c67d17ba47031457c89d9d55844217478a",
+      "publisher": "Gold Standard",
+      "document": "Validation Checklist - Methane Emission Reduction by Adjusted Water Management Practice in Rice Cultivation",
+      "version": "1.0",
+      "document_date": "2024-04-05",
+      "reference": "Selection of emission reduction calculation method, Q23/Q24; Tier 1/2/3 sections, monitoring, evidence and CAR/CL/FAR",
+      "kind": "vvb_validation_checklist_not_calculation_implementation"
+    }
+  ],
+  "programs": {
+    "GS_AWD_TRAINING_2024": {
+      "status": "TRAINING_ROUTING_ONLY_NOT_FORMAL_APPROVAL",
+      "sources": [
+        "GS_TRAINING_SCENARIOS",
+        "GS_ER_CALCULATOR",
+        "GS_AWD_VVB_CHECKLIST_2024"
+      ],
+      "selection_conflict": {
+        "id": "GS_Q23_TIER_LABEL_CONFLICT",
+        "calculator": "Tier 1 simplified/IPCC default; Tier 2 country-specific; Tier 3 direct measurement",
+        "checklist_q23": "Selection cells label Tier 1 direct measurement and Tier 3 default IPCC values, while later checklist section headings identify Tier 1 IPCC and Tier 3 direct measurement.",
+        "resolution": "UNRESOLVED_CHECKLIST_INTERNAL_CONTRADICTION_NO_AUTOMATIC_TIER_CERTIFICATION"
+      },
+      "lanes": {
+        "TIER_1_SIMPLIFIED": {
+          "sheet": "Tier 1_Simplified",
+          "formula_cell": "E5",
+          "formula": "=E9*E10*E14/1000*E15*(1-E30)",
+          "supporting": [
+            "Input_ER!D8:D10",
+            "Input_ER!D17:D18",
+            "Input_ER!D24:D25",
+            "Tier 1_Simplified!E9:E30"
+          ],
+          "evidence_required": [
+            "scale_micro_or_small",
+            "verified_factor_choice",
+            "baseline_and_project_water_regime",
+            "cultivation_days",
+            "organic_amendment_inputs",
+            "vintage_area_and_uncertainty"
+          ],
+          "notes": "Scenario 1 illustrates two crops, 1000ha year 1, +3000ha year 2; figures do not approve a result. Workbook GWP CH4=28 is AR5 training input not universal current rule."
+        },
+        "TIER_2_COUNTRY_SPECIFIC": {
+          "sheet": "Tier 2_Country specific",
+          "formula_cell": "E4",
+          "formula": "=(E8-E22)*(1-E60)",
+          "supporting": [
+            "Tier 2_Country specific!E8:E19",
+            "Tier 2_Country specific!E22:E60",
+            "Input_ER!C3:C4"
+          ],
+          "evidence_required": [
+            "country_specific_factor_source",
+            "water_regime",
+            "cultivation_period",
+            "nitrogen_baseline_and_project",
+            "diesel_use",
+            "uncertainty_policy"
+          ],
+          "notes": "Scenario 2 says 12000ha and 1.05 kg CH4/ha/day national EF, 10% illustrative uncertainty; must incorporate other GHG and loss terms per applicable method."
+        },
+        "TIER_3_DIRECT": {
+          "sheet": "Tier 3_Direct measurement",
+          "formula_cell": "E4",
+          "formula": "=(E8-E17)*(1-E49)",
+          "supporting": [
+            "Tier 3_Direct measurement!E8:E14",
+            "Tier 3_Direct measurement!E17:E49",
+            "Input_ER!C3:C4"
+          ],
+          "evidence_required": [
+            "baseline_measurement_provenance",
+            "project_measurement_provenance",
+            "measurement_protocol",
+            "nitrogen_and_fuel_activity",
+            "uncertainty_policy"
+          ],
+          "notes": "Scenario 3 says 10000ha, baseline 420 and project 95 kg CH4/ha/year, 10% illustrative uncertainty; workbook E11=500/E22=120 are unrelated editable example values."
+        }
+      },
+      "common_workbook_refs": {
+        "gwp_ch4_ar5_training": 28,
+        "gwp_n2o_ar5_training": 265,
+        "progressive_area_ref": "ER!B8:J112",
+        "area_formula": "ER!J9 = F9*E9/12",
+        "limitation": "A simple /12 monthly allocation is a workbook exercise and must not replace calendar-accurate vintage accounting without separate validation."
+      }
+    },
+    "VERRA_VM0051_V1_1_2026": {
+      "status": "METHODOLOGY_REFERENCE_ONLY_HUMAN_APPLICABILITY_REQUIRED",
+      "source": "VERRA_VM0051_2026",
+      "applicability": "Section 4 (pp.9-10); baseline historical look-back >=3 years (pp.8,12); irrigated rice fields with controlled irrigation/drainage",
+      "global_principle": "Baseline and project must use the same approach for the same GHG source within the monitoring period (p.18).",
+      "lanes": {
+        "QA1_MODEL": {
+          "reference": "Sec.8.1 pp.19-20, VMD0053 calibration/validation",
+          "requires": [
+            "biogeochemical_model_evidence",
+            "model_calibration_validation",
+            "paired_baseline_project",
+            "historical_lookback_3years",
+            "controlled_irrigation"
+          ],
+          "kind": "MODEL"
+        },
+        "QA2_DIRECT_CHAMBER": {
+          "reference": "Sec.8.1 p.20 and Appendix 2 pp.79-82",
+          "requires": [
+            "flux_chamber_baseline_and_project",
+            "at_least_3_sample_points_per_stratum",
+            "weekly_during_cultivation",
+            "historical_lookback_3years",
+            "controlled_irrigation"
+          ],
+          "kind": "DIRECT_FLUX_CHAMBERS",
+          "critical": "EC/HREA half-hourly site observations do not automatically meet VM0051 QA2 chamber sampling and controlled baseline plot design."
+        },
+        "QA3_DEFAULT_EF": {
+          "reference": "Sec.8.1 pp.20-21 and default equations in Sec.8.2/8.3",
+          "requires": [
+            "factor_provenance",
+            "paired_baseline_project",
+            "historical_lookback_3years",
+            "controlled_irrigation"
+          ],
+          "kind": "DEFAULT_EQUATIONS_FACTORS"
+        }
+      },
+      "forced_QA2_practices": [
+        "methanotrophs",
+        "biochar",
+        "low_emission_rice_variety",
+        "awd_below_10cm_with_expert"
+      ],
+      "dMRV": "Appendix 4 pp.85-87 requires verifiable RS/AI evidence, independent ground truth and documented changes; no automatic VVB approval."
+    }
+  },
+  "explicit_non_equivalences": [
+    "GS TRAINING Tier1 default != Verra QA1 modeling",
+    "GS TRAINING Tier2 country EF != Verra QA2 flux chambers",
+    "GS TRAINING Tier3 measured != Verra QA3 default EF",
+    "Gold Standard Q23 text conflicts with the same document's later Tier section headings and workbook; Q23 must be human clarified",
+    "Verra QA2 chamber-control designs != archived JapanFlux JP-Hrt 30-minute Eddy Covariance FCH4 rows",
+    "Neither GS/Verra rules should be silently applied as Japanese J-Credit AG-005 effective rules"
+  ]
+}
