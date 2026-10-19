@@ -86,6 +86,13 @@ jobs:
             /tmp/naft-ieee-gasfluxes-three-way.json
           if-no-files-found: error
           retention-days: 21
+      - name: Archive independently sourced Harvard raw analyzer descriptive audit (NOT flux)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ieee-harvard-raw-trace-independent-audit
+          path: /tmp/naft-ieee-harvard-independent-raw-trace.json
+          if-no-files-found: error
+          retention-days: 21
       - name: Execute ClimateChain contract behavior on local EVM
         run: node tests/climatechain-contract-behavior.test.mjs
       - name: Browser Reviewer, Evidence file, six-route and Compiler role-flow checks
