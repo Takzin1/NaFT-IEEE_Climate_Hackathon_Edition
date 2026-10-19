@@ -21,11 +21,15 @@ const digest=x=>sha(Buffer.from(canonical(x)));
 function bounded(path,max){
  const stat=statSync(path);
  if(!stat.isFile()||stat.size<1||stat.size>max)fail('FILE_NOT_REGULAR_OR_BOUNDED');
- return readFileSync(path);
+ const bytes=readFileSync(path);
+ // Also bound the bytes actually read, not only a possibly stale stat result.
+ if(bytes.length<1||bytes.length>max)fail('FILE_CHANGED_DURING_READ');
+ return bytes;
 }
 function jsonFile(path,max){
+ const bytes=bounded(path,max);
  let parsed;
- try{parsed=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(bounded(path,max)));}
+ try{parsed=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(bytes));}
  catch{fail('RECEIPT_JSON_INVALID');}
  if(!object(parsed))fail('RECEIPT_OBJECT_REQUIRED');
  return parsed;
@@ -58,9 +62,13 @@ export function generateVerifiedSourceDualLink(
     dualReceipt.original_input?.manifest_bytes_sha256!==sha(manifestBytes)||
     dualReceipt.original_input?.csv_sha256!==sha(rawBytes))
   fail('LINKED_SOURCE_OR_MANIFEST_MISMATCH');
- // Refuse a moving local input after the second engine has re-read its file.
- if(sha(bounded(rawPath,2000000))!==sha(rawBytes)||
-    sha(bounded(manifestPath,100000))!==sha(manifestBytes))
+ // Refuse *any* moving input after the second engine has re-read its files.
+ // Without these checks, changing source-spec/metadata during Python execution
+ // could emit a receipt for a different provenance state than the disk files.
+ if(sha(bounded(specPath,100000))!==sha(specBytes)||
+    sha(bounded(rawPath,2000000))!==sha(rawBytes)||
+    sha(bounded(manifestPath,100000))!==sha(manifestBytes)||
+    (datacitePath!==null&&sha(bounded(datacitePath,500000))!==sha(metadataBytes)))
   fail('INPUT_CHANGED_DURING_VERIFICATION');
  const payload={
   schema:'naft-ieee-verified-source-dual-link-v1',
