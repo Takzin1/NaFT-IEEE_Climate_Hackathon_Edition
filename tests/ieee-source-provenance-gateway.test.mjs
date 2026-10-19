@@ -63,6 +63,30 @@ conflictingLicense.input.license_claimed='OTHER_LICENSE_DECLARATION';
 blocked(()=>linkSourceToDualReplay(rehash(conflictingLicense),dual),
  'SOURCE_DUAL_LINK_CONTEXT_OR_HASH_MISMATCH');
 
+const bothMissingSourceLicense=structuredClone(good);
+const bothMissingObservationLicense=structuredClone(dual);
+delete bothMissingSourceLicense.input.license_claimed;
+delete bothMissingObservationLicense.source_bound_local_receipt.input.source_license_status_claimed;
+blocked(()=>linkSourceToDualReplay(
+ rehash(bothMissingSourceLicense),bothMissingObservationLicense),'SOURCE_DUAL_LINK_SCHEMA');
+const incompleteDual=structuredClone(dual);
+delete incompleteDual.source_bound_local_receipt.input;
+blocked(()=>linkSourceToDualReplay(good,incompleteDual),'SOURCE_DUAL_LINK_SCHEMA');
+const invalidHash=structuredClone(good);
+invalidHash.input.raw_bytes_sha256='not-a-digest';
+blocked(()=>linkSourceToDualReplay(rehash(invalidHash),dual),'SOURCE_DUAL_LINK_SCHEMA');
+const untrustedClass=structuredClone(good);
+const untrustedClassDual=structuredClone(dual);
+untrustedClass.input.data_class='CERTIFIED_REAL';
+untrustedClassDual.source_bound_local_receipt.input.declared_data_class='CERTIFIED_REAL';
+blocked(()=>linkSourceToDualReplay(rehash(untrustedClass),untrustedClassDual),
+ 'SOURCE_DUAL_LINK_SCHEMA');
+const stringBoolean=structuredClone(good);
+stringBoolean.decisions.local_raw_checksum_consistent='true';
+blocked(()=>linkSourceToDualReplay(rehash(stringBoolean),dual),
+ 'SOURCE_DUAL_LINK_CONTEXT_OR_HASH_MISMATCH');
+
+
 blocked(()=>inspectSourceIntake(asBytes(spec),Buffer.concat([raw,Buffer.from('x')])),
  'SOURCE_RAW_SHA256_MISMATCH');
 blocked(()=>inspectSourceIntake(asBytes(spec)),
