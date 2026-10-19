@@ -49,7 +49,7 @@ Run: node scripts/rice-methodology-router.mjs verify-sources SCENARIO.pdf CALCUL
 
 Valid routing returns a formula **reference** and REFERENCE_ROUTED_HUMAN_REVIEW_REQUIRED, never numerical tons; absent inputs return BLOCKED_INCOMPLETE_EVIDENCE; incompatible size/instrument or mandatory QA2 practice returns BLOCKED_APPROACH_MISMATCH; selecting AG-005 via this external registry is refused. The optional local hash command verifies exact upload bytes, **not publisher authenticity**. No license-unreviewed full documents or executable spreadsheet formulas are copied into the repository.
 
-Example JSON: 
+Example JSON:
 
     {"schema":"naft-rice-method-route-request-v1","program":"VERRA_VM0051_V1_1_2026","requested_lane":"QA2_DIRECT_CHAMBER","measurement_kind":"FLUX_CHAMBER","practices":[],"evidence":{"flux_chamber_baseline_and_project":true,"at_least_3_sample_points_per_stratum":true,"weekly_during_cultivation":true,"historical_lookback_3years":true,"controlled_irrigation":true}}
 
