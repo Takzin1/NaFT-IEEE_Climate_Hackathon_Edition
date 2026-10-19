@@ -32,7 +32,7 @@ const b1=request('TIER_2_COUNTRY_SPECIFIC',{E8:'23',E22:'5',E60:'0.1'});
 const b2=request('TIER_2_COUNTRY_SPECIFIC',{E8:'22',E22:'7',E60:'0.1'});
 const b3=request('TIER_2_COUNTRY_SPECIFIC',{E8:'23',E22:'5',E60:'0.1'},
  {evidence:{}});
-const b4=request('TIER_2_COUNTRY_SPECIFIC',{E8:'23',E22:'5',E60:'0.1'},
+const b4=request('TIER_2_COUNTRY_SPECIFIC',{E8:'20',E22:'5',E60:'0.1'},
  {evidence:{...b0.route.evidence,cultivation_period:false}});
 const b5=request('TIER_3_DIRECT',{E8:'30',E17:'10',E49:'0.1'},
  {measurement_kind:'EDDY_COVARIANCE_FCH4'});
