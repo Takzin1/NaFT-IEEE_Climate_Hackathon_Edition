@@ -19,8 +19,8 @@ function fixedRead(filepath,cap){
  if(!st.isFile()||st.isSymbolicLink()||st.size>cap) reject("UNSAFE_SOURCE_FILE");
  return fs.readFileSync(filepath);
 }
-function load(){
- const m=JSON.parse(fixedRead(MANIFEST,20000).toString("utf8"));
+function validateManifest(m){
+ if(!m||typeof m!=="object")reject("MANIFEST_BOUNDARY");
  if(m.schema!=="naft-ieee-gasfluxes-linear-oracle-v1"||
     m.dataset.pinned_commit!=="0a50f94bc7c1d6560bb5f32a596c7092d35c079c"||
     m.dataset.full_source_blob_sha!=="ff5e9982b5c24583342ce6e358aae368b6a710ea"||
@@ -31,6 +31,7 @@ function load(){
     m.safety.method_applied_to_Gimje!==false)reject("MANIFEST_BOUNDARY");
  return m;
 }
+function load(){return validateManifest(JSON.parse(fixedRead(MANIFEST,20000).toString("utf8")))}
 function numeric(s){
  if(typeof s!=="string"||s.length>80||!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[Ee][+-]?\d+)?$/.test(s)) reject("NUMERIC_TOKEN_INVALID");
  const n=Number(s);
@@ -79,6 +80,7 @@ function solve(groups){
  return results;
 }
 function replay(raw=fixedRead(CSV,3000),m=load()){
+ m=validateManifest(m);
  const measurements=parseRows(raw,m.dataset.fixture_sha256);
  const series=solve(measurements);
  const gold=m.reference.expected_linear_f0_by_series;
