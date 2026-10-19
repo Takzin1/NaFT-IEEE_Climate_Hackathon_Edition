@@ -15,13 +15,20 @@ verifications before linking** them:
 2. `verifyDualObservationReceipt()` reruns the JavaScript BigInt and independent
    Python Decimal computations on the same normalized CSV and observation
    manifest, checking full hashes, original code lineage and coverage.
-3. `linkSourceToDualReplay()` rejects mismatched CSV, source URI, site ID or
-   data class. The combined receipt binds both report hashes and the exact
+3. `linkSourceToDualReplay()` rejects mismatched CSV, source URI, site ID,
+   data class or declared local license status. A declaration mismatch is
+   blocked even when the two individual source/dual receipts each replay.
+   The link also rejects missing required context, malformed digests, and
+   unsupported data classes. The combined receipt binds both report hashes and the exact
    source spec, normalized CSV, manifest and optional metadata snapshot hashes.
 4. The combined receipt `verify` command independently repeats all steps;
    recomputing a forged combined SHA-256 is not enough to pass.
 
-**Important:** The same CSV bytes are required by both components. Real
+**Important:** The same CSV bytes are required by both components. The two
+license strings must identify the same **claimed local status**; neither
+constitutes a legally checked license. Distinct license identifiers/status
+representations must be reconciled explicitly before linking, not silently
+assumed equivalent. Real
 publisher-native JP-Hrt data must pass a separately reviewed parser, license,
 QC and data dictionary process before being normalized. This module does not
 acquire original data or authorize that conversion.
