@@ -51,7 +51,9 @@ export function assertObservationParity(jsReceipt,pythonResult){
 function localFile(p,max){
  const s=statSync(p);
  if(!s.isFile()||s.size<2||s.size>max)reject('DUAL_FILE_SIZE');
- return readFileSync(p);
+ const bytes=readFileSync(p);
+ if(bytes.length<2||bytes.length>max)reject('DUAL_FILE_CHANGED_DURING_READ');
+ return bytes;
 }
 const pythonFile=fileURLToPath(new URL('./ieee-observation-independent-oracle.py',import.meta.url));
 const javascriptFile=fileURLToPath(new URL('./ieee-observation-receipt.mjs',import.meta.url));
@@ -68,8 +70,22 @@ function independentlyCalculate(manifestPath,csvPath){
 }
 export function generateDualObservationReceipt(manifestPath,csvPath){
  const m=localFile(manifestPath,100000),c=localFile(csvPath,2000000);
+ // Source hashes in the receipt must describe the exact versions present
+ // before Python executed, not whichever versions exist after it returns.
+ const oracleSource=localFile(pythonFile,300000);
+ const jsSource=localFile(javascriptFile,300000);
+ const driverSource=localFile(fileURLToPath(import.meta.url),300000);
  const base=createObservationReceipt(m,c);
  const independent=independentlyCalculate(manifestPath,csvPath);
+ // Python reads local input paths independently. Arithmetic parity alone
+ // cannot detect a changed site/measurement metadata field in the manifest.
+ // Reject a moving file rather than bind two different observation contexts.
+ if(sha(localFile(manifestPath,100000))!==sha(m)||
+    sha(localFile(csvPath,2000000))!==sha(c)||
+    sha(localFile(pythonFile,300000))!==sha(oracleSource)||
+    sha(localFile(javascriptFile,300000))!==sha(jsSource)||
+    sha(localFile(fileURLToPath(import.meta.url),300000))!==sha(driverSource))
+  reject('DUAL_INPUT_CHANGED_DURING_REPLAY');
  const comparisons=assertObservationParity(base,independent);
  const payload={
   schema:'naft-ieee-observation-dual-receipt-v1',
@@ -81,9 +97,9 @@ export function generateDualObservationReceipt(manifestPath,csvPath){
   },
   source_bound_local_receipt:base,
   independent_python:{
-   script_sha256:sha(readFileSync(pythonFile)),
-   driver_sha256:sha(readFileSync(fileURLToPath(import.meta.url))),
-   js_receipt_source_sha256:sha(readFileSync(javascriptFile)),
+   script_sha256:sha(oracleSource),
+   driver_sha256:sha(driverSource),
+   js_receipt_source_sha256:sha(jsSource),
    result_sha256:sha(Buffer.from(canonical(independent))),
    compared_fields:comparisons,
    result:independent
