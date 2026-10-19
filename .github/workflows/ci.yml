@@ -62,6 +62,13 @@ jobs:
           path: /tmp/naft-ieee-gimje-observation-support-map.json
           if-no-files-found: error
           retention-days: 21
+      - name: Archive Gimje replay-readiness evidence matrix (no emissions)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ieee-gimje-replay-readiness
+          path: /tmp/naft-ieee-gimje-replay-readiness.json
+          if-no-files-found: error
+          retention-days: 21
       - name: Execute ClimateChain contract behavior on local EVM
         run: node tests/climatechain-contract-behavior.test.mjs
       - name: Browser Reviewer, Evidence file, six-route and Compiler role-flow checks
