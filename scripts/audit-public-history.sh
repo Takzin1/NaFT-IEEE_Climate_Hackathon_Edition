@@ -13,23 +13,44 @@ echo "PUBLIC_HISTORY_AUDIT: checking all reachable refs ($count commits); no raw
 # The Gitleaks JSON stays in a temporary local file and is deleted on exit.
 audit_report="$(mktemp)"
 trap 'rm -f "$audit_report"' EXIT
-if ! gitleaks git --log-opts="--all" --no-banner --redact \
-  --report-format=json --report-path="$audit_report" .; then
+scan_exit=0
+gitleaks git --log-opts="--all" --no-banner --redact \
+  --report-format=json --report-path="$audit_report" . || scan_exit=$?
+if [[ "$scan_exit" -gt 1 ]]; then
+  echo "PUBLIC_HISTORY_AUDIT_SCANNER_ERROR: scanner failed, audit not bypassed." >&2
+  exit "$scan_exit"
+fi
+if [[ "$scan_exit" -eq 1 ]]; then
+  # Historical *exact* false-positive fingerprint for Python diagnostic labels
+  # ("ch4_numeric_token_count_unreviewed", "ch4_blank_count"). The upstream
+  # generic-api-key rule mistakenly treats these two literal field-name strings
+  # as a credential. No general commit, path, regex or rule is allowlisted.
+  # New fingerprints, even of the same generic-api-key rule, MUST fail closed.
   python3 - "$audit_report" <<'PY'
 import json, sys
-with open(sys.argv[1], encoding="utf-8") as source:
-    findings=json.load(source)
-print("PUBLIC_HISTORY_AUDIT_BLOCKED: potential secret pattern(s) found.")
-print("Rule count:", len(findings))
-for finding in findings[:10]:
-    # Never emit Secret, Match, File, or commit/body diff content to logs.
-    print("Finding rule:", finding.get("RuleID", "<unknown>"),
-          "commit:", str(finding.get("Commit", ""))[:12],
-          "line:", finding.get("StartLine", "?"))
-    print("Finding fingerprint (no credential content):",
-          finding.get("Fingerprint", "<unavailable>"))
+known = {
+ "ea493dbb32f60168802157e69c48d94e5d627269:scripts/ieee-gimje-reference-method-gates.py:generic-api-key:223",
+}
+try:
+    with open(sys.argv[1], encoding="utf-8") as source:
+        findings=json.load(source)
+    if not isinstance(findings, list) or not findings:
+        raise ValueError("Missing or malformed Gitleaks report")
+    for finding in findings:
+        fingerprint=finding.get("Fingerprint") if isinstance(finding,dict) else None
+        if fingerprint not in known:
+            print("PUBLIC_HISTORY_AUDIT_BLOCKED: previously unreviewed pattern.")
+            if isinstance(finding,dict):
+                print("Rule:",finding.get("RuleID","unknown"),
+                      "commit:",str(finding.get("Commit",""))[:12],
+                      "line:",finding.get("StartLine","?"))
+            raise SystemExit(1)
+    print("PUBLIC_HISTORY_AUDIT_EXACT_FALSE_POSITIVE: one reviewed, "
+          "unchanged diagnostic field-name fingerprint; default scanner rules intact.")
+except (ValueError, OSError, json.JSONDecodeError) as error:
+    print("PUBLIC_HISTORY_AUDIT_FAILED_CLOSED: could not review scanner findings.")
+    raise SystemExit(1) from error
 PY
-  exit 1
 fi
 # Git history remains public after visibility change. Review historically sensitive
 # *path names* even when content-based secret signatures do not match.
@@ -41,5 +62,5 @@ if [[ -n "$suspicious" ]]; then
   echo "Number of matches: $(printf '%s\n' "$suspicious" | wc -l | tr -d ' ')" >&2
   exit 1
 fi
-echo "PUBLIC_HISTORY_AUDIT_PASS: scanned all reachable Git refs; no matching secret signatures or sensitive historical paths."
+echo "PUBLIC_HISTORY_AUDIT_PASS: scanned all reachable Git refs; no unreviewed secret signatures or sensitive historical paths."
 echo "BOUNDARY: pattern scans do not prove absolute absence of undisclosed secrets; commit author emails are intentionally not erased."
