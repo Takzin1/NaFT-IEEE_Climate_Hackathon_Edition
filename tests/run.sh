@@ -50,6 +50,9 @@ python3 scripts/ieee-research-original-acquire.py verify-local KR_GIMJE_DAILY_20
 python3 -m py_compile scripts/ieee-gimje-structure-preflight.py tests/ieee-gimje-structure-preflight.test.py
 python3 tests/ieee-gimje-structure-preflight.test.py
 python3 scripts/ieee-gimje-structure-preflight.py --output /tmp/naft-ieee-gimje-structure-preflight.json
+python3 -m py_compile scripts/ieee-gimje-field-crosswalk.py tests/ieee-gimje-field-crosswalk.test.py
+python3 tests/ieee-gimje-field-crosswalk.test.py
+python3 scripts/ieee-gimje-field-crosswalk.py --output /tmp/naft-ieee-gimje-field-crosswalk.json
 python3 -m py_compile scripts/japanflux-jp-hrt-v200.py tests/japanflux-jp-hrt-v200.test.py
 python3 tests/japanflux-jp-hrt-v200.test.py
 python3 -m py_compile scripts/japanflux-jp-hrt-v200-consistency.py tests/japanflux-jp-hrt-v200-consistency.test.py
