@@ -83,10 +83,6 @@ def verify(ledger):
         require(SHA40.fullmatch(str(entry.get("reference_commit", ""))) is not None
                 and SHA40.fullmatch(str(entry.get("license_blob_sha", ""))) is not None,
                 "INVALID_UPSTREAM_GIT_SHA:" + name)
-        require((entry.get("reference_commit"), entry.get("license_blob_sha"),
-                 entry.get("reference_branch"), entry.get("license_file"))
-                == PINNED_UPSTREAM[name],
-                "UPSTREAM_PIN_CHANGED_REQUIRES_SOURCE_REVIEW:" + name)
         require(entry.get("reference_commit") not in seen_sha,
                 "DUPLICATE_PINNED_UPSTREAM_SHA")
         seen_sha.add(entry["reference_commit"])
@@ -95,6 +91,10 @@ def verify(ledger):
                 and entry.get("reference_branch") in ("main", "master")
                 and entry.get("copy_code_approved") is False,
                 "UNSAFE_THIRD_PARTY_LICENSE_OR_PATH:" + name)
+        require((entry.get("reference_commit"), entry.get("license_blob_sha"),
+                 entry.get("reference_branch"), entry.get("license_file"))
+                == PINNED_UPSTREAM[name],
+                "UPSTREAM_PIN_CHANGED_REQUIRES_SOURCE_REVIEW:" + name)
         require(isinstance(entry.get("purpose"), str) and len(entry["purpose"]) >= 30
                 and isinstance(entry.get("fit_to_jphrt"), str)
                 and len(entry["fit_to_jphrt"]) >= 20,
