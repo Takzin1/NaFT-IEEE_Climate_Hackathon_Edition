@@ -55,6 +55,13 @@ jobs:
           path: /tmp/naft-ieee-gimje-reference-method-gates.json
           if-no-files-found: error
           retention-days: 21
+      - name: Archive Gimje observation presence and DAT spacing (unapproved)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ieee-gimje-observation-support-map
+          path: /tmp/naft-ieee-gimje-observation-support-map.json
+          if-no-files-found: error
+          retention-days: 21
       - name: Execute ClimateChain contract behavior on local EVM
         run: node tests/climatechain-contract-behavior.test.mjs
       - name: Browser Reviewer, Evidence file, six-route and Compiler role-flow checks

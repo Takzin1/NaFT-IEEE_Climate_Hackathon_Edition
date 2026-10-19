@@ -198,3 +198,34 @@ The real-workbook candidate dates and author-R reference stage labels
 must not be promoted to confirmed field events solely through an automated
 data conversion. GitHub Actions makes the report a downloadable research
 artifact; MRV and Sepolia behavior are unchanged.
+
+## CH4 observation-presence and DAT-spacing map (no interval integration)
+
+`scripts/ieee-gimje-observation-support-map.py` independently
+rechecks the pinned originals and the author-reference-method report,
+then parses each field's CSV again to enumerate **finite CH4 numeric
+tokens** separately from blank, malformed, and literal zero/negative
+tokens. It records each field's number of distinct numeric DAT indices,
+the shortest/longest index and the histogram of **elapsed DAT distances
+between consecutive finite readings**.
+
+Important: a distance of 7 DAT units does **not** prove a 7-day
+observation gap, a continuous 7-day chamber measurement or a legitimate
+7-day integration window. It is only an index difference. Even numeric
+CH4 zero is not quality-reviewed. The outputs do not calculate seasonal
+emissions, methane reductions, measurement-interval weights, carbon
+credits or any authorized gap-filling.
+
+```sh
+python3 tests/ieee-gimje-observation-support-map.test.py
+python3 scripts/ieee-gimje-observation-support-map.py \
+  --output /tmp/naft-ieee-gimje-observation-support-map.json
+```
+
+Offline CI retains the JSON in an artifact called
+`ieee-gimje-observation-support-map` with 21-day retention. To progress
+beyond this gate, obtain the author's actual chamber collection schedule,
+daily-flux derivation protocol, measurement/QA exclusions and seasonal
+aggregation interval definitions, ideally as a citable and versioned
+supplement. The pre-existing 6,969 empty CH4 tokens cannot be
+unilaterally interpreted as absence of CH4 or as a zero-valued observation.
