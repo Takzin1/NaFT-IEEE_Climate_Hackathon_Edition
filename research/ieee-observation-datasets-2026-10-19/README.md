@@ -123,3 +123,38 @@ methane reductions, certified tCO2e, regulatory eligibility, or offsets.
 
 The GitHub CI retains the full inspection JSON as a downloadable
 `ieee-gimje-structural-preflight` artifact for independent inspection.
+
+## Source-bound field-ID crosswalk candidates (NOT a verified data join)
+
+`scripts/ieee-gimje-field-crosswalk.py` reads the pinned workbook's actual
+`input_fields_meta` sheet and compares the **literal** `field_id` cell value
+to the source CSV member's exact basename. No fuzzy matching, prefix matching,
+filename year decoding or automatic date conversion occurs. The report
+preserves candidate workbook row numbers, cell literals, row fingerprints,
+source CSV member SHA-256, missing-flux counts and unmatched source IDs.
+The report includes **explicit false review flags**, regardless of the number
+of exact string matches.
+
+```sh
+python3 tests/ieee-gimje-field-crosswalk.test.py
+python3 scripts/ieee-gimje-field-crosswalk.py \
+  --output /tmp/gimje-field-crosswalk-candidates.json
+```
+
+Source sheet header cells: `reference,field_id,year,director,LAT,LON,
+rice_variety,planting_date,harvesting_date,soil_texture,grain_yield,
+water_management,seasonal_ch4`. The analyzer keeps dates and water
+management codes as their **original cell literals** and never treats a
+source filename string match as reviewed field identity. Spreadsheet formulas,
+duplicate identifiers, unsafe worksheet structures, changed original hashes,
+and unknown source layouts fail closed.
+
+**Mandatory scientific questions before approval**: What does the ZIP
+filename encode? Does it represent the sheet's `field_id` rather than a
+measurement or campaign ID? Are dates Excel serials or source strings?
+How is DAT defined and which planting event is the reference? What is the
+sampling support, mass basis, chamber QC and meaning of blank
+`ch4_flux` values? Not a single answer is inferred by this feature.
+The output is published only as a downloadable GitHub Actions research
+artifact and does not change MRV calculations, certified reductions or
+Sepolia historical records.
