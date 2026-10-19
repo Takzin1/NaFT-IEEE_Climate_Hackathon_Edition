@@ -180,9 +180,20 @@ export function verifySourceIntake(specBytes,rawBytes,dataciteBytes,report){
 // a primary publisher's raw file needs an independently reviewed source-specific adapter.
 export function linkSourceToDualReplay(intake,dual){
  if(!obj(intake)||!obj(intake.decisions)||!obj(intake.input)||
-  !obj(dual)||!obj(dual.original_input)||!obj(dual.source_bound_local_receipt))
+  !obj(dual)||!obj(dual.original_input)||!obj(dual.source_bound_local_receipt)||
+  !obj(dual.source_bound_local_receipt.input))
   reject('SOURCE_DUAL_LINK_SCHEMA');
- if(!intake.decisions.local_raw_checksum_consistent||
+ const observation=dual.source_bound_local_receipt.input;
+ const claimed=[intake.input.site_id_claimed,intake.input.source_url_claimed,
+  intake.input.license_claimed,intake.input.data_class,
+  observation.site_id_claimed,observation.source_uri_claimed,
+  observation.source_license_status_claimed,observation.declared_data_class];
+ if(claimed.some(v=>typeof v!=='string'||!v.trim())||
+    !['SYNTHETIC','USER_SUPPLIED_UNVERIFIED'].includes(intake.input.data_class)||
+    !/^[a-f0-9]{64}$/.test(intake.input.raw_bytes_sha256||'')||
+    !/^[a-f0-9]{64}$/.test(dual.original_input.csv_sha256||''))
+  reject('SOURCE_DUAL_LINK_SCHEMA');
+ if(intake.decisions.local_raw_checksum_consistent!==true||
   intake.input.raw_bytes_sha256!==dual.original_input.csv_sha256||
   intake.input.site_id_claimed!==dual.source_bound_local_receipt.input.site_id_claimed||
   intake.input.source_url_claimed!==dual.source_bound_local_receipt.input.source_uri_claimed||
