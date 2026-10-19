@@ -66,7 +66,7 @@ try{
   '  printf " " >> "$NAFT_DUAL_MUTATE_FILE"',
   'fi',
   'exit "$status"'
- ].join('\\n')+'\\n');
+ ].join('\n')+'\n');
  chmodSync(launcher,0o755);
  const normalPath=process.env.PATH;
  const normalMutation=process.env.NAFT_DUAL_MUTATE_FILE;
