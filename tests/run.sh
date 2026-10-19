@@ -73,6 +73,9 @@ node tests/ieee-independent-gasfluxes.test.cjs
 python3 scripts/ieee-independent-gasfluxes-decimal.py --output /tmp/naft-ieee-gasfluxes-decimal.json
 node scripts/ieee-independent-gasfluxes-node.cjs --output /tmp/naft-ieee-gasfluxes-node.json
 python3 scripts/ieee-independent-gasfluxes-compare.py --decimal /tmp/naft-ieee-gasfluxes-decimal.json --node /tmp/naft-ieee-gasfluxes-node.json --output /tmp/naft-ieee-gasfluxes-three-way.json
+python3 -m py_compile scripts/ieee-independent-harvard-raw-trace.py tests/ieee-independent-harvard-raw-trace.test.py
+python3 tests/ieee-independent-harvard-raw-trace.test.py
+python3 scripts/ieee-independent-harvard-raw-trace.py --output /tmp/naft-ieee-harvard-independent-raw-trace.json
 python3 -m py_compile scripts/japanflux-jp-hrt-v200.py tests/japanflux-jp-hrt-v200.test.py
 python3 tests/japanflux-jp-hrt-v200.test.py
 python3 -m py_compile scripts/japanflux-jp-hrt-v200-consistency.py tests/japanflux-jp-hrt-v200-consistency.test.py
