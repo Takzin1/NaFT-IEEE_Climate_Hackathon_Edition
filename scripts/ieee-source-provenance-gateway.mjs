@@ -186,6 +186,7 @@ export function linkSourceToDualReplay(intake,dual){
   intake.input.raw_bytes_sha256!==dual.original_input.csv_sha256||
   intake.input.site_id_claimed!==dual.source_bound_local_receipt.input.site_id_claimed||
   intake.input.source_url_claimed!==dual.source_bound_local_receipt.input.source_uri_claimed||
+  intake.input.license_claimed!==dual.source_bound_local_receipt.input.source_license_status_claimed||
   intake.input.data_class!==dual.source_bound_local_receipt.input.declared_data_class)
   reject('SOURCE_DUAL_LINK_CONTEXT_OR_HASH_MISMATCH');
  if(intake.decisions.certified_tco2e!==null||dual.trust?.certified_tco2e!==null)
