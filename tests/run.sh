@@ -59,6 +59,9 @@ node --check scripts/ieee-gs-worksheet-replay.mjs
 python3 -m py_compile scripts/ieee-gs-worksheet-independent-oracle.py
 node --check tests/ieee-gs-worksheet-replay.test.mjs
 node tests/ieee-gs-worksheet-replay.test.mjs
+node --check scripts/ieee-gs-selective-reverification.mjs
+node --check tests/ieee-gs-selective-reverification.test.mjs
+node tests/ieee-gs-selective-reverification.test.mjs
 node tests/japan-field-study-replay.test.js
 python3 tests/japan-field-independent-oracle.test.py
 node tests/asia-native-field-header.test.mjs
