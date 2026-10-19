@@ -153,6 +153,26 @@ try{
  const candidateReport=run('inspect',mf);
  eq(candidateReport.status,0);
  eq(JSON.parse(candidateReport.stdout).decisions.gateway_status,'BLOCKED_ORIGINAL_FILE_NOT_ACQUIRED');
+ // When no raw publisher file exists, a DataCite metadata snapshot must NOT
+ // be interpreted as CSV merely because it is the second CLI argument.
+ const metadataOnly=run('inspect',mf,'--datacite',meta);
+ eq(metadataOnly.status,0);
+ const metadataOnlyReceipt=JSON.parse(metadataOnly.stdout);
+ eq(metadataOnlyReceipt.metadata.state,'LOCAL_DATACITE_JSON_DOI_AND_PUBLISHER_MATCHED');
+ eq(metadataOnlyReceipt.decisions.gateway_status,'BLOCKED_ORIGINAL_FILE_NOT_ACQUIRED');
+ writeFileSync(rf,metadataOnly.stdout);
+ const checkedMetadataOnly=run('verify',mf,rf,'--datacite',meta);
+ eq(checkedMetadataOnly.status,0);
+ eq(JSON.parse(checkedMetadataOnly.stdout).report_sha256,metadataOnlyReceipt.report_sha256);
+ const missingMetadataArg=run('inspect',mf,'--datacite');
+ ok(missingMetadataArg.status!==0&&missingMetadataArg.stderr.includes('SOURCE_DATACITE_OPTION_PATH_REQUIRED'));
+ const duplicatedMetadataArg=run('inspect',mf,'--datacite',meta,'--datacite',meta);
+ ok(duplicatedMetadataArg.status!==0&&duplicatedMetadataArg.stderr.includes('SOURCE_DATACITE_OPTION_DUPLICATED'));
+ writeFileSync(mf,asBytes(user));
+ const userCli=run('inspect',mf,df,'--datacite',meta);
+ eq(userCli.status,0);
+ eq(JSON.parse(userCli.stdout).report_sha256,userReport.report_sha256);
+ writeFileSync(mf,candidateBytes);
  const metadataReport=run('inspect',mf,df,meta);
  ok(metadataReport.status!==0&&metadataReport.stderr.includes('SOURCE_PRIMARY_DATASET_NOT_ACQUIRED'));
 }finally{rmSync(tmp,{recursive:true,force:true});}
