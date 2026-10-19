@@ -58,3 +58,18 @@ bash tests/run.sh
 ```
 
 The tests use the repository's synthetic daily CH₄ CSV and **fabricated DataCite-shaped JSON solely for parser negative tests**. They do not import, reproduce, attribute or authorize any real field methane observations.
+
+### Metadata-only candidate CLI (unacquired original file)
+
+A pending `PRIMARY_DATASET_CANDIDATE` has no local raw observations. Supply its independently obtained **but unauthenticated** DataCite JSON snapshot by name, not as the positional RAW argument:
+
+```bash
+node scripts/ieee-source-provenance-gateway.mjs inspect \
+  research/japan-primary-evidence-2026-10-18/japanflux-jp-hrt-intake-pending.json \
+  --datacite local-datacite-snapshot.json > /tmp/naft-pending.json
+node scripts/ieee-source-provenance-gateway.mjs verify \
+  research/japan-primary-evidence-2026-10-18/japanflux-jp-hrt-intake-pending.json \
+  /tmp/naft-pending.json --datacite local-datacite-snapshot.json
+```
+
+The same `--datacite` option works with locally supplied RAW CSV files. Existing `SPEC RAW DATACITE` positional invocation remains compatible. Metadata-only inspection remains `BLOCKED_ORIGINAL_FILE_NOT_ACQUIRED` and never asserts publisher authentication.

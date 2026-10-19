@@ -57,6 +57,36 @@ const alternate=structuredClone(good);alternate.input.site_id_claimed='SOMEONE_E
 blocked(()=>linkSourceToDualReplay(rehash(alternate),dual),'SOURCE_DUAL_LINK_CONTEXT_OR_HASH_MISMATCH');
 const alternate2=structuredClone(good);alternate2.input.raw_bytes_sha256='0'.repeat(64);
 blocked(()=>linkSourceToDualReplay(rehash(alternate2),dual),'SOURCE_DUAL_LINK_CONTEXT_OR_HASH_MISMATCH');
+
+const conflictingLicense=structuredClone(good);
+conflictingLicense.input.license_claimed='OTHER_LICENSE_DECLARATION';
+blocked(()=>linkSourceToDualReplay(rehash(conflictingLicense),dual),
+ 'SOURCE_DUAL_LINK_CONTEXT_OR_HASH_MISMATCH');
+
+const bothMissingSourceLicense=structuredClone(good);
+const bothMissingObservationLicense=structuredClone(dual);
+delete bothMissingSourceLicense.input.license_claimed;
+delete bothMissingObservationLicense.source_bound_local_receipt.input.source_license_status_claimed;
+blocked(()=>linkSourceToDualReplay(
+ rehash(bothMissingSourceLicense),bothMissingObservationLicense),'SOURCE_DUAL_LINK_SCHEMA');
+const incompleteDual=structuredClone(dual);
+delete incompleteDual.source_bound_local_receipt.input;
+blocked(()=>linkSourceToDualReplay(good,incompleteDual),'SOURCE_DUAL_LINK_SCHEMA');
+const invalidHash=structuredClone(good);
+invalidHash.input.raw_bytes_sha256='not-a-digest';
+blocked(()=>linkSourceToDualReplay(rehash(invalidHash),dual),'SOURCE_DUAL_LINK_SCHEMA');
+const untrustedClass=structuredClone(good);
+const untrustedClassDual=structuredClone(dual);
+untrustedClass.input.data_class='CERTIFIED_REAL';
+untrustedClassDual.source_bound_local_receipt.input.declared_data_class='CERTIFIED_REAL';
+blocked(()=>linkSourceToDualReplay(rehash(untrustedClass),untrustedClassDual),
+ 'SOURCE_DUAL_LINK_SCHEMA');
+const stringBoolean=structuredClone(good);
+stringBoolean.decisions.local_raw_checksum_consistent='true';
+blocked(()=>linkSourceToDualReplay(rehash(stringBoolean),dual),
+ 'SOURCE_DUAL_LINK_CONTEXT_OR_HASH_MISMATCH');
+
+
 blocked(()=>inspectSourceIntake(asBytes(spec),Buffer.concat([raw,Buffer.from('x')])),
  'SOURCE_RAW_SHA256_MISMATCH');
 blocked(()=>inspectSourceIntake(asBytes(spec)),
@@ -153,6 +183,26 @@ try{
  const candidateReport=run('inspect',mf);
  eq(candidateReport.status,0);
  eq(JSON.parse(candidateReport.stdout).decisions.gateway_status,'BLOCKED_ORIGINAL_FILE_NOT_ACQUIRED');
+ // When no raw publisher file exists, a DataCite metadata snapshot must NOT
+ // be interpreted as CSV merely because it is the second CLI argument.
+ const metadataOnly=run('inspect',mf,'--datacite',meta);
+ eq(metadataOnly.status,0);
+ const metadataOnlyReceipt=JSON.parse(metadataOnly.stdout);
+ eq(metadataOnlyReceipt.metadata.state,'LOCAL_DATACITE_JSON_DOI_AND_PUBLISHER_MATCHED');
+ eq(metadataOnlyReceipt.decisions.gateway_status,'BLOCKED_ORIGINAL_FILE_NOT_ACQUIRED');
+ writeFileSync(rf,metadataOnly.stdout);
+ const checkedMetadataOnly=run('verify',mf,rf,'--datacite',meta);
+ eq(checkedMetadataOnly.status,0);
+ eq(JSON.parse(checkedMetadataOnly.stdout).report_sha256,metadataOnlyReceipt.report_sha256);
+ const missingMetadataArg=run('inspect',mf,'--datacite');
+ ok(missingMetadataArg.status!==0&&missingMetadataArg.stderr.includes('SOURCE_DATACITE_OPTION_PATH_REQUIRED'));
+ const duplicatedMetadataArg=run('inspect',mf,'--datacite',meta,'--datacite',meta);
+ ok(duplicatedMetadataArg.status!==0&&duplicatedMetadataArg.stderr.includes('SOURCE_DATACITE_OPTION_DUPLICATED'));
+ writeFileSync(mf,asBytes(user));
+ const userCli=run('inspect',mf,df,'--datacite',meta);
+ eq(userCli.status,0);
+ eq(JSON.parse(userCli.stdout).report_sha256,userReport.report_sha256);
+ writeFileSync(mf,candidateBytes);
  const metadataReport=run('inspect',mf,df,meta);
  ok(metadataReport.status!==0&&metadataReport.stderr.includes('SOURCE_PRIMARY_DATASET_NOT_ACQUIRED'));
 }finally{rmSync(tmp,{recursive:true,force:true});}

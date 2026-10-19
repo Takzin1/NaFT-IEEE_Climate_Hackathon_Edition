@@ -180,12 +180,24 @@ export function verifySourceIntake(specBytes,rawBytes,dataciteBytes,report){
 // a primary publisher's raw file needs an independently reviewed source-specific adapter.
 export function linkSourceToDualReplay(intake,dual){
  if(!obj(intake)||!obj(intake.decisions)||!obj(intake.input)||
-  !obj(dual)||!obj(dual.original_input)||!obj(dual.source_bound_local_receipt))
+  !obj(dual)||!obj(dual.original_input)||!obj(dual.source_bound_local_receipt)||
+  !obj(dual.source_bound_local_receipt.input))
   reject('SOURCE_DUAL_LINK_SCHEMA');
- if(!intake.decisions.local_raw_checksum_consistent||
+ const observation=dual.source_bound_local_receipt.input;
+ const claimed=[intake.input.site_id_claimed,intake.input.source_url_claimed,
+  intake.input.license_claimed,intake.input.data_class,
+  observation.site_id_claimed,observation.source_uri_claimed,
+  observation.source_license_status_claimed,observation.declared_data_class];
+ if(claimed.some(v=>typeof v!=='string'||!v.trim())||
+    !['SYNTHETIC','USER_SUPPLIED_UNVERIFIED'].includes(intake.input.data_class)||
+    !/^[a-f0-9]{64}$/.test(intake.input.raw_bytes_sha256||'')||
+    !/^[a-f0-9]{64}$/.test(dual.original_input.csv_sha256||''))
+  reject('SOURCE_DUAL_LINK_SCHEMA');
+ if(intake.decisions.local_raw_checksum_consistent!==true||
   intake.input.raw_bytes_sha256!==dual.original_input.csv_sha256||
   intake.input.site_id_claimed!==dual.source_bound_local_receipt.input.site_id_claimed||
   intake.input.source_url_claimed!==dual.source_bound_local_receipt.input.source_uri_claimed||
+  intake.input.license_claimed!==dual.source_bound_local_receipt.input.source_license_status_claimed||
   intake.input.data_class!==dual.source_bound_local_receipt.input.declared_data_class)
   reject('SOURCE_DUAL_LINK_CONTEXT_OR_HASH_MISMATCH');
  if(intake.decisions.certified_tco2e!==null||dual.trust?.certified_tco2e!==null)
@@ -202,28 +214,46 @@ function localFile(path,max){
  if(!stat.isFile()||stat.size<1||stat.size>max)reject('SOURCE_LOCAL_FILE_SIZE');
  return readFileSync(path);
 }
+// Explicit --datacite removes ambiguity when original raw bytes do not exist.
+// Positional raw+metadata forms remain supported for existing callers.
 function cli(args){
- const mode=args[0],files=args.slice(1);
+ const mode=args[0],tokens=args.slice(1);
+ const optionIndices=tokens.flatMap((x,i)=>x==='--datacite'?[i]:[]);
+ if(optionIndices.length>1)reject('SOURCE_DATACITE_OPTION_DUPLICATED');
+ let files=tokens,metadataPath=null;
+ if(optionIndices.length===1){
+  const at=optionIndices[0];
+  if(at===tokens.length-1||tokens[at+1]==='--datacite'||
+    tokens[at+1].startsWith('--'))
+   reject('SOURCE_DATACITE_OPTION_PATH_REQUIRED');
+  metadataPath=tokens[at+1];
+  files=[...tokens.slice(0,at),...tokens.slice(at+2)];
+ }
  if(mode==='inspect'){
-  if(![1,2,3].includes(files.length))
-   reject('USAGE: node scripts/ieee-source-provenance-gateway.mjs inspect SPEC.json [RAW.csv] [DATACITE.json]');
+  if(![1,2,3].includes(files.length)||
+    (metadataPath!==null&&files.length>2))
+   reject('USAGE: inspect SPEC.json [RAW.csv] [DATACITE.json] | inspect SPEC.json [RAW.csv] --datacite DATACITE.json');
   return inspectSourceIntake(localFile(files[0],100000),
    files[1]?localFile(files[1],2000000):null,
-   files[2]?localFile(files[2],500000):null);
+   metadataPath!==null?localFile(metadataPath,500000):
+    files[2]?localFile(files[2],500000):null);
  }
  if(mode==='verify'){
-  if(![2,3,4].includes(files.length))
-   reject('USAGE: node scripts/ieee-source-provenance-gateway.mjs verify SPEC.json [RAW.csv] [DATACITE.json] REPORT.json');
+  if(![2,3,4].includes(files.length)||
+    (metadataPath!==null&&files.length>3))
+   reject('USAGE: verify SPEC.json [RAW.csv] [DATACITE.json] REPORT.json | verify SPEC.json [RAW.csv] REPORT.json --datacite DATACITE.json');
   const source=localFile(files[0],100000);
   const raw=files.length>2?localFile(files[1],2000000):null;
-  const meta=files.length>3?localFile(files[2],500000):null;
+  const meta=metadataPath!==null?localFile(metadataPath,500000):
+   files.length>3?localFile(files[2],500000):null;
   let report;
   try{report=JSON.parse(localFile(files.at(-1),1000000).toString('utf8'));}
   catch{reject('SOURCE_REPORT_JSON_INVALID');}
   return verifySourceIntake(source,raw,meta,report);
  }
- reject('USAGE: inspect SPEC.json [RAW.csv] [DATACITE.json] | verify SPEC.json [RAW.csv] [DATACITE.json] REPORT.json');
+ reject('USAGE: inspect SPEC.json [RAW.csv] [DATACITE.json] | inspect SPEC.json --datacite DATACITE.json | verify SPEC.json [RAW.csv] [DATACITE.json] REPORT.json');
 }
+
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
  try{console.log(JSON.stringify(cli(process.argv.slice(2)),null,2));}
  catch(e){console.error('SOURCE_GATE_BLOCKED:'+e.message);process.exitCode=1;}
