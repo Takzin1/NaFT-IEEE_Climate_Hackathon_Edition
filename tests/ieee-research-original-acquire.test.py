@@ -37,6 +37,8 @@ class IntakeTests(unittest.TestCase):
                 "key": "synthetic.csv", "checksum": "md5:" + self.md5,
                 "size": len(self.raw)}}}
         }
+        self.row["expected_record_metadata_sha256"] = hashlib.sha256(
+            json.dumps(self.record, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
         self.temp = tempfile.TemporaryDirectory()
         self.dir = pathlib.Path(self.temp.name) / "originals"
 
@@ -76,9 +78,13 @@ class IntakeTests(unittest.TestCase):
             tool.acquire(self.row["id"], self.dir, self.fetcher)
         self.record["id"] = 123
         self.record["files"]["entries"]["synthetic.csv"]["checksum"] = "md5:" + "0"*32
+        self.row["expected_record_metadata_sha256"] = hashlib.sha256(
+            json.dumps(self.record, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
         with self.assertRaisesRegex(ValueError, "ZENODO_FILE_METADATA_MD5_MISMATCH"):
             tool.acquire(self.row["id"], self.dir, self.fetcher)
         self.record["files"]["entries"]["synthetic.csv"]["checksum"] = "md5:" + self.md5
+        self.row["expected_record_metadata_sha256"] = hashlib.sha256(
+            json.dumps(self.record, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
         self.row["files"][0]["previous_ephemeral_sha256"] = "0"*64
         with self.assertRaisesRegex(ValueError, "PUBLISHER_AND_PREVIOUS_CHECKSUM_MISMATCH"):
             tool.acquire(self.row["id"], self.dir, self.fetcher)
@@ -90,6 +96,11 @@ class IntakeTests(unittest.TestCase):
         self.row["source"] = "ZENODO"
         self.row["files"][0]["filename"] = "../bad.csv"
         with self.assertRaisesRegex(ValueError, "UNSAFE_FILE_NAME"):
+            tool.acquire(self.row["id"], self.dir, self.fetcher)
+
+    def test_metadata_change_after_pin_rejected(self):
+        self.record["metadata"]["publisher"] = "FORGED_PUBLISHER"
+        with self.assertRaisesRegex(ValueError, "ZENODO_RECORD_METADATA_CHANGED"):
             tool.acquire(self.row["id"], self.dir, self.fetcher)
 
     def test_refuse_nonpublisher_network_addresses(self):
@@ -136,6 +147,7 @@ class CommittedGimjeTests(unittest.TestCase):
                 ("independent_original_publisher_signature_authenticated", True),
                 ("license_metadata_snapshot_reviewed_for_redistribution", "true"),
                 ("record_metadata_sha256", "not-a-hash"),
+                ("record_metadata_sha256", "0"*64),
                 ("license_as_claimed_by_zenodo_record", "cc0-1.0")
             ]:
                 forged_receipt = {**truth, field: forged}

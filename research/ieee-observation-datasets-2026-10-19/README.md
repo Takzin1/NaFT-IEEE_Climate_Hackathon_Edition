@@ -84,3 +84,10 @@ bytes match a prior record but **never authenticates the publisher**. The
 pinned CC BY claim is a metadata record of what was observed, not an ongoing
 legal assessment. A source with missing license (China) cannot be auto-imported
 until the catalog license is explicitly reviewed and pinned.
+
+The exact Zenodo record-API JSON digest observed during first import is pinned
+in the intake catalog, in addition to the per-file digests. Later acquisition
+attempts fail closed if the publisher record metadata changes; offline receipt
+verification also rejects fabricated 64-character record hashes. **A record
+hash match is not a cryptographic publisher signature or an independent legal
+license review.**

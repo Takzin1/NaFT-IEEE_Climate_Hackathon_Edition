@@ -34,7 +34,8 @@
           "expected_size_bytes": 16705
         }
       ],
-      "expected_license_id": "cc-by-4.0"
+      "expected_license_id": "cc-by-4.0",
+      "expected_record_metadata_sha256": "4d43e2d4be2f4e0a089aa9c6d860c922bc508eb3288f5a7dfea3a87ba38ee45e"
     },
     {
       "id": "CN_RICE_EDDY_EAST_2023_DAILY",
@@ -59,7 +60,8 @@
           "expected_size_bytes": 150805
         }
       ],
-      "expected_license_id": null
+      "expected_license_id": null,
+      "expected_record_metadata_sha256": null
     },
     {
       "id": "JP_MSE_FLUXNET_CH4_2012",

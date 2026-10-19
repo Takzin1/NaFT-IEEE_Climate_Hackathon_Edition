@@ -137,6 +137,10 @@ def acquire(dataset_id, destination, fetch=fetch_bytes):
     if doi.lower() != row["doi"].lower():
         blocked("ZENODO_RECORD_DOI_CHANGED")
     license_id = licensing(record)
+    metadata_sha256 = hashlib.sha256(
+        json.dumps(record, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    if metadata_sha256 != row.get("expected_record_metadata_sha256"):
+        blocked("ZENODO_RECORD_METADATA_CHANGED")
     # A live API policy change alone must never silently authorize an
     # unreviewed source to be publicly committed by a repository workflow.
     if row.get("expected_license_id") not in ALLOWED_RIGHTS or (
@@ -168,8 +172,7 @@ def acquire(dataset_id, destination, fetch=fetch_bytes):
             "dataset_id": dataset_id, "doi": row["doi"],
             "license_as_claimed_by_zenodo_record": license_id,
             "license_metadata_snapshot_reviewed_for_redistribution": True,
-            "record_metadata_sha256": hashlib.sha256(
-                json.dumps(record, sort_keys=True, separators=(",", ":")).encode()).hexdigest(),
+            "record_metadata_sha256": metadata_sha256,
             "files": [{"filename": name, **checks} for name, _, checks in targets],
             "status": "PUBLISHER_RECORD_CHECKSUM_AND_PREVIOUS_SHA_MATCHED",
             "independent_original_publisher_signature_authenticated": False,
@@ -203,7 +206,8 @@ def verify_local(dataset_id, destination):
             receipt["scientific_replication_verified"] is not False or
             receipt["certified_tco2e"] is not None or
             not isinstance(receipt["record_metadata_sha256"], str) or
-            not HEX_SHA256.fullmatch(receipt["record_metadata_sha256"])):
+            not HEX_SHA256.fullmatch(receipt["record_metadata_sha256"]) or
+            receipt["record_metadata_sha256"] != row.get("expected_record_metadata_sha256")):
         blocked("RECEIPT_CONTEXT_OR_TRUST")
     if not isinstance(receipt["files"], list) or len(receipt["files"]) != len(row["files"]):
         blocked("RECEIPT_FILE_COUNT")
