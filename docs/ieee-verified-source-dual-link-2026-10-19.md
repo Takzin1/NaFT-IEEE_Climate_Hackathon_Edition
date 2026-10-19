@@ -52,6 +52,9 @@ An optional last `DATACITE.json` argument is supported for both `generate`
 and `verify`, if the source-intake report was generated with that same
 metadata snapshot. The snapshot is a claim, not external publisher verification.
 
+
+The combined verifier also re-reads the **source specification and optional DataCite snapshot** after independent Python execution, alongside the CSV and observation manifest. All four inputs must still match the exact original-byte hashes before a link receipt can be emitted; adversarial regression tests mutate the files during Python replay. The read bound is enforced on the actual bytes as well as the preceding file-stat check.
+
 ## Security / scientific limits
 
 Positive verification means **only local byte consistency and reproducible
