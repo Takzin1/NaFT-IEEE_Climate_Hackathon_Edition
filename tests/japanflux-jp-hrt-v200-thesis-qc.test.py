@@ -114,7 +114,7 @@ import zipfile
 
 def synthetic_zip(path, change_wind=False):
     stream=StringIO()
-    writer=csv.writer(stream,lineterminator='\\n')
+    writer=csv.writer(stream,lineterminator='\n')
     writer.writerow(['TIMESTAMP_START','TIMESTAMP_END','FCH4','FCH4_1_1_1',
                      'CH4_1_1_1','WD_1_1_1','USTAR_1_1_1','P_RAIN_1_1_1'])
     dates=[datetime(2013,1,1)+timedelta(minutes=30*i) for i in range(5)]
