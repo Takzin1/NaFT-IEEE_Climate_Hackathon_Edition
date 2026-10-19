@@ -87,6 +87,14 @@ fake=copy.deepcopy(ledger);fake["repositories"][0]["reference_commit"]="not-a-re
 denied(lambda:module.verify(fake),"INVALID_UPSTREAM_GIT_SHA")
 fake=copy.deepcopy(ledger);fake["repositories"][0]["license_blob_sha"]="0"
 denied(lambda:module.verify(fake),"INVALID_UPSTREAM_GIT_SHA")
+fake=copy.deepcopy(ledger);fake["repositories"][0]["reference_commit"]="f"*40
+denied(lambda:module.verify(fake),"UPSTREAM_PIN_CHANGED_REQUIRES_SOURCE_REVIEW")
+fake=copy.deepcopy(ledger);fake["repositories"][0]["license_blob_sha"]="e"*40
+denied(lambda:module.verify(fake),"UPSTREAM_PIN_CHANGED_REQUIRES_SOURCE_REVIEW")
+fake=copy.deepcopy(ledger);fake["repositories"][0]["reference_branch"]="master"
+denied(lambda:module.verify(fake),"UPSTREAM_PIN_CHANGED_REQUIRES_SOURCE_REVIEW")
+fake=copy.deepcopy(ledger);fake["repositories"][6]["license_file"]="LICENSE"
+denied(lambda:module.verify(fake),"UPSTREAM_PIN_CHANGED_REQUIRES_SOURCE_REVIEW")
 fake=copy.deepcopy(ledger);fake["repositories"][0]["copy_code_approved"]=True
 denied(lambda:module.verify(fake),"UNSAFE_THIRD_PARTY_LICENSE_OR_PATH")
 fake=copy.deepcopy(ledger);fake["repositories"][0]["license"]="MIT"
