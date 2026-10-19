@@ -41,6 +41,13 @@ jobs:
           path: /tmp/naft-ieee-gimje-structure-preflight.json
           if-no-files-found: error
           retention-days: 21
+      - name: Archive Gimje field crosswalk candidates (NOT approved)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ieee-gimje-field-crosswalk-candidates
+          path: /tmp/naft-ieee-gimje-field-crosswalk.json
+          if-no-files-found: error
+          retention-days: 21
       - name: Execute ClimateChain contract behavior on local EVM
         run: node tests/climatechain-contract-behavior.test.mjs
       - name: Browser Reviewer, Evidence file, six-route and Compiler role-flow checks
