@@ -105,10 +105,10 @@
       "analysis_reproduced": false,
       "source_data_download_sha256": "b5ec601059dab6949a2ae5db8ebb741349ddd3e37a687fe4c4415df40b886f31",
       "reviewed_by_independent_human": false,
-      "verification_state": "PINNED_FIXTURE_SUBSET_IMPORTED_THIRD_PARTY_GOLDEN_REPLAYED",
+      "verification_state": "PINNED_FIXTURE_SUBSET_IMPORTED_REPLAY_CHECKED_IN_SEPARATE_CI_ARTIFACT",
       "imported_fixture_path": "research/ieee-observation-datasets-2026-10-19/independent-benchmarks/gasfluxes-v0.7-2/fluxmeas-first-five.csv",
       "imported_scope": "20 source measurement records, 5 testthat golden-series; not the full original file",
-      "independent_reference_results_compared": true
+      "independent_reference_results_compared": false
     },
     {
       "id": "HARVARD_FOREST_CHAMBER_FLUX",
