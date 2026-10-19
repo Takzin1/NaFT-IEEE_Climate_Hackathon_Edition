@@ -46,6 +46,7 @@ node tests/ieee-observation-dual-replay.test.mjs
 node tests/ieee-source-provenance-gateway.test.mjs
 node tests/ieee-verified-source-dual-link.test.mjs
 python3 tests/ieee-research-original-acquire.test.py
+python3 scripts/ieee-research-original-acquire.py verify-local KR_GIMJE_DAILY_2022_2024 --destination research/ieee-observation-datasets-2026-10-19/originals/KR_GIMJE_DAILY_2022_2024
 python3 -m py_compile scripts/japanflux-jp-hrt-v200.py tests/japanflux-jp-hrt-v200.test.py
 python3 tests/japanflux-jp-hrt-v200.test.py
 python3 -m py_compile scripts/japanflux-jp-hrt-v200-consistency.py tests/japanflux-jp-hrt-v200-consistency.test.py
