@@ -62,6 +62,9 @@ python3 scripts/ieee-gimje-observation-support-map.py --output /tmp/naft-ieee-gi
 python3 -m py_compile scripts/ieee-gimje-replay-readiness.py tests/ieee-gimje-replay-readiness.test.py
 python3 tests/ieee-gimje-replay-readiness.test.py
 python3 scripts/ieee-gimje-replay-readiness.py --output /tmp/naft-ieee-gimje-replay-readiness.json
+python3 -m py_compile scripts/ieee-third-party-evidence-map.py tests/ieee-third-party-evidence-map.test.py
+python3 tests/ieee-third-party-evidence-map.test.py
+python3 scripts/ieee-third-party-evidence-map.py --output /tmp/naft-ieee-third-party-evidence-map.json
 python3 -m py_compile scripts/japanflux-jp-hrt-v200.py tests/japanflux-jp-hrt-v200.test.py
 python3 tests/japanflux-jp-hrt-v200.test.py
 python3 -m py_compile scripts/japanflux-jp-hrt-v200-consistency.py tests/japanflux-jp-hrt-v200-consistency.test.py
