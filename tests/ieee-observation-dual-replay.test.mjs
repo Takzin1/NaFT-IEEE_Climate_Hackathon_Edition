@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {readFileSync,writeFileSync,mkdtempSync,rmSync} from 'node:fs';
+import {readFileSync,writeFileSync,mkdtempSync,rmSync,chmodSync} from 'node:fs';
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {spawnSync} from 'node:child_process';
@@ -50,6 +50,42 @@ try{
  const mf=join(tmp,'meta.json'),cf=join(tmp,'data.csv'),pf=join(tmp,'proof.json');
  writeFileSync(mf,JSON.stringify(sample));writeFileSync(cf,csv);
  const self=generateDualObservationReceipt(mf,cf);
+ // Independently running Python may read the manifest after JavaScript.
+ // Mutating ONLY the context JSON after Python returns keeps every numeric
+ // answer the same, yet MUST reject the combined proof as non-atomic.
+ const probe=spawnSync('python3',['-c','import sys; print(sys.executable)'],
+  {encoding:'utf8',timeout:15000});
+ eq(probe.status,0);
+ const originalPython=probe.stdout.trim();
+ const launcher=join(tmp,'python3');
+ writeFileSync(launcher,[
+  '#!/bin/sh',
+  JSON.stringify(originalPython)+' "$@"',
+  'status=$?',
+  'if [ "$status" -eq 0 ] && [ -n "$NAFT_DUAL_MUTATE_FILE" ]; then',
+  '  printf " " >> "$NAFT_DUAL_MUTATE_FILE"',
+  'fi',
+  'exit "$status"'
+ ].join('\\n')+'\\n');
+ chmodSync(launcher,0o755);
+ const normalPath=process.env.PATH;
+ const normalMutation=process.env.NAFT_DUAL_MUTATE_FILE;
+ try{
+  process.env.PATH=tmp+':'+normalPath;
+  for(const file of [mf,cf]){
+   process.env.NAFT_DUAL_MUTATE_FILE=file;
+   bad(()=>generateDualObservationReceipt(mf,cf),
+    'DUAL_INPUT_CHANGED_DURING_REPLAY');
+   writeFileSync(mf,JSON.stringify(sample));
+   writeFileSync(cf,csv);
+  }
+ }finally{
+  process.env.PATH=normalPath;
+  if(normalMutation===undefined)delete process.env.NAFT_DUAL_MUTATE_FILE;
+  else process.env.NAFT_DUAL_MUTATE_FILE=normalMutation;
+ }
+ // A stable, source-identical rerun still returns the original receipt.
+ eq(generateDualObservationReceipt(mf,cf),self);
  const cli=run('generate',mf,cf);
  eq(cli.status,0);
  const parsed=JSON.parse(cli.stdout);
