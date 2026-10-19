@@ -8,7 +8,7 @@
     "source_authors": "Hyoung Seok Lee et al.",
     "sha256_chamber_original": "719b148d1a4f08e31bc146f412c920ae1472ca1a3a4d6dd81d882c1ef79fe813"
   },
-  "policy": "ONE_PINNED_GASFLUXES_BENCHMARK_SUBSET_IMPORTED_NO_UPSTREAM_CODE_EXECUTED",
+  "policy": "TWO_INDEPENDENT_ORIGIN_RAW_SUBSETS_IMPORTED_NO_UPSTREAM_CODE_EXECUTED",
   "independence_definition": "Different collection team/site or external method provider, explicitly distinct from original author; not a third-party attestation, same-scale field validation or certified audit",
   "rules": {
     "all_sources_meta_only": false,
@@ -133,12 +133,16 @@
         "Uses Picarro/LGR analyzer inputs not contained in Gimje published daily-flux CSVs",
         "External source code not vendored or executed"
       ],
-      "external_bytes_imported": false,
+      "external_bytes_imported": true,
       "external_code_executed": false,
       "analysis_reproduced": false,
-      "source_data_download_sha256": null,
+      "source_data_download_sha256": "f6e65ff4b655db059edae321282b5641a4b5786be99bbac1739e629c007ba92a",
       "reviewed_by_independent_human": false,
-      "verification_state": "LANDING_PAGE_VERIFIED_NOT_REPRODUCED"
+      "verification_state": "PINNED_RAW_INSTRUMENT_SAMPLE_AND_EVENT_KEY_IMPORTED_NO_CHAMBER_FLUX",
+      "event_key_download_sha256": "18bf6d01c9dcd1a25f01e8b64990f3d5924fb4b8fb533c9d577014bf99701bd5",
+      "imported_fixture_path": "research/ieee-observation-datasets-2026-10-19/independent-benchmarks/harvard-forest-raw-2023/Picarro_CH4_20230630_160808.dat",
+      "imported_event_key_path": "research/ieee-observation-datasets-2026-10-19/independent-benchmarks/harvard-forest-raw-2023/times_key2.csv",
+      "imported_scope": "35 literal Picarro trace rows plus source 24-entry event key; unapproved alarm/event/date alignment"
     },
     {
       "id": "FLUXNET_CH4_JP_MSE",
