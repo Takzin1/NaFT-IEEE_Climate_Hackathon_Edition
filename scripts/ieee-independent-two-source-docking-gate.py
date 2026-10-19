@@ -9,6 +9,8 @@ RANKS=ROOT/"research/ieee-observation-datasets-2026-10-19/independent-benchmarks
 GAS_SHA="b5ec601059dab6949a2ae5db8ebb741349ddd3e37a687fe4c4415df40b886f31"
 HARVARD_BLOB="ad55b3751cac9d2f09736f02b4aa82a65f4d6c11"
 HARVARD_KEY_BLOB="ace95b610810c7df27c98adc6500b5c6258cbb5e"
+HARVARD_RAW_SHA="f6e65ff4b655db059edae321282b5641a4b5786be99bbac1739e629c007ba92a"
+HARVARD_KEY_SHA="18bf6d01c9dcd1a25f01e8b64990f3d5924fb4b8fb533c9d577014bf99701bd5"
 
 
 def blocked(s):
@@ -37,6 +39,8 @@ def inspect(gas,harvard,ranks):
             ga.get("regulatory_claims_approved") is not False or
             ha.get("original_raw_git_blob")!=HARVARD_BLOB or
             ha.get("original_event_key_git_blob")!=HARVARD_KEY_BLOB or
+            ha.get("original_raw_sha256")!=HARVARD_RAW_SHA or
+            ha.get("original_event_key_sha256")!=HARVARD_KEY_SHA or
             ha.get("imported_records")!=35 or
             ha.get("source_event_match_count")!=0 or
             ha.get("chamber_flux_approved") is not False):
@@ -62,6 +66,8 @@ def inspect(gas,harvard,ranks):
             or harvard.get("status")!="PINNED_EXTERNAL_RAW_TRACE_DESCRIPTIVE_CALCULATION_ONLY"
             or harvard.get("provenance",{}).get("raw_original_git_blob")!=HARVARD_BLOB
             or harvard.get("provenance",{}).get("event_key_original_git_blob")!=HARVARD_KEY_BLOB
+            or harvard.get("provenance",{}).get("raw_sha256")!=HARVARD_RAW_SHA
+            or harvard.get("provenance",{}).get("event_key_sha256")!=HARVARD_KEY_SHA
             or harvard.get("source",{}).get("raw_trace_rows")!=35
             or harvard.get("source",{}).get("key_event_overlaps")!=[]
             or harvard.get("source",{}).get("literal_alarm_status_counts")!={"2":35}
