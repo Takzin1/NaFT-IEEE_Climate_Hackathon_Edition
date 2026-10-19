@@ -10,7 +10,6 @@ on:
       - 'research/ieee-observation-datasets-2026-10-19/intake-catalog.json'
       - 'scripts/ieee-research-original-acquire.py'
       - 'tests/ieee-research-original-acquire.test.py'
-      - 'tests/run.sh'
       - '.github/workflows/ieee-research-original-acquire.yml'
 
 permissions:
@@ -34,6 +33,13 @@ jobs:
           for id in KR_GIMJE_DAILY_2022_2024 CN_RICE_EDDY_EAST_2023_DAILY; do
             destination="research/ieee-observation-datasets-2026-10-19/originals/$id"
             echo "::group::$id"
+            if [ -f "$destination/acquisition-receipt.json" ]; then
+              echo "Already committed: checking source bytes again without network"
+              python3 scripts/ieee-research-original-acquire.py verify-local "$id" --destination "$destination" || exit 1
+              passed=$((passed+1))
+              echo "::endgroup::"
+              continue
+            fi
             if python3 scripts/ieee-research-original-acquire.py acquire "$id" --destination "$destination"; then
               python3 scripts/ieee-research-original-acquire.py verify-local "$id" --destination "$destination" || exit 1
               passed=$((passed+1))
