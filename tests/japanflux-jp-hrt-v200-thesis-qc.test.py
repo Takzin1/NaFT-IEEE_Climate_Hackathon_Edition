@@ -117,19 +117,26 @@ def synthetic_zip(path, change_wind=False):
     writer=csv.writer(stream,lineterminator='\n')
     writer.writerow(['TIMESTAMP_START','TIMESTAMP_END','FCH4','FCH4_1_1_1',
                      'CH4_1_1_1','WD_1_1_1','USTAR_1_1_1','P_RAIN_1_1_1'])
-    dates=[datetime(2013,1,1)+timedelta(minutes=30*i) for i in range(5)]
-    rows=[
-     ('-9999.0','-9999.0','-9999.0','-9999.0','-9999.0','-9999.0'),
-     ('1.5','1.5','1.8','90' if not change_wind else '140','0.20','0.0'),
-     ('1.9','1.9','1.8','120','0.05','1.0'),
-     ('2.0','2.0','1.8','-9999.0','0.20','0.0')
-    ]
-    for i,fields in enumerate(rows):
-        writer.writerow([dates[i].strftime('%Y%m%d%H%M'),
-                         dates[i+1].strftime('%Y%m%d%H%M'),*fields])
+    start=datetime(2013,1,1)
+    # Production pinned archives require complete contiguous 2013 time window and
+    # exactly 1,915 numeric FCH4 values. This is a synthetic full-year test only.
+    for i in range(17520):
+        begin=start+timedelta(minutes=30*i)
+        end=begin+timedelta(minutes=30)
+        present=(5000<=i<6915)
+        if not present:
+            vals=('-9999.0','-9999.0','-9999.0','-9999.0','-9999.0','-9999.0')
+        else:
+            wind='90' if i==5000 and not change_wind else (
+                 '-9999.0' if i==5002 else '130')
+            speed='0.05' if i==5001 else '0.20'
+            rain='1.0' if i==5001 else '0.0'
+            vals=('2.0','2.0','1.8',wind,speed,rain)
+        writer.writerow([begin.strftime('%Y%m%d%H%M'),
+                         end.strftime('%Y%m%d%H%M'),*vals])
     members={audit.native.HH:stream.getvalue().encode(),
-       audit.native.PDF:b'%PDF-1.4 FAKE test PDF, not real ADS\\n',
-       audit.native.BADM:b'PK FAKE workbook, not real BADM\\n'}
+       audit.native.PDF:b'%PDF-1.4 FAKE test PDF, not real ADS\n',
+       audit.native.BADM:b'PK FAKE workbook, not real BADM\n'}
     with zipfile.ZipFile(path,'w',compression=zipfile.ZIP_STORED) as archive:
         for name,data in members.items():archive.writestr(name,data)
     pin={'schema':'naft-japanflux-jp-hrt-v200-pin-1',
@@ -150,8 +157,8 @@ with TemporaryDirectory() as folder:
     try:
         result=audit.audit(local,pin,fake_pdf,synthetic_evidence)
         check(result['status']=='BLOCKED_EXTERNAL_QC_REQUIRED')
-        check(result['screening']['native_numeric_fch4_rows']==3)
-        check(result['screening']['native_missing_fch4_rows']==1)
+        check(result['screening']['native_numeric_fch4_rows']==1915)
+        check(result['screening']['native_missing_fch4_rows']==15605)
         check(result['screening']['candidate_wind_exclusion_rows']==1)
         check(result['screening']['candidate_low_ustar_rows']==1)
         check(result['screening']['candidate_rainfall_rows']==1)
