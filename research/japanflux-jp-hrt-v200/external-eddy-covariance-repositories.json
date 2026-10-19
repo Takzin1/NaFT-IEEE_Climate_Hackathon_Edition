@@ -1,0 +1,131 @@
+{
+  "schema": "naft-ieee-external-ec-repository-register-v1",
+  "created_on": "2026-10-19",
+  "purpose": "Reference-pin external ecological flux processing and uncertainty tools for method review without importing external code or upgrading JP-Hrt QC/credits.",
+  "paper": {
+    "title": "Influences of various calculation options on heat, water and carbon fluxes determined by open- and closed-path eddy covariance methods",
+    "authors_short": "Ueyama et al.",
+    "journal": "Tellus B",
+    "published_year": 2012,
+    "doi": "10.3402/tellusb.v64i0.19048",
+    "user_uploaded_filename": "Tellus2013(1).pdf",
+    "original_pdf_sha256": "17f2cc3951d7d853d0ffe269f55dca5d469e4d3f755b761a74a50b2fb0cd5218",
+    "pdf_license": "CC BY-NC 3.0 Unported as stated on PDF page 1",
+    "pdf_is_committed": false,
+    "scientific_scope": [
+      "heat flux",
+      "water vapor flux",
+      "carbon dioxide flux",
+      "calculation-option uncertainty"
+    ],
+    "not_established": [
+      "JP-Hrt 2013 CH4-specific QC acceptance",
+      "JP-Hrt original FCH4 product-unit lineage",
+      "original 10 Hz sensor data",
+      "certified methane reductions"
+    ]
+  },
+  "policy": {
+    "external_git_submodules_installed": false,
+    "third_party_source_imported": false,
+    "github_forks_created": false,
+    "dependency_versions_installed": false,
+    "license_review_for_code_import_required": true,
+    "automatic_ch4_gapfill_enabled": false,
+    "automatic_qc_promotion_enabled": false,
+    "derived_certified_tco2e": null
+  },
+  "repositories": [
+    {
+      "repository": "BernardHeinesch/FreqCor",
+      "reference_commit": "ac2eb2130562707c748673eb08261db65438e4cb",
+      "reference_branch": "main",
+      "license": "Apache-2.0",
+      "license_file": "LICENSE",
+      "license_blob_sha": "dedd43878b4e92ad5a56de60651a0a825887d534",
+      "purpose": "Frequency-loss/spectral correction sensitivity study when genuine spectral input or EddyPro spectra are available",
+      "priority": "P1",
+      "role": "external_research_reference",
+      "fit_to_jphrt": "requires_raw_spectra_and_sensor_transfer_functions",
+      "copy_code_approved": false
+    },
+    {
+      "repository": "ternaustralia/OzFlux-footprint",
+      "reference_commit": "fa4d9672e1534c4121ce07cde1863e15e195780a",
+      "reference_branch": "master",
+      "license": "BSD-3-Clause",
+      "license_file": "LICENSE",
+      "license_blob_sha": "f6f4be2c1fe95e9884511d062051adee81c7b80a",
+      "purpose": "Kormann-Meixner and Kljun footprint-climatology reference for site-source representation review",
+      "priority": "P1",
+      "role": "external_research_reference",
+      "fit_to_jphrt": "requires_wind_stability_geometry_and_footprint_inputs",
+      "copy_code_approved": false
+    },
+    {
+      "repository": "icos-etc/FFP-utils",
+      "reference_commit": "ea7ae149f8554d2eba15fb97cf162648f705d9f8",
+      "reference_branch": "main",
+      "license": "BSD-3-Clause",
+      "license_file": "LICENSE",
+      "license_blob_sha": "fd675dbba1601034bd2b17439601e8f9ded9d64f",
+      "purpose": "Alternative footprint parameterisation to check model sensitivity independent of NaFT code",
+      "priority": "P1",
+      "role": "external_research_reference",
+      "fit_to_jphrt": "requires_site_turbulence_stability_measurement_geometry",
+      "copy_code_approved": false
+    },
+    {
+      "repository": "fluxnet/ONEFlux",
+      "reference_commit": "ef24050b783f4c7538f8acf15b488b363cd26796",
+      "reference_branch": "main",
+      "license": "UC-LBNL-custom-permissive (review actual LICENSE text before redistribution)",
+      "license_file": "LICENSE",
+      "license_blob_sha": "807d2f65e017c9d7358239393e895089e8056d59",
+      "purpose": "Compare u-star/energy/CO2 gap-filling, flux-partitioning and uncertainty processing; NOT source-CH4 approval",
+      "priority": "P2",
+      "role": "external_research_reference",
+      "fit_to_jphrt": "CO2-centered_product_requiring_variables_not_verified_for_JPHRT;README_notes_legacy_python_2_7",
+      "copy_code_approved": false
+    },
+    {
+      "repository": "EarthyScience/REddyProc",
+      "reference_commit": "ce598d94a0cbfa024fbb36e3b438b1bb9f27fe6a",
+      "reference_branch": "master",
+      "license": "GPL-2.0-or-later (DESCRIPTION: GPL >= 2)",
+      "license_file": "DESCRIPTION",
+      "license_blob_sha": "ee17d83bfe4bb30cb5dd067ca4c667a725db889a",
+      "purpose": "Reference independent eddy covariance postprocessing u-star filtering and gap-filling conventions",
+      "priority": "P2",
+      "role": "external_research_reference",
+      "fit_to_jphrt": "CO2-and_ecosystem_flux_postprocessing_not_validated_as_CH4_QC",
+      "copy_code_approved": false
+    },
+    {
+      "repository": "ternaustralia/PyFluxPro",
+      "reference_commit": "147cc6873dde1656bba770f62efd0912aab4a4d5",
+      "reference_branch": "main",
+      "license": "GPL-3.0",
+      "license_file": "LICENSE",
+      "license_blob_sha": "f288702d2fa16d3cdf0035b15a9fcbc552cd88e7",
+      "purpose": "Flux-tower QC/gap filling pipeline with CSV/netCDF workflow for separate method comparison",
+      "priority": "P2",
+      "role": "external_research_reference",
+      "fit_to_jphrt": "separate_python_tool_requires_environment_and_instrument_schema_mapping",
+      "copy_code_approved": false
+    },
+    {
+      "repository": "NEONScience/eddy4R",
+      "reference_commit": "8936beb9a58a7466833074b2b98b076d4645bcb6",
+      "reference_branch": "main",
+      "license": "AGPL-3.0",
+      "license_file": "LICENSE.txt",
+      "license_blob_sha": "dbbe3558157f5861bff35dcb37b328b679b0ccfd",
+      "purpose": "Review modular eddy covariance QAQC implementation; copyleft/network redistribution requires separate review",
+      "priority": "P3",
+      "role": "external_research_reference",
+      "fit_to_jphrt": "needs_high_frequency_inputs_and_independent_method_review",
+      "copy_code_approved": false
+    }
+  ]
+}
