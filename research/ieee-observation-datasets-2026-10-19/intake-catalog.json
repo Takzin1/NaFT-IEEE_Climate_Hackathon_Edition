@@ -1,0 +1,95 @@
+{
+  "schema": "naft-ieee-external-rice-observation-intake-v1",
+  "research_only": true,
+  "original_data_status": "GIMJE_ORIGINALS_IN_RESEARCH_BRANCH_ONLY",
+  "note": "Metadata catalog. Publisher downloads must be independently checksum-verified. Data rights and site-specific QC do not follow from a file hash.",
+  "datasets": [
+    {
+      "id": "KR_GIMJE_DAILY_2022_2024",
+      "source": "ZENODO",
+      "record_id": "17111992",
+      "doi": "10.5281/zenodo.17111992",
+      "record_url": "https://zenodo.org/records/17111992",
+      "measurement": "STATIC_CHAMBER_DAILY_CH4",
+      "input_time_basis": "DAT_RELATIVE_TO_TRANSPLANT_NOT_UTC",
+      "raw_data_role": "FIELD_OBSERVATION",
+      "needs_review": [
+        "transplanting dates and field join",
+        "DAT calendar mapping",
+        "course_type/water management",
+        "raw measurement QC and interval interpretation",
+        "record any future source-license amendments"
+      ],
+      "files": [
+        {
+          "filename": "ch4.zip",
+          "published_md5": "b9ada3a76a2bce1dbd3c9c77f51424f7",
+          "previous_ephemeral_sha256": "719b148d1a4f08e31bc146f412c920ae1472ca1a3a4d6dd81d882c1ef79fe813",
+          "expected_size_bytes": 66312
+        },
+        {
+          "filename": "input_fields_meta.xlsx",
+          "published_md5": "ba661a41238697b7ac1915c0d3890aa2",
+          "previous_ephemeral_sha256": "6c609759ab25bc84cb909830800be4bac086e42a51ac43a11c4367a9c52b1298",
+          "expected_size_bytes": 16705
+        }
+      ],
+      "expected_license_id": "cc-by-4.0",
+      "expected_record_metadata_sha256": "4d43e2d4be2f4e0a089aa9c6d860c922bc508eb3288f5a7dfea3a87ba38ee45e"
+    },
+    {
+      "id": "CN_RICE_EDDY_EAST_2023_DAILY",
+      "source": "ZENODO",
+      "record_id": "8067998",
+      "doi": "10.5281/zenodo.8067998",
+      "record_url": "https://zenodo.org/records/8067998",
+      "measurement": "CH4_C_DAILY_SOURCE_AGGREGATE",
+      "input_time_basis": "YEAR_DOY_TIMEZONE_UNREVIEWED",
+      "raw_data_role": "PUBLISHED_AGGREGATE_NOT_INDEPENDENT_FIELD_QC",
+      "needs_review": [
+        "time basis",
+        "CH4-C to CH4 convention",
+        "QC and gaps",
+        "source license before redistribution"
+      ],
+      "files": [
+        {
+          "filename": "Supporting information data2.csv",
+          "published_md5": "08ff8209e69bc6719a70fe5e83a1bd0c",
+          "previous_ephemeral_sha256": "391dc360ca653782b87f15c43142ced239ba006103a7644d498bbe7f7629e224",
+          "expected_size_bytes": 150805
+        }
+      ],
+      "expected_license_id": null,
+      "expected_record_metadata_sha256": null
+    },
+    {
+      "id": "JP_MSE_FLUXNET_CH4_2012",
+      "source": "FLUXNET_PORTAL_FORM_REQUIRED",
+      "doi": "10.18140/FLX/1669647",
+      "record_url": "https://fluxnet.org/sites/siteinfo/JP-Mse",
+      "policy_url": "https://fluxnet.org/data/data-policy/",
+      "download_url": "https://fluxnet.org/download-data/",
+      "measurement": "TOWER_FCH4",
+      "input_time_basis": "LOCAL_STANDARD_TIME_REQUIRES_SITE_UTC_OFFSET",
+      "raw_data_role": "FIELD_OBSERVATION_CANDIDATE",
+      "license_declared_by_site": "CC-BY-4.0",
+      "needs_review": [
+        "complete official download declaration",
+        "FLUXNET processing version",
+        "time zone and timestamps",
+        "_QC vs gapfilled _F variables",
+        "-9999 missingness",
+        "source citation"
+      ],
+      "files": []
+    }
+  ],
+  "trust": {
+    "publisher_signature_authenticated": false,
+    "site_specific_qc_approved": false,
+    "official_jcredit_method_adopted": false,
+    "certified_tco2e": null,
+    "computed_field_reductions": null
+  }
+}

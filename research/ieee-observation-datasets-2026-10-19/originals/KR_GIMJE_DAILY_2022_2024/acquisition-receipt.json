@@ -1,0 +1,27 @@
+{
+  "schema": "naft-ieee-research-original-acquisition-v1",
+  "dataset_id": "KR_GIMJE_DAILY_2022_2024",
+  "doi": "10.5281/zenodo.17111992",
+  "license_as_claimed_by_zenodo_record": "cc-by-4.0",
+  "license_metadata_snapshot_reviewed_for_redistribution": true,
+  "record_metadata_sha256": "4d43e2d4be2f4e0a089aa9c6d860c922bc508eb3288f5a7dfea3a87ba38ee45e",
+  "files": [
+    {
+      "filename": "ch4.zip",
+      "sha256": "719b148d1a4f08e31bc146f412c920ae1472ca1a3a4d6dd81d882c1ef79fe813",
+      "md5": "b9ada3a76a2bce1dbd3c9c77f51424f7",
+      "size_bytes": 66312
+    },
+    {
+      "filename": "input_fields_meta.xlsx",
+      "sha256": "6c609759ab25bc84cb909830800be4bac086e42a51ac43a11c4367a9c52b1298",
+      "md5": "ba661a41238697b7ac1915c0d3890aa2",
+      "size_bytes": 16705
+    }
+  ],
+  "status": "PUBLISHER_RECORD_CHECKSUM_AND_PREVIOUS_SHA_MATCHED",
+  "independent_original_publisher_signature_authenticated": false,
+  "source_specific_qc_completed": false,
+  "scientific_replication_verified": false,
+  "certified_tco2e": null
+}

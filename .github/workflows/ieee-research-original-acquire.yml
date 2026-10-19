@@ -1,0 +1,34 @@
+name: IEEE research dataset source acquisition
+
+# Research-only importer, never part of production MRV or Pages. This workflow
+# runs only on the dedicated author-controlled source-intake feature branch.
+# No repo write permissions, automatic external downloads or automatic commits.
+on:
+  push:
+    branches:
+      - feat/ieee-research-dataset-ingest-20261019
+    paths:
+      - 'research/ieee-observation-datasets-2026-10-19/intake-catalog.json'
+      - 'scripts/ieee-research-original-acquire.py'
+      - 'tests/ieee-research-original-acquire.test.py'
+      - '.github/workflows/ieee-research-original-acquire.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  acquire-redistributable-originals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Test fail-closed downloader offline
+        run: python3 tests/ieee-research-original-acquire.test.py
+      - name: Verify previously acquired rights-checked original files offline
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/ieee-research-original-acquire.py verify-local KR_GIMJE_DAILY_2022_2024 --destination research/ieee-observation-datasets-2026-10-19/originals/KR_GIMJE_DAILY_2022_2024
+          echo "::notice::Only committed, previously acquired original files were checked. No download, publication or license re-approval occurred."

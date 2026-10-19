@@ -225,6 +225,10 @@ See [LICENSE](LICENSE). This is a research prototype, not a certified carbon-cre
 
 **Asia Dock second-stage guard:** The separate [IEEE Asia source acceptance gate](docs/ieee-asia-source-dock-2026-10-19.md) now audits the six upstream source-file fingerprint assertions against the eight-source catalog and refuses claims that the data were reproduced, licensed or certified. Run `node scripts/ieee-asia-dock-export.mjs`; this is metadata-only and does not alter the synthetic demo.
 
+## Research source acquisitions: Gimje originals and JP-Mse registry (2026-10-19)
+
+[Source catalog, original files, license notices and reproducibility instructions](research/ieee-observation-datasets-2026-10-19/README.md). The Korean Gimje 2022–2024 **original** `ch4.zip` and `input_fields_meta.xlsx` were imported to a research-only branch after verifying the Zenodo record's CC BY 4.0 declaration, published MD5 and earlier NaFT source SHA-256. They are *not* normalized observations, QC-approved or certified emissions. China's daily supporting CSV was **not** redistributed because its live record returned no unambiguous license claim; JP-Mse requires the official FLUXNET download process. Both remain metadata-only candidates. No field data or original source bytes enter the production MRV calculator or the 100-claim synthetic IEEE demo.
+
 ## Two-engine independent CH4 oracle (research-only, 2026-10-19)
 
 [The standalone IEEE dual oracle](docs/ieee-independent-observation-oracle-2026-10-19.md) calculates eight synthetic period-methane cases across five unit types independently with BigInt and Python Decimal. A strict machine-readable parity gate checks UTC coverage, missingness, mass basis, nine-decimal totals and null regulatory claims. **No actual publisher field observations are reproduced**; the separate Asian source Dock remains metadata-only.
