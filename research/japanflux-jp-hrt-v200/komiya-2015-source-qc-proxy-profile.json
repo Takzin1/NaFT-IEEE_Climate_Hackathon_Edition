@@ -1,0 +1,28 @@
+{
+  "schema": "naft-jphrt-real-native-proxy-profile-v1",
+  "dataset": "JapanFlux2024 JP-Hrt Version 2.00",
+  "site_year": 2013,
+  "source_archive_sha256": "bffad17bd7acf962eb1af9fa4f2092c038a813291b9fc4c79e548674101d40eb",
+  "dissertation_pdf_sha256": "613b17df36750cc0917d5c142c377d4f42f58a21b14c14cdaaf591f63b8d376e",
+  "source_fch4_numeric_rows": 1915,
+  "source_fch4_missing_rows": 15605,
+  "proxy_screening": {
+    "wind_direction_76_to_107": 8,
+    "u_star_at_or_below_0_07": 38,
+    "rainfall_positive": 20,
+    "any_rule_flagged_union": 63,
+    "missing_wind": 99,
+    "missing_u_star": 107,
+    "missing_rainfall": 98,
+    "all_three_proxies_present_no_flag": 1747,
+    "some_proxy_missing_and_no_flag": 105
+  },
+  "interpretation": "Counts independently recomputed locally from uploaded 2013 original ALLVARS_HH FCH4 numeric rows and proxy columns WD_1_1_1, USTAR_1_1_1, P_RAIN_1_1_1. Overlap exists. These are preliminary proxies from a released product, not reconstruction of study's original 10Hz stationarity/rainfall-period/footprint/signal-strength filter; even a no-proxy-flag record is NOT accepted QC.",
+  "trust": {
+    "accepted_ch4_flux_qc_rows": 0,
+    "japanflux_original_yearly_emissions": null,
+    "certified_tco2e": null,
+    "reported_study_budget_can_be_applied_to_original_csv": false,
+    "real_publisher_attested_independently": false
+  }
+}
