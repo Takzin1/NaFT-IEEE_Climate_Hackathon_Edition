@@ -158,3 +158,43 @@ sampling support, mass basis, chamber QC and meaning of blank
 The output is published only as a downloadable GitHub Actions research
 artifact and does not change MRV calculations, certified reductions or
 Sepolia historical records.
+
+## Upstream author-method requirements: scientific review gates
+
+The author code is linked by immutable Git commit, not blindly vendored or
+forked as a runtime dependency. Source program:
+[Lee's Gimje RF/XGB R code](https://github.com/lhs0218/gimje_ch4/tree/45525f01642c3069d03177e8801070da1dcb3450).
+Upstream code license: MIT, per its versioned LICENSE. Dataset license:
+CC BY 4.0 as returned by its Zenodo source. These are **different** licenses.
+
+`gimje-author-method-contract.json` pins the upstream Git revision,
+upstream R file blob hashes, and the specific requirements independently
+adapted into NaFT: CSV basename lookup of `field_id`; the candidate
+`planting_date + DAT` relation; four DAT growth-stage boundaries
+(rooting <= 10, tillering <= 45, reproductive <= 90, ripening otherwise);
+and the author's `drop_na(ch4_flux, DAT, tavg, EVI)` training exclusion
+gate. None of these is a permission to scientifically validate or certify
+field emissions.
+
+The new `scripts/ieee-gimje-reference-method-gates.py` produces an
+**offline, reproducible, source-bound diagnostics report**. It audits the
+original 60 CSVs and workbook again, proposes calendar dates only if
+the workbook uses the 1900 Excel date system, and records literal
+water-treatment tokens and CH4 observation token states. The code
+distinguishes explicit numerical `0` from blank and invalid flux values;
+neither is yet QC-certified. It does **not** integrate CH4, infer missing
+days as zero, make a field-treatment comparison or train a model.
+
+```sh
+python3 tests/ieee-gimje-reference-method-gates.test.py
+python3 scripts/ieee-gimje-reference-method-gates.py \
+  --output /tmp/naft-ieee-gimje-reference-method-gates.json
+```
+
+A complete seasonal-methane replay still requires the authors' documented
+interval/aggregation rule, measurement gap semantics, observed data unit
+verification, uncertainty treatment, and baseline eligibility analysis.
+The real-workbook candidate dates and author-R reference stage labels
+must not be promoted to confirmed field events solely through an automated
+data conversion. GitHub Actions makes the report a downloadable research
+artifact; MRV and Sepolia behavior are unchanged.
