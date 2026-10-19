@@ -1,0 +1,70 @@
+{
+  "schema": "naft-jphrt-komiya-dissertation-scientific-method-v1",
+  "reference": {
+    "title": "Methane and carbon dioxide dynamics in temperate and tropical rice paddy fields",
+    "author": "Shujiro Komiya",
+    "institution": "Meiji University Graduate School of Agriculture",
+    "academic_year": 2015,
+    "repository_handle": "http://hdl.handle.net/10291/19662",
+    "repository_publication_date": "2018-09-28",
+    "supplied_pdf_filename": "CV_komiya_2016_nou.pdf",
+    "pdf_sha256": "613b17df36750cc0917d5c142c377d4f42f58a21b14c14cdaaf591f63b8d376e",
+    "pdf_page_numbers_are_one_based": true
+  },
+  "study_scope": {
+    "japan_site": "Hiratsuka rice paddy, Kanagawa, Japan, 2013",
+    "thailand_site": "Kamphaeng Saen, Thailand, 2014",
+    "japan_ch4_method": "CLOSED_PATH_EDDY_COVARIANCE",
+    "thailand_ch4_method": "HYPERBOLIC_RELAXED_EDDY_ACCUMULATION",
+    "japan_instruments": [
+      "CSAT3A sonic anemometer",
+      "Picarro G2301-f CH4/H2O closed-path gas analyzer"
+    ],
+    "chapter": "2.3.4",
+    "pdf_pages": [
+      18,
+      19
+    ],
+    "thesis_original_calculation_unit": "mg_CH4_m-2_s-1",
+    "dataseries_fch4_normalized_unit": "NOT_PROVEN_BY_THIS_THESIS_ALONE",
+    "stream_mapping_to_ads_fch4_independently_verified": false
+  },
+  "site_specific_quality_filters": {
+    "chapter": "2.3.5",
+    "pdf_pages": [
+      22,
+      23
+    ],
+    "japan_wind_direction_exclusion_degrees": [
+      76,
+      107
+    ],
+    "japan_low_turbulence_ustar_threshold_m_s": "0.07",
+    "rainfall_periods_excluded": true,
+    "ec150_co2_signal_strength_minimum": "0.7",
+    "ec150_h2o_signal_strength_minimum": "0.7",
+    "stationarity_covariance_disagreement_exclusion_percent": "40",
+    "rice_paddy_footprint_minimum_percent": "60",
+    "quality_rules_are_published_research_methods_not_released_file_qc_flags": true
+  },
+  "published_study_budget": {
+    "chapter": "2.3.5",
+    "pdf_page": 23,
+    "missing_half_hourly_ch4_estimated_by_site_specific_log_ch4_air_temperature_regression": true,
+    "estimates_not_released_observed_csv": true,
+    "site_specific_regression_coefficients_verified_for_replay": false,
+    "may_not_silently_gap_fill_original_dataset": true
+  },
+  "review_state": {
+    "primary_thesis_pdf_locally_available": true,
+    "source_ch4_measurement_method_historically_supported": true,
+    "ads_data_stream_mapping_review_pending": true,
+    "ads_hrea_chamber_metadata_conflict_requires_review": true,
+    "reported_badm_method_start_20130831_conflict_requires_review": true,
+    "source_fch4_numeric_entries_qc_accepted": false,
+    "post_qc_methane_mass": null,
+    "annual_emissions": null,
+    "official_ag005_method_eligibility": null,
+    "certified_tco2e": null
+  }
+}
