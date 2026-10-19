@@ -1,0 +1,356 @@
+{
+  "schema": "naft-ieee-independent-validation-candidate-registry-v1",
+  "registered_utc_date": "2026-10-20",
+  "reference_dataset": {
+    "id": "KR_GIMJE_DAILY_2022_2024",
+    "doi": "10.5281/zenodo.17111992",
+    "method": "STATIC_CHAMBER_DAILY_DERIVED_FLUX",
+    "source_authors": "Hyoung Seok Lee et al.",
+    "sha256_chamber_original": "719b148d1a4f08e31bc146f412c920ae1472ca1a3a4d6dd81d882c1ef79fe813"
+  },
+  "policy": "EXTERNAL_CANDIDATES_ONLY_NO_DATA_IMPORTED_NO_EXTERNAL_CODE_EXECUTED",
+  "independence_definition": "Different collection team/site or external method provider, explicitly distinct from original author; not a third-party attestation, same-scale field validation or certified audit",
+  "rules": {
+    "all_sources_meta_only": true,
+    "third_party_peer_review_does_not_certify_input": true,
+    "raw_observation_data_required_for_independent_replay": true,
+    "ec_and_chamber_not_directly_identical": true,
+    "source_license_must_be_rechecked_at_download": true,
+    "unknown_or_missing_sources_fail_closed": true
+  },
+  "sources": [
+    {
+      "id": "JENTZSCH_ESSD_2025",
+      "kind": "PEER_REVIEWED_METHOD",
+      "title": "An expert survey on chamber measurement techniques and data handling procedures for methane fluxes",
+      "organization": "Alfred Wegener Institute / University of Potsdam / University of Colorado Boulder / Aarhus University",
+      "doi": "10.5194/essd-17-2331-2025",
+      "primary_url": "https://essd.copernicus.org/articles/17/2331/2025/",
+      "research_role": "QC_BIAS_AND_UNCERTAINTY_REFERENCE",
+      "method": "CHAMBER_EXPERT_SURVEY",
+      "site_id": null,
+      "source_data_license": "PAPER_CC_BY_4_0",
+      "github_repo": null,
+      "pinned_commit": null,
+      "upstream_software_license": null,
+      "requires": [
+        "EXPLICIT_QC_DECISIONS",
+        "RAW_CHAMBER_CONCENTRATION_SERIES"
+      ],
+      "limitations": [
+        "Expert survey is not an audit of Gimje instruments or observations"
+      ],
+      "external_bytes_imported": false,
+      "external_code_executed": false,
+      "analysis_reproduced": false,
+      "source_data_download_sha256": null,
+      "reviewed_by_independent_human": false,
+      "verification_state": "LANDING_PAGE_VERIFIED_NOT_REPRODUCED"
+    },
+    {
+      "id": "JENTZSCH_PANGAEA_971695",
+      "kind": "THIRD_PARTY_METHOD_DATASET",
+      "title": "Expert survey, QC responses and chamber concentration examples",
+      "organization": "PANGAEA / Alfred Wegener Institute",
+      "doi": "10.1594/PANGAEA.971695",
+      "primary_url": "https://doi.pangaea.de/10.1594/PANGAEA.971695",
+      "research_role": "QC_SENSITIVITY_BENCHMARK",
+      "method": "CHAMBER_CONCENTRATION",
+      "site_id": null,
+      "source_data_license": "CC_BY_4_0",
+      "github_repo": null,
+      "pinned_commit": null,
+      "upstream_software_license": null,
+      "requires": [
+        "DATA_ARCHIVE_REVIEW",
+        "RAW_CHAMBER_MEASUREMENT_TIMES",
+        "HUMAN_QC_DECISIONS"
+      ],
+      "limitations": [
+        "Independent QC examples are not source-matched to Gimje fields"
+      ],
+      "external_bytes_imported": false,
+      "external_code_executed": false,
+      "analysis_reproduced": false,
+      "source_data_download_sha256": null,
+      "reviewed_by_independent_human": false,
+      "verification_state": "LANDING_PAGE_VERIFIED_NOT_REPRODUCED"
+    },
+    {
+      "id": "GASFLUXES_CRAN_2026",
+      "kind": "INDEPENDENT_SOFTWARE",
+      "title": "gasfluxes: Greenhouse Gas Flux Calculation from Chamber Measurements (v0.7-2)",
+      "organization": "Thünen Institute / CRAN",
+      "doi": "10.32614/CRAN.package.gasfluxes",
+      "primary_url": "https://www.stat.ethz.ch/CRAN/web/packages/gasfluxes/index.html",
+      "research_role": "CHAMBER_FLUX_ALGORITHM_BENCHMARK",
+      "method": "CHAMBER_CONCENTRATION",
+      "site_id": null,
+      "source_data_license": null,
+      "github_repo": "https://github.com/cran/gasfluxes",
+      "pinned_commit": "0a50f94bc7c1d6560bb5f32a596c7092d35c079c",
+      "upstream_software_license": "GPL_2_OR_LATER",
+      "requires": [
+        "RAW_TIME_SERIES",
+        "CHAMBER_GEOMETRY",
+        "CALIBRATION",
+        "R_RUNTIME_IF_EXECUTED"
+      ],
+      "limitations": [
+        "Gimje daily-flux CSV lacks raw chamber concentration; direct identical-input replay currently impossible",
+        "GPL source not vendored into NaFT"
+      ],
+      "external_bytes_imported": false,
+      "external_code_executed": false,
+      "analysis_reproduced": false,
+      "source_data_download_sha256": null,
+      "reviewed_by_independent_human": false,
+      "verification_state": "LANDING_PAGE_VERIFIED_NOT_REPRODUCED"
+    },
+    {
+      "id": "HARVARD_FOREST_CHAMBER_FLUX",
+      "kind": "INDEPENDENT_SOFTWARE",
+      "title": "Harvard Forest chamber-flux R workflow",
+      "organization": "Harvard Forest Ecosystems",
+      "doi": null,
+      "primary_url": "https://github.com/Harvard-Forest-Ecosystems/chamber-flux",
+      "research_role": "CHAMBER_FLUX_ALGORITHM_BENCHMARK",
+      "method": "CHAMBER_CONCENTRATION",
+      "site_id": null,
+      "source_data_license": null,
+      "github_repo": "https://github.com/Harvard-Forest-Ecosystems/chamber-flux",
+      "pinned_commit": "6f4ff6474a115e785002b7787001b43580585301",
+      "upstream_software_license": "MIT",
+      "requires": [
+        "RAW_ANALYZER_TIMESERIES",
+        "CHAMBER_GEOMETRY",
+        "INSTRUMENT_METADATA"
+      ],
+      "limitations": [
+        "Uses Picarro/LGR analyzer inputs not contained in Gimje published daily-flux CSVs",
+        "External source code not vendored or executed"
+      ],
+      "external_bytes_imported": false,
+      "external_code_executed": false,
+      "analysis_reproduced": false,
+      "source_data_download_sha256": null,
+      "reviewed_by_independent_human": false,
+      "verification_state": "LANDING_PAGE_VERIFIED_NOT_REPRODUCED"
+    },
+    {
+      "id": "FLUXNET_CH4_JP_MSE",
+      "kind": "INDEPENDENT_FIELD_OBSERVATION",
+      "title": "Mase rice paddy field (Japan)",
+      "organization": "FLUXNET-CH4 / Mase site team",
+      "doi": "10.18140/FLX/1669647",
+      "primary_url": "https://fluxnet.org/sites/siteinfo/JP-Mse",
+      "research_role": "CROSS_SITE_AND_METHOD_CONTEXT",
+      "method": "EDDY_COVARIANCE",
+      "site_id": "JP-Mse",
+      "source_data_license": "CC_BY_4_0_SITE_POLICY",
+      "github_repo": null,
+      "pinned_commit": null,
+      "upstream_software_license": null,
+      "requires": [
+        "SITE_FILE_DOWNLOAD",
+        "MISSING_VALUE_AND_QC_SCHEMA",
+        "TEMPORAL_AND_SPATIAL_SUPPORT_HARMONIZATION"
+      ],
+      "limitations": [
+        "Not the same field/year as Gimje",
+        "Tower eddy-covariance FCH4 cannot be treated as same-method chamber replicate"
+      ],
+      "external_bytes_imported": false,
+      "external_code_executed": false,
+      "analysis_reproduced": false,
+      "source_data_download_sha256": null,
+      "reviewed_by_independent_human": false,
+      "verification_state": "LANDING_PAGE_VERIFIED_NOT_REPRODUCED"
+    },
+    {
+      "id": "FLUXNET_CH4_KR_CRK",
+      "kind": "INDEPENDENT_FIELD_OBSERVATION",
+      "title": "Cheorwon rice paddy field (Korea)",
+      "organization": "FLUXNET-CH4 / Cheorwon site team",
+      "doi": "10.18140/FLX/1669649",
+      "primary_url": "https://fluxnet.org/sites/siteinfo/KR-CRK",
+      "research_role": "CROSS_SITE_AND_METHOD_CONTEXT",
+      "method": "EDDY_COVARIANCE",
+      "site_id": "KR-CRK",
+      "source_data_license": "CC_BY_4_0_SITE_POLICY",
+      "github_repo": null,
+      "pinned_commit": null,
+      "upstream_software_license": null,
+      "requires": [
+        "SITE_FILE_DOWNLOAD",
+        "MISSING_VALUE_AND_QC_SCHEMA",
+        "TEMPORAL_AND_SPATIAL_SUPPORT_HARMONIZATION"
+      ],
+      "limitations": [
+        "Different Korean rice field and study years",
+        "Different EC spatial footprint and temporal aggregation"
+      ],
+      "external_bytes_imported": false,
+      "external_code_executed": false,
+      "analysis_reproduced": false,
+      "source_data_download_sha256": null,
+      "reviewed_by_independent_human": false,
+      "verification_state": "LANDING_PAGE_VERIFIED_NOT_REPRODUCED"
+    },
+    {
+      "id": "FLUXNET_CH4_PH_RIF",
+      "kind": "INDEPENDENT_FIELD_OBSERVATION",
+      "title": "Philippines Rice Institute flooded (IRRI)",
+      "organization": "FLUXNET-CH4 / IRRI field team",
+      "doi": "10.18140/FLX/1669653",
+      "primary_url": "https://fluxnet.org/sites/siteinfo/PH-RiF",
+      "research_role": "CROSS_SITE_AND_METHOD_CONTEXT",
+      "method": "EDDY_COVARIANCE",
+      "site_id": "PH-RiF",
+      "source_data_license": "CC_BY_4_0_SITE_POLICY",
+      "github_repo": null,
+      "pinned_commit": null,
+      "upstream_software_license": null,
+      "requires": [
+        "SITE_FILE_DOWNLOAD",
+        "MISSING_VALUE_AND_QC_SCHEMA",
+        "TEMPORAL_AND_SPATIAL_SUPPORT_HARMONIZATION"
+      ],
+      "limitations": [
+        "Rice-flooded ecosystem contextual comparator only",
+        "Site years, water management and sampling scale differ from Gimje"
+      ],
+      "external_bytes_imported": false,
+      "external_code_executed": false,
+      "analysis_reproduced": false,
+      "source_data_download_sha256": null,
+      "reviewed_by_independent_human": false,
+      "verification_state": "LANDING_PAGE_VERIFIED_NOT_REPRODUCED"
+    },
+    {
+      "id": "DELWICHE_ESSD_2021",
+      "kind": "PEER_REVIEWED_DATA_DESCRIPTION",
+      "title": "FLUXNET-CH4: a global multi-ecosystem dataset and analysis of methane seasonality",
+      "organization": "FLUXNET-CH4 scientific consortium / ESSD",
+      "doi": "10.5194/essd-13-3607-2021",
+      "primary_url": "https://essd.copernicus.org/articles/13/3607/2021/index.html",
+      "research_role": "INDEPENDENT_DATASET_PROTOCOL",
+      "method": "EDDY_COVARIANCE",
+      "site_id": null,
+      "source_data_license": "PAPER_CC_BY_4_0",
+      "github_repo": null,
+      "pinned_commit": null,
+      "upstream_software_license": null,
+      "requires": [
+        "VARIABLE_DEFINITIONS",
+        "TIER_1_VS_TIER_2_LICENSE_CHECK",
+        "RAW_VS_GAPFILLED_INDICATOR"
+      ],
+      "limitations": [
+        "FLUXNET Tier 2 sites impose additional license conditions",
+        "FLUXNET -9999 missing sentinel differs from Gimje blank"
+      ],
+      "external_bytes_imported": false,
+      "external_code_executed": false,
+      "analysis_reproduced": false,
+      "source_data_download_sha256": null,
+      "reviewed_by_independent_human": false,
+      "verification_state": "LANDING_PAGE_VERIFIED_NOT_REPRODUCED"
+    },
+    {
+      "id": "FLUXNET_SHUTTLE",
+      "kind": "DATA_ACCESS_TOOL",
+      "title": "FLUXNET Shuttle",
+      "organization": "FLUXNET",
+      "doi": null,
+      "primary_url": "https://fluxnet.org/download-data/",
+      "research_role": "MANUAL_SITE_DATA_DISCOVERY",
+      "method": "ACCESS_ONLY",
+      "site_id": null,
+      "source_data_license": null,
+      "github_repo": "https://github.com/fluxnet/shuttle",
+      "pinned_commit": "028818791fef116db03e97f3f6b0aebdf1a89e90",
+      "upstream_software_license": "BSD_3_CLAUSE",
+      "requires": [
+        "USER_INTENDED_USE_AND_SITE_TERMS",
+        "SITE_SPECIFIC_DOWNLOAD_PROOF"
+      ],
+      "limitations": [
+        "Tool availability is not proof of actual dataset acquisition",
+        "Never auto-execute remote checkout or download in MRV pipeline"
+      ],
+      "external_bytes_imported": false,
+      "external_code_executed": false,
+      "analysis_reproduced": false,
+      "source_data_download_sha256": null,
+      "reviewed_by_independent_human": false,
+      "verification_state": "LANDING_PAGE_VERIFIED_NOT_REPRODUCED"
+    }
+  ],
+  "claim_connections": [
+    {
+      "claim_id": "CHAMBER_QC_DECISION_VARIABILITY",
+      "kind": "METHOD_RISK",
+      "source_ids": [
+        "JENTZSCH_ESSD_2025",
+        "JENTZSCH_PANGAEA_971695"
+      ],
+      "claim_status": "THIRD_PARTY_REFERENCE_FOUND_NOT_APPLIED_TO_GIMJE",
+      "needed": [
+        "RAW_CONCENTRATION_TS",
+        "INDEPENDENT_QC_REPLAY"
+      ]
+    },
+    {
+      "claim_id": "CHAMBER_FLUX_INDEPENDENT_ORACLE",
+      "kind": "ALGORITHMIC_INDEPENDENCE",
+      "source_ids": [
+        "GASFLUXES_CRAN_2026",
+        "HARVARD_FOREST_CHAMBER_FLUX"
+      ],
+      "claim_status": "BLOCKED_GIMJE_RAW_CONCENTRATIONS_MISSING",
+      "needed": [
+        "RAW_CONCENTRATION_TS",
+        "GEOMETRY_AND_CLOSURE_METADATA",
+        "UNIT_CROSSWALK"
+      ]
+    },
+    {
+      "claim_id": "RICE_PADDY_CROSS_SITE_EXTERNAL_VALIDITY",
+      "kind": "EXTERNAL_SITE_INDEPENDENCE",
+      "source_ids": [
+        "FLUXNET_CH4_JP_MSE",
+        "FLUXNET_CH4_KR_CRK",
+        "FLUXNET_CH4_PH_RIF",
+        "DELWICHE_ESSD_2021"
+      ],
+      "claim_status": "INDEPENDENT_SITES_IDENTIFIED_NOT_DOWNLOADED_OR_HARMONIZED",
+      "needed": [
+        "SITE_DATA_FILES",
+        "SITE_VERSION",
+        "FLUXNET_MISSING_QC",
+        "EC_VS_CHAMBER_SUPPORT_PROTOCOL"
+      ]
+    },
+    {
+      "claim_id": "REPRODUCIBLE_FLUXNET_ACCESS",
+      "kind": "DATA_PROVENANCE",
+      "source_ids": [
+        "FLUXNET_SHUTTLE"
+      ],
+      "claim_status": "PINNED_TOOL_FOUND_NO_DOWNLOAD",
+      "needed": [
+        "INTENDED_USE_ACKNOWLEDGEMENT",
+        "LICENSE_AND_FILE_HASH_RECEIPT"
+      ]
+    }
+  ],
+  "scientific_readiness": {
+    "independent_author_attestation": false,
+    "independent_raw_gimje_chamber_replay": false,
+    "independent_cross_site_harmonization": false,
+    "water_management_causal_effect": false,
+    "seasonal_ch4_integral_approved": false,
+    "certified_tco2e": null
+  }
+}
