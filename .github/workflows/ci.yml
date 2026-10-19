@@ -93,6 +93,13 @@ jobs:
           path: /tmp/naft-ieee-harvard-independent-raw-trace.json
           if-no-files-found: error
           retention-days: 21
+      - name: Archive independently source-verified A-minus B-plus joint diagnostics
+        uses: actions/upload-artifact@v4
+        with:
+          name: ieee-independent-two-source-docking
+          path: /tmp/naft-ieee-two-source-docking.json
+          if-no-files-found: error
+          retention-days: 21
       - name: Execute ClimateChain contract behavior on local EVM
         run: node tests/climatechain-contract-behavior.test.mjs
       - name: Browser Reviewer, Evidence file, six-route and Compiler role-flow checks
