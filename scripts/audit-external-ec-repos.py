@@ -22,6 +22,18 @@ UPSTREAM = {
     "ternaustralia/PyFluxPro": ("GPL-3.0", "P2"),
     "NEONScience/eddy4R": ("AGPL-3.0", "P3"),
 }
+# Recorded at retrieval time using GitHub commit and LICENSE/DESCRIPTION blob APIs.
+# A valid-looking SHA is not evidence that a pinned reference is unchanged.
+PINNED_UPSTREAM = {
+    "BernardHeinesch/FreqCor": ("ac2eb2130562707c748673eb08261db65438e4cb", "dedd43878b4e92ad5a56de60651a0a825887d534", "main", "LICENSE"),
+    "ternaustralia/OzFlux-footprint": ("fa4d9672e1534c4121ce07cde1863e15e195780a", "f6f4be2c1fe95e9884511d062051adee81c7b80a", "master", "LICENSE"),
+    "icos-etc/FFP-utils": ("ea7ae149f8554d2eba15fb97cf162648f705d9f8", "fd675dbba1601034bd2b17439601e8f9ded9d64f", "main", "LICENSE"),
+    "fluxnet/ONEFlux": ("ef24050b783f4c7538f8acf15b488b363cd26796", "807d2f65e017c9d7358239393e895089e8056d59", "main", "LICENSE"),
+    "EarthyScience/REddyProc": ("ce598d94a0cbfa024fbb36e3b438b1bb9f27fe6a", "ee17d83bfe4bb30cb5dd067ca4c667a725db889a", "master", "DESCRIPTION"),
+    "ternaustralia/PyFluxPro": ("147cc6873dde1656bba770f62efd0912aab4a4d5", "f288702d2fa16d3cdf0035b15a9fcbc552cd88e7", "main", "LICENSE"),
+    "NEONScience/eddy4R": ("8936beb9a58a7466833074b2b98b076d4645bcb6", "dbbe3558157f5861bff35dcb37b328b679b0ccfd", "main", "LICENSE.txt"),
+}
+
 SHA40 = re.compile(r"[a-f0-9]{40}\Z")
 SHA64 = re.compile(r"[a-f0-9]{64}\Z")
 
@@ -71,6 +83,10 @@ def verify(ledger):
         require(SHA40.fullmatch(str(entry.get("reference_commit", ""))) is not None
                 and SHA40.fullmatch(str(entry.get("license_blob_sha", ""))) is not None,
                 "INVALID_UPSTREAM_GIT_SHA:" + name)
+        require((entry.get("reference_commit"), entry.get("license_blob_sha"),
+                 entry.get("reference_branch"), entry.get("license_file"))
+                == PINNED_UPSTREAM[name],
+                "UPSTREAM_PIN_CHANGED_REQUIRES_SOURCE_REVIEW:" + name)
         require(entry.get("reference_commit") not in seen_sha,
                 "DUPLICATE_PINNED_UPSTREAM_SHA")
         seen_sha.add(entry["reference_commit"])
