@@ -1,0 +1,64 @@
+{
+  "schema": "naft-ieee-third-party-intake-rank-protocol-v1",
+  "as_of": "2026-10-20",
+  "grading_statement": "A-/B+ are internal NaFT engineering review priorities, NOT peer-review rankings, endorsement, scientific validity, credit eligibility, or regulator scores",
+  "criteria": [
+    "publisher and lab identity",
+    "exact upstream Git commit and original-byte equality",
+    "data dictionary and measurement channel",
+    "distinct independent reimplementation or publisher golden values",
+    "license and downstream reuse conditions",
+    "instrument and event-key interval match",
+    "QC flags and calibration evidence"
+  ],
+  "candidates": [
+    {
+      "rank": "A-",
+      "source_id": "GASFLUXES_CRAN_2026",
+      "origin": "Thunen Institute / CRAN gasfluxes v0.7-2 (Roland Fuss / Roman Hueppi)",
+      "upstream_commit": "0a50f94bc7c1d6560bb5f32a596c7092d35c079c",
+      "public_source": "https://github.com/cran/gasfluxes",
+      "imported_records": 20,
+      "series": 5,
+      "full_archive_imported": false,
+      "fixture_path": "research/ieee-observation-datasets-2026-10-19/independent-benchmarks/gasfluxes-v0.7-2/fluxmeas-first-five.csv",
+      "original_fixture_sha256": "b5ec601059dab6949a2ae5db8ebb741349ddd3e37a687fe4c4415df40b886f31",
+      "source_code_license": "GPL-2.0-or-later",
+      "independent_check": "upstream published 5 golden R linear.f0/C0 values vs executed Python Decimal and JS OLS",
+      "why_not_A_plus": "only 20 representative sample measurements; no matching raw Gimje concentration series; no physical flux uncertainty, independent human reviewer, or CH4 mass unit proof",
+      "regulatory_claims_approved": false
+    },
+    {
+      "rank": "B+",
+      "source_id": "HARVARD_FOREST_CHAMBER_FLUX",
+      "origin": "Harvard Forest Ecosystems Lab Picarro raw instrument export",
+      "upstream_commit": "6f4ff6474a115e785002b7787001b43580585301",
+      "public_source": "https://github.com/Harvard-Forest-Ecosystems/chamber-flux",
+      "imported_records": 35,
+      "original_event_key_rows": 24,
+      "full_archive_imported": false,
+      "raw_path": "research/ieee-observation-datasets-2026-10-19/independent-benchmarks/harvard-forest-raw-2023/Picarro_CH4_20230630_160808.dat",
+      "event_key_path": "research/ieee-observation-datasets-2026-10-19/independent-benchmarks/harvard-forest-raw-2023/times_key2.csv",
+      "original_raw_git_blob": "ad55b3751cac9d2f09736f02b4aa82a65f4d6c11",
+      "original_event_key_git_blob": "ace95b610810c7df27c98adc6500b5c6258cbb5e",
+      "repo_top_level_license": "MIT; raw measurement reuse permissions require separate verification",
+      "independent_check": "exact Git-blob source identities, parse raw Picarro timestamps and dry methane readings, compute descriptive Decimal OLS slope and check published event-key time overlap",
+      "source_event_match_count": 0,
+      "alarm_status_literal_count": {
+        "2": 35
+      },
+      "why_not_A_minus": "no matching event window in this source slice; nonzero alarm code QC meaning unapproved; concentration and physical chamber volume/area not bound; raw data-specific reuse rights unconfirmed",
+      "chamber_flux_approved": false,
+      "regulatory_claims_approved": false
+    }
+  ],
+  "safety_gates": {
+    "actual_originals_imported": true,
+    "instrument_data_not_Gimje": true,
+    "raw_Harvard_CH4_mass_flux_computed": false,
+    "CH4_seasonal_integral_permitted": false,
+    "independent_human_QC_attestation": false,
+    "MRV_credit_certified": false,
+    "certified_tco2e": null
+  }
+}
