@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {mkdtempSync,readFileSync,writeFileSync,rmSync} from 'node:fs';
+import {mkdtempSync,readFileSync,writeFileSync,rmSync,chmodSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {spawnSync} from 'node:child_process';
@@ -137,6 +137,80 @@ try{
   'LINK_RECEIPT_SOURCE_BOUND_MISMATCH');
  const malformed=run('verify',specFile,rawFile,manifestFile,sourceFile,dualFile);
  assert.notEqual(malformed.status,0);checks++;
+ // Regression: a source specification must not change while the independent
+ // Python engine runs, even if CSV and observation manifest remain stable.
+ const realPython=spawnSync('python3',['-c','import sys; print(sys.executable)'],
+  {encoding:'utf8',timeout:15000});
+ eq(realPython.status,0);
+ const pythonPath=realPython.stdout.trim();
+ const launcher=join(temp,'python3');
+ writeFileSync(launcher,[
+  '#!/bin/sh',
+  JSON.stringify(pythonPath)+' "$@"',
+  'status=$?',
+  'if [ "$status" -eq 0 ] && [ -n "$NAFT_DEBUG_MUTATE_FILE" ]; then',
+  '  printf " " >> "$NAFT_DEBUG_MUTATE_FILE"',
+  'fi',
+  'exit "$status"'
+ ].join('\n')+'\n');
+ chmodSync(launcher,0o755);
+ const oldPath=process.env.PATH;
+ const oldMutation=process.env.NAFT_DEBUG_MUTATE_FILE;
+ try{
+  process.env.PATH=temp+':'+oldPath;
+  process.env.NAFT_DEBUG_MUTATE_FILE=specFile;
+  blocked(()=>generateVerifiedSourceDualLink(
+   specFile,rawFile,manifestFile,sourceReport,dualReceipt),
+   'INPUT_CHANGED_DURING_VERIFICATION');
+ }finally{
+  process.env.PATH=oldPath;
+  if(oldMutation===undefined)delete process.env.NAFT_DEBUG_MUTATE_FILE;
+  else process.env.NAFT_DEBUG_MUTATE_FILE=oldMutation;
+  writeFileSync(specFile,JSON.stringify(spec));
+ }
+ // A metadata snapshot is a self-supplied claim; both its exact bytes and
+ // untrusted status must remain bound throughout the replay.
+ const userSpec={
+  ...spec,data_class:'USER_SUPPLIED_UNVERIFIED',doi:'10.9999/naft-unverified-fixture',
+  source_url:'https://doi.org/10.9999/naft-unverified-fixture',
+  publisher_claim:'NaFT synthetic DataCite-shaped test metadata',
+  license_claim:'UNVERIFIED_LOCAL_INPUT',
+  retrieval_state:'LOCAL_USER_SUPPLIED_UNVERIFIED'
+ };
+ const userManifest={
+  ...manifest,data_class:'USER_SUPPLIED_UNVERIFIED',
+  source_uri:userSpec.source_url,source_license_status:'UNVERIFIED_LOCAL_INPUT'
+ };
+ const fakeMetadata={
+  data:{type:'dois',id:userSpec.doi,
+   attributes:{doi:userSpec.doi,publisher:userSpec.publisher_claim}}
+ };
+ const dataciteFile=join(temp,'datacite.json');
+ writeFileSync(specFile,JSON.stringify(userSpec));
+ writeFileSync(manifestFile,JSON.stringify(userManifest));
+ writeFileSync(dataciteFile,JSON.stringify(fakeMetadata));
+ const claimed=inspectSourceIntake(
+  readFileSync(specFile),csv,readFileSync(dataciteFile));
+ const independent=generateDualObservationReceipt(manifestFile,rawFile);
+ const linkedWithMeta=generateVerifiedSourceDualLink(
+  specFile,rawFile,manifestFile,claimed,independent,dataciteFile);
+ eq(linkedWithMeta.exact_input_sha256.datacite_snapshot,
+  sha(readFileSync(dataciteFile)));
+ eq(linkedWithMeta.trust.official_metadata_api_delivery_authenticated,false);
+ eq(verifyVerifiedSourceDualLink(
+  specFile,rawFile,manifestFile,claimed,independent,linkedWithMeta,dataciteFile)
+  .status,'SOURCE_AND_DUAL_LINK_REPRODUCED');
+ try{
+  process.env.PATH=temp+':'+oldPath;
+  process.env.NAFT_DEBUG_MUTATE_FILE=dataciteFile;
+  blocked(()=>generateVerifiedSourceDualLink(
+   specFile,rawFile,manifestFile,claimed,independent,dataciteFile),
+   'INPUT_CHANGED_DURING_VERIFICATION');
+ }finally{
+  process.env.PATH=oldPath;
+  if(oldMutation===undefined)delete process.env.NAFT_DEBUG_MUTATE_FILE;
+  else process.env.NAFT_DEBUG_MUTATE_FILE=oldMutation;
+ }
 }finally{rmSync(temp,{recursive:true,force:true});}
 console.log('IEEE_VERIFIED_SOURCE_DUAL_LINK_PASS:',checks,
  'checks; local provenance and arithmetic parity only; certified_tco2e=null');
