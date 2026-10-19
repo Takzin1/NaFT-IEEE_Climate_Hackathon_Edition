@@ -52,6 +52,9 @@ python3 -m py_compile scripts/japanflux-jp-hrt-v200-thesis-qc.py tests/japanflux
 python3 tests/japanflux-jp-hrt-v200-thesis-qc.test.py
 python3 -m py_compile scripts/audit-external-ec-repos.py tests/external-ec-repositories.test.py
 python3 tests/external-ec-repositories.test.py
+node --check scripts/rice-methodology-router.mjs
+node --check tests/rice-methodology-router.test.mjs
+node tests/rice-methodology-router.test.mjs
 node tests/japan-field-study-replay.test.js
 python3 tests/japan-field-independent-oracle.test.py
 node tests/asia-native-field-header.test.mjs
