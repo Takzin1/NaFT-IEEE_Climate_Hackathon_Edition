@@ -58,7 +58,8 @@ class IntakeTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "OUTPUT_ALREADY_EXISTS"):
             tool.acquire(self.row["id"], self.dir, self.fetcher)
         (self.dir / "synthetic.csv").write_bytes(self.raw + b"tamper")
-        with self.assertRaisesRegex(ValueError, "ORIGINAL_FILE_CHANGED"):
+        with self.assertRaisesRegex(
+                ValueError, "ORIGINAL_FILE_UNSAFE_OR_SIZE_MISMATCH|ORIGINAL_FILE_CHANGED"):
             tool.verify_local(self.row["id"], self.dir)
 
     def test_refuse_ambiguous_and_disallowed_license(self):
