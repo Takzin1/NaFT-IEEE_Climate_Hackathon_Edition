@@ -45,6 +45,9 @@ EXPECTED_IDS = {
 }
 SOURCE_ID_GIMJE = "KR_GIMJE_DAILY_2022_2024"
 GIMJE_HASH = "719b148d1a4f08e31bc146f412c920ae1472ca1a3a4d6dd81d882c1ef79fe813"
+GASFLUXES_SAMPLE_SHA = "b5ec601059dab6949a2ae5db8ebb741349ddd3e37a687fe4c4415df40b886f31"
+GASFLUXES_SAMPLE_PATH = ("research/ieee-observation-datasets-2026-10-19/"
+  "independent-benchmarks/gasfluxes-v0.7-2/fluxmeas-first-five.csv")
 
 
 def fail(code):
@@ -69,13 +72,23 @@ def validate_source(record):
     if not isinstance(record,dict) or record.get("id") not in EXPECTED_IDS:
         fail("UNRECOGNIZED_EXTERNAL_SOURCE")
     if (record.get("kind") not in SOURCE_KINDS or
-            record.get("verification_state") != "LANDING_PAGE_VERIFIED_NOT_REPRODUCED" or
-            record.get("external_bytes_imported") is not False or
             record.get("external_code_executed") is not False or
             record.get("analysis_reproduced") is not False or
-            record.get("reviewed_by_independent_human") is not False or
-            record.get("source_data_download_sha256") is not None):
+            record.get("reviewed_by_independent_human") is not False):
         fail("FORGED_EXTERNAL_VALIDATION_STATUS")
+    if record["id"] == "GASFLUXES_CRAN_2026":
+        if (record.get("verification_state") !=
+               "PINNED_FIXTURE_SUBSET_IMPORTED_REPLAY_CHECKED_IN_SEPARATE_CI_ARTIFACT" or
+                record.get("external_bytes_imported") is not True or
+                record.get("source_data_download_sha256") != GASFLUXES_SAMPLE_SHA or
+                record.get("imported_fixture_path") != GASFLUXES_SAMPLE_PATH or
+                record.get("independent_reference_results_compared") is not False):
+            fail("GASFLUXES_PINNED_SUBSET_IMPORT_INVALID")
+    else:
+        if (record.get("verification_state") != "LANDING_PAGE_VERIFIED_NOT_REPRODUCED" or
+                record.get("external_bytes_imported") is not False or
+                record.get("source_data_download_sha256") is not None):
+            fail("FORGED_EXTERNAL_VALIDATION_STATUS")
     for key in ("title","organization","research_role","method"):
         if not isinstance(record.get(key),str) or not record[key] or len(record[key]) > 300:
             fail("EXTERNAL_SOURCE_CONTEXT_MISSING")
@@ -117,12 +130,14 @@ def validate_source(record):
 def validate_registry(registry):
     if (not isinstance(registry,dict) or
             registry.get("schema") != "naft-ieee-independent-validation-candidate-registry-v1" or
-            registry.get("policy") != "EXTERNAL_CANDIDATES_ONLY_NO_DATA_IMPORTED_NO_EXTERNAL_CODE_EXECUTED" or
+            registry.get("policy") != "ONE_PINNED_GASFLUXES_BENCHMARK_SUBSET_IMPORTED_NO_UPSTREAM_CODE_EXECUTED" or
             registry.get("reference_dataset",{}).get("id") != SOURCE_ID_GIMJE or
             registry.get("reference_dataset",{}).get("sha256_chamber_original") != GIMJE_HASH):
         fail("INVALID_INDEPENDENCE_REGISTRY")
     rules=registry.get("rules",{})
-    if not isinstance(rules,dict) or len(rules)!=6 or any(value is not True for value in rules.values()):
+    if (not isinstance(rules,dict) or len(rules)!=6 or
+            rules.get("all_sources_meta_only") is not False or
+            any(value is not True for key,value in rules.items() if key != "all_sources_meta_only")):
         fail("INDEPENDENCE_BOUNDARY_DISABLED")
     listed=registry.get("sources")
     if not isinstance(listed,list) or len(listed)!=len(EXPECTED_IDS):
@@ -194,11 +209,18 @@ def make_map(registry,readiness):
     if (not isinstance(unmet,list) or len(unmet)!=9 or
             any(not isinstance(e,dict) or e.get("current_state")!="NOT_VERIFIED" for e in unmet)):
         fail("PRIMARY_EVIDENCE_HAS_UNVERIFIED_TRANSITION")
-    # This script does NOT access the third-party websites during CI.
-    # The source record links were manually checked during the registry review.
+    # A pinned, 20-record excerpt of a separately GPL-licensed source was
+    # imported. Verify actual local bytes, not merely registry metadata.
+    fixture=ROOT/GASFLUXES_SAMPLE_PATH
+    if fixture.is_symlink() or not fixture.is_file() or fixture.stat().st_size>3000:
+        fail("IMPORTED_BENCHMARK_NOT_REGULAR")
+    if hashlib.sha256(fixture.read_bytes()).hexdigest()!=GASFLUXES_SAMPLE_SHA:
+        fail("IMPORTED_BENCHMARK_SOURCE_DRIFT")
+    # This mapper checks physical source bytes but does NOT itself execute
+    # reference R software or independent replay; those have separate CI.
     return {
         "schema":"naft-ieee-independent-corrob-candidates-v1",
-        "status":"THIRD_PARTY_CITATIONS_CONNECTED_DATA_AND_CALCULATIONS_NOT_REPRODUCED",
+        "status":"ONE_LICENSED_THIRD_PARTY_BENCHMARK_SUBSET_IMPORTED_REPLAY_VERIFIED_SEPARATELY",
         "gimje_source_doi":"10.5281/zenodo.17111992",
         "source_file_sha256":readiness["original_file_sha256"],
         "catalog_sha256":hashlib.sha256(
@@ -206,7 +228,9 @@ def make_map(registry,readiness):
         ).hexdigest(),
         "third_party_references_count":len(registry["sources"]),
         "evidence_link_count":sum(len(x["source_ids"]) for x in registry["claim_connections"]),
-        "external_dataset_files_downloaded":0,
+        "external_dataset_files_downloaded":1,
+        "imported_subset_sha256":GASFLUXES_SAMPLE_SHA,
+        "imported_subset_records":20,
         "third_party_algorithms_executed":0,
         "independent_human_reviewer_signoffs":0,
         "source_record_availability_per_1000":readiness[
@@ -223,7 +247,8 @@ def make_map(registry,readiness):
             "id":s["id"], "role":s["research_role"],"kind":s["kind"],
             "doi":s["doi"],"primary_url":s["primary_url"],
             "github_repo":s["github_repo"],"pinned_commit":s["pinned_commit"],
-            "source_acquired":False,"source_independently_replayed":False,
+            "source_acquired":s["external_bytes_imported"],
+            "source_independently_replayed":False,
             "source_license_snapshot":s["source_data_license"],
         } for s in registry["sources"]],
         "strict_boundaries":{
