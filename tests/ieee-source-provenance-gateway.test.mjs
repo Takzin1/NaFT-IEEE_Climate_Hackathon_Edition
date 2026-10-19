@@ -57,6 +57,12 @@ const alternate=structuredClone(good);alternate.input.site_id_claimed='SOMEONE_E
 blocked(()=>linkSourceToDualReplay(rehash(alternate),dual),'SOURCE_DUAL_LINK_CONTEXT_OR_HASH_MISMATCH');
 const alternate2=structuredClone(good);alternate2.input.raw_bytes_sha256='0'.repeat(64);
 blocked(()=>linkSourceToDualReplay(rehash(alternate2),dual),'SOURCE_DUAL_LINK_CONTEXT_OR_HASH_MISMATCH');
+
+const conflictingLicense=structuredClone(good);
+conflictingLicense.input.license_claimed='OTHER_LICENSE_DECLARATION';
+blocked(()=>linkSourceToDualReplay(rehash(conflictingLicense),dual),
+ 'SOURCE_DUAL_LINK_CONTEXT_OR_HASH_MISMATCH');
+
 blocked(()=>inspectSourceIntake(asBytes(spec),Buffer.concat([raw,Buffer.from('x')])),
  'SOURCE_RAW_SHA256_MISMATCH');
 blocked(()=>inspectSourceIntake(asBytes(spec)),
