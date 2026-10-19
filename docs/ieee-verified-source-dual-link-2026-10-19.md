@@ -60,6 +60,16 @@ and `verify`, if the source-intake report was generated with that same
 metadata snapshot. The snapshot is a claim, not external publisher verification.
 
 
+The standalone `scripts/ieee-observation-dual-replay.mjs` now separately
+re-reads its original observation manifest and CSV after Python finishes, and
+checks that the Python oracle, JS receipt implementation and replay driver
+source files did not change during computation. This closes a metadata-only
+TOCTOU gap: different site/treatment/measurement descriptions can produce
+identical arithmetic, so arithmetic parity alone must not establish a
+single-source result. The receipt hashes refer to the locally checked evaluator
+files. Two pre/post file reads detect ordinary concurrent changes, **not**
+an external trusted signature or a malicious change-and-restore attack.
+
 The combined verifier also re-reads the **source specification and optional DataCite snapshot** after independent Python execution, alongside the CSV and observation manifest. All four inputs must still match the exact original-byte hashes before a link receipt can be emitted; adversarial regression tests mutate the files during Python replay. The read bound is enforced on the actual bytes as well as the preceding file-stat check.
 
 ## Security / scientific limits
