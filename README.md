@@ -37,7 +37,7 @@ The [Japan-to-IEEE observation bridge](docs/ieee-japan-observation-migration-202
 
 ## Verified linkage of source intake and independent numerical replay
 
-The [fail-closed source-to-dual receipt linker](docs/ieee-verified-source-dual-link-2026-10-19.md) now **recomputes** both the offline source-intake report and the per-input BigInt/Python Decimal observation proof against the same exact normalized CSV before linking their receipts. Mismatched sites, data classes, manifests, altered files, and self-rehashed forged receipts are rejected in CI. This proves local input consistency and arithmetic parity only: publisher authenticity, real emissions reductions, institutional eligibility and certified tCO2e remain unverified/null.
+The [fail-closed source-to-dual receipt linker](docs/ieee-verified-source-dual-link-2026-10-19.md) now **recomputes** both the offline source-intake report and the per-input BigInt/Python Decimal observation proof against the same exact normalized CSV before linking their receipts. Mismatched sites, data classes, declared license statuses, incomplete identity fields, manifests, altered files, and self-rehashed forged receipts are rejected in CI. This proves local input consistency and arithmetic parity only: publisher authenticity, real emissions reductions, institutional eligibility and certified tCO2e remain unverified/null.
 
 ## IEEE independent Gold Standard training worksheet replay
 
