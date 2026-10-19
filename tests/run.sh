@@ -55,6 +55,10 @@ python3 tests/external-ec-repositories.test.py
 node --check scripts/rice-methodology-router.mjs
 node --check tests/rice-methodology-router.test.mjs
 node tests/rice-methodology-router.test.mjs
+node --check scripts/ieee-gs-worksheet-replay.mjs
+python3 -m py_compile scripts/ieee-gs-worksheet-independent-oracle.py
+node --check tests/ieee-gs-worksheet-replay.test.mjs
+node tests/ieee-gs-worksheet-replay.test.mjs
 node tests/japan-field-study-replay.test.js
 python3 tests/japan-field-independent-oracle.test.py
 node tests/asia-native-field-header.test.mjs
