@@ -115,7 +115,9 @@ class TestIndependentEvidence(unittest.TestCase):
             directory=ROOT/"research/ieee-observation-datasets-2026-10-19/originals/KR_GIMJE_DAILY_2022_2024"
             for name in ("ch4.zip","input_fields_meta.xlsx","acquisition-receipt.json"):
                 (root/name).write_bytes((directory/name).read_bytes())
-            readiness=m.get_module("ready_tamper",m.READINESS_SCRIPT)
+            spec=importlib.util.spec_from_file_location("ready_tamper",m.READINESS_SCRIPT)
+            readiness=importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(readiness)
             self.assertEqual(readiness.create_report(root)["overall_numeric_token_availability"]["fields"],60)
             zip_path=root/"ch4.zip"
             zip_path.write_bytes(zip_path.read_bytes()+b"TAMPER")
