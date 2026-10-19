@@ -229,3 +229,38 @@ daily-flux derivation protocol, measurement/QA exclusions and seasonal
 aggregation interval definitions, ideally as a citable and versioned
 supplement. The pre-existing 6,969 empty CH4 tokens cannot be
 unilaterally interpreted as absence of CH4 or as a zero-valued observation.
+
+## Replay-readiness matrix (research-only, evidence requests)
+
+The offline tool `scripts/ieee-gimje-replay-readiness.py` uses the previous
+source-bound observation-presence map and the immutable original-data
+fingerprints. It publishes deterministic comparisons of finite CH4 **CSV
+numeric-token availability**, grouped by year, literal water-management code,
+and both dimensions together. The availability fraction is an integer
+count of numeric literals per 1,000 source CSV rows, **not** a measurement
+duration ratio, physical observation validity, treatment efficacy, or seasonal
+emissions estimate. Zero and negative numeric tokens remain explicit, with
+the 6,969 source blanks kept separate.
+
+The report includes 9 primary-evidence requests:
+chamber collection protocol, dated sampling event log, blank/QC semantics,
+valid time-support and seasonal boundary assignments, unit/calibration proof,
+field identity, water-management events, transplant/harvest/DAT conventions,
+and published seasonal replay/uncertainty method.
+
+Every evidence item is emitted as **NOT_VERIFIED**, with no invented source
+file, URL or human approval. Because the scientific sources do not yet
+establish per-observation support windows, the output always refuses
+time-weighted seasonal integration and any regulatory/carbon certification.
+
+```sh
+python3 tests/ieee-gimje-replay-readiness.test.py
+python3 scripts/ieee-gimje-replay-readiness.py \
+  --output /tmp/naft-ieee-gimje-replay-readiness.json
+```
+
+The JSON is stored as a GitHub Actions artifact named
+`ieee-gimje-replay-readiness`, retained for 21 days. Input mutation,
+impossible counts, duplicated field IDs, unapproved treatment codes, fake
+approved QC and false totals trigger fail-closed errors. This is a
+report of **evidence gaps and record completeness only**.
