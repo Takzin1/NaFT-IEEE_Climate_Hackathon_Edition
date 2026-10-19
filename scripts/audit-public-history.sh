@@ -21,15 +21,14 @@ if [[ "$scan_exit" -gt 1 ]]; then
   exit "$scan_exit"
 fi
 if [[ "$scan_exit" -eq 1 ]]; then
-  # Historical *exact* false-positive fingerprint for Python diagnostic labels
-  # ("ch4_numeric_token_count_unreviewed", "ch4_blank_count"). The upstream
-  # generic-api-key rule mistakenly treats these two literal field-name strings
-  # as a credential. No general commit, path, regex or rule is allowlisted.
-  # New fingerprints, even of the same generic-api-key rule, MUST fail closed.
+  # The two historical examples are purely descriptive diagnostic labels.
+  # Both exact rule fingerprints are reviewed. No rule, path or commit
+  # is globally excluded. Every unseen pattern MUST fail closed.
   python3 - "$audit_report" <<'PY'
 import json, sys
 known = {
  "ea493dbb32f60168802157e69c48d94e5d627269:scripts/ieee-gimje-reference-method-gates.py:generic-api-key:223",
+ "f209fdbe698273c1a6785b983a9b5e4296f2f785:scripts/audit-public-history.sh:generic-api-key:25",
 }
 try:
     with open(sys.argv[1], encoding="utf-8") as source:
@@ -45,7 +44,7 @@ try:
                       "commit:",str(finding.get("Commit",""))[:12],
                       "line:",finding.get("StartLine","?"))
             raise SystemExit(1)
-    print("PUBLIC_HISTORY_AUDIT_EXACT_FALSE_POSITIVE: one reviewed, "
+    print("PUBLIC_HISTORY_AUDIT_EXACT_FALSE_POSITIVE: exact reviewed, "
           "unchanged diagnostic field-name fingerprint; default scanner rules intact.")
 except (ValueError, OSError, json.JSONDecodeError) as error:
     print("PUBLIC_HISTORY_AUDIT_FAILED_CLOSED: could not review scanner findings.")
