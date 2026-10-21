@@ -65,6 +65,14 @@ python3 scripts/ieee-gimje-replay-readiness.py --output /tmp/naft-ieee-gimje-rep
 python3 -m py_compile scripts/ieee-third-party-evidence-map.py tests/ieee-third-party-evidence-map.test.py
 python3 tests/ieee-third-party-evidence-map.test.py
 python3 scripts/ieee-third-party-evidence-map.py --output /tmp/naft-ieee-third-party-evidence-map.json
+python3 -m py_compile scripts/ieee-independent-gasfluxes-decimal.py scripts/ieee-independent-gasfluxes-compare.py tests/ieee-independent-gasfluxes.test.py
+node --check scripts/ieee-independent-gasfluxes-node.cjs
+node --check tests/ieee-independent-gasfluxes.test.cjs
+python3 tests/ieee-independent-gasfluxes.test.py
+node tests/ieee-independent-gasfluxes.test.cjs
+python3 scripts/ieee-independent-gasfluxes-decimal.py --output /tmp/naft-ieee-gasfluxes-decimal.json
+node scripts/ieee-independent-gasfluxes-node.cjs --output /tmp/naft-ieee-gasfluxes-node.json
+python3 scripts/ieee-independent-gasfluxes-compare.py --decimal /tmp/naft-ieee-gasfluxes-decimal.json --node /tmp/naft-ieee-gasfluxes-node.json --output /tmp/naft-ieee-gasfluxes-three-way.json
 python3 -m py_compile scripts/japanflux-jp-hrt-v200.py tests/japanflux-jp-hrt-v200.test.py
 python3 tests/japanflux-jp-hrt-v200.test.py
 python3 -m py_compile scripts/japanflux-jp-hrt-v200-consistency.py tests/japanflux-jp-hrt-v200-consistency.test.py
