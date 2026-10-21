@@ -49,7 +49,7 @@ The blockchain layer does **not** decide climate truth, issue a carbon credit, p
 
 ## Independent public live demo
 
-https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain
+https://takzin1.github.io/NaFT-IEEE_Climate_Hackathon_Edition/#/climatechain
 
 The main demo applies a synthetic methodology transition to 100 claims and computes:
 
@@ -200,7 +200,7 @@ From the independent IEEE repository's `main` branch, run `bash scripts/verify-l
 
 ## Public independent destination repository
 
-https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/tree/main
+https://github.com/Takzin1/NaFT-IEEE_Climate_Hackathon_Edition/tree/main
 
 Original hackathon work is preserved as real source Git ancestry in the independent destination, with its subsequent migration edits documented in `BUILD_LOG.md`.
 

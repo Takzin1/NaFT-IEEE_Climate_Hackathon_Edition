@@ -7,7 +7,7 @@ if [ "$#" -ne 1 ] || [ "$1" != "--apply" ]; then stop "Pass --apply explicitly";
 SOURCE_URL="https://github.com/Takzin1/NaFT.git"
 SOURCE_BRANCH="hackathon/ieee-climatechain-2026"
 EXPECTED="c87b534877293133ad92ac398b95936608bfd91b"
-TARGET_NAME="NaFT-IEEE_Climate_Hackthon_Edition"
+TARGET_NAME="NaFT-IEEE_Climate_Hackathon_Edition"
 [ "$(git branch --show-current)" = "main" ] || stop "Use destination main branch"
 [ -z "$(git status --porcelain)" ] || stop "Commit/stash local changes before migration"
 case "$(git remote get-url origin)" in

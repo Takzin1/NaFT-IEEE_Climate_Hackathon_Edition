@@ -6,7 +6,7 @@ import {mkdtempSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 
-const site='https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/';
+const site='https://takzin1.github.io/NaFT-IEEE_Climate_Hackathon_Edition/';
 const delay=ms=>new Promise(done=>setTimeout(done,ms));
 const requirements=[
   ['', '<html lang="en">'],

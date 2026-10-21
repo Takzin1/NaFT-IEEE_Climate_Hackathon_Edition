@@ -4,7 +4,7 @@
 
 ## 1. Detect corrupted evidence
 
-Open the [public NaFT demo](https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain) and click **Run 100-claim methodology update**. Then click **Verify all 3 pillars**.
+Open the [public NaFT demo](https://takzin1.github.io/NaFT-IEEE_Climate_Hackathon_Edition/#/climatechain) and click **Run 100-claim methodology update**. Then click **Verify all 3 pillars**.
 
 NaFT runs a local, deterministic adversarial test: modify one printable byte of a synthetic evidence file without updating its SHA-256 manifest. The compiler must emit a `content_hash` integrity issue, retain successful JSON parsing, and fail closed with `UNSUPPORTED` status. This is **integrity checking**, not verification that the original observation was factually true.
 

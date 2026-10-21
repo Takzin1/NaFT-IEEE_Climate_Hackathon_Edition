@@ -10,7 +10,7 @@ const mode = process.env.NAFT_VIDEO_MODE || 'preview';
 if (!['preview','full'].includes(mode)) throw Error('NAFT_VIDEO_MODE must be preview or full');
 const showExplorer = mode === 'full' && process.env.NAFT_VIDEO_EXPLORER === '1';
 const output = resolve(process.env.NAFT_VIDEO_OUTPUT || 'video-output');
-const url = 'https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain';
+const url = 'https://takzin1.github.io/NaFT-IEEE_Climate_Hackathon_Edition/#/climatechain';
 const sleep = ms => new Promise(done => setTimeout(done, ms));
 const totalSeconds = mode === 'full' ? 250 : 24;
 const weights = [25,25,45,30,50,30,30,15];
