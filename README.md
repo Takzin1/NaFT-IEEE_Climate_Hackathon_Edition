@@ -4,7 +4,8 @@
 
 NaFT ("Naft") is a research-stage **MRV evidence compiler and selective re-verification engine**. When a methodology, parameter, or evidence requirement changes, NaFT traces the affected dependencies, identifies which historical climate claims need another review, and preserves an auditable predecessor–successor evidence history.
 
-**IEEE ClimateChain 2026 · Carbon Markets & Emissions Transparency**  
+**IEEE ClimateChain 2026 · Carbon Markets & Emissions Transparency**
+
 **Built by:** [Takzin1](https://github.com/Takzin1) · Independent research and development project
 
 [**▶ Watch the 3:31 English demo**](https://youtu.be/VqxtWtyEDlM) · [**↗ Try the live browser demo**](https://takzin1.github.io/NaFT-IEEE_Climate_Hackathon_Edition/#/climatechain) · [**◎ Inspect Sepolia evidence**](https://sepolia.etherscan.io/address/0x1B7a3d1217Ffe5Ddd7d80E9734CeB6E32d4293B0) · [**✓ See GitHub Actions**](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackathon_Edition/actions)
