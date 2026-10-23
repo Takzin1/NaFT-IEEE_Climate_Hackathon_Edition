@@ -12,6 +12,14 @@ NaFT ("Naft") is a research-stage **MRV evidence compiler and selective re-verif
 
 No sign-in, wallet, or installation is required to explore the public demo. The browser demo **does not** submit blockchain transactions.
 
+## Watch NaFT in action — 3:31 English demo
+
+[![NaFT IEEE ClimateChain 2026 demonstration — click to watch on YouTube](https://i.ytimg.com/vi/VqxtWtyEDlM/maxresdefault.jpg)](https://youtu.be/VqxtWtyEDlM)
+
+[▶ Watch the narrated demo on YouTube](https://youtu.be/VqxtWtyEDlM) · [↗ Open the live interactive demo](https://takzin1.github.io/NaFT-IEEE_Climate_Hackathon_Edition/#/climatechain)
+
+*Click the preview image to watch the 3-minute-31-second English walkthrough. The player opens on YouTube; GitHub READMEs do not embed interactive YouTube players.*
+
 ## The problem in one minute
 
 Carbon MRV (measurement, reporting and verification) is not static. Requirements, calculation parameters and source evidence change. An operator then needs to answer:
