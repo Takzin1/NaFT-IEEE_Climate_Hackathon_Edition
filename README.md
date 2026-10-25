@@ -161,3 +161,5 @@ See [known limitations](docs/known-limitations.md) and [roadmap](docs/roadmap.md
 IEEE ClimateChain Global Hackathon 2026 submission materials. Public Devpost project status should be checked separately; a GitHub README is not a submission confirmation.
 
 **Research literature update (2026-10-25):** [Five-source DMRV evidence register](docs/dmrv-literature-2026-10-25.md) — provenance, licensing, ICVCM change-governance recommendations and clear non-certification limits; reference-only, not executable MRV data.
+
+**Carbon-credit source audit (25 Oct 2026):** [32 source links checked, with access and license caveats](docs/carboncredit-source-audit-2026-10-25.md) / [machine-readable row-by-row provenance audit](research/carboncredit-link-audit-2026-10-25/source-audit.json). These are reference pointers, not verified emissions or certified credits.
