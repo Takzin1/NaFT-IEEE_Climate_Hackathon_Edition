@@ -159,3 +159,5 @@ See [known limitations](docs/known-limitations.md) and [roadmap](docs/roadmap.md
 **Watch:** [English narrated IEEE demo](https://youtu.be/VqxtWtyEDlM) · **Try:** [Live application](https://takzin1.github.io/NaFT-IEEE_Climate_Hackathon_Edition/#/climatechain) · **Inspect:** [Verified Sepolia contract](https://sepolia.etherscan.io/address/0x1B7a3d1217Ffe5Ddd7d80E9734CeB6E32d4293B0) · **Reproduce:** [GitHub Actions](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackathon_Edition/actions)
 
 IEEE ClimateChain Global Hackathon 2026 submission materials. Public Devpost project status should be checked separately; a GitHub README is not a submission confirmation.
+
+**Research literature update (2026-10-25):** [Five-source DMRV evidence register](docs/dmrv-literature-2026-10-25.md) — provenance, licensing, ICVCM change-governance recommendations and clear non-certification limits; reference-only, not executable MRV data.
