@@ -2,6 +2,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 node tests/dmrv-literature-register.test.mjs
+node tests/carboncredit-source-audit.test.mjs
 for script in src/*.js; do node --check "$script"; done
 for script in scripts/*.mjs; do node --check "$script"; done
 node --check src/mrv-ui.js
