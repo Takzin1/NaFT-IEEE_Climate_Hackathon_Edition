@@ -3,6 +3,8 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 node tests/dmrv-literature-register.test.mjs
 node --test tests/ieee-core-receipt-intake.test.mjs
+node --test tests/ieee-tokenization-research-preview.test.mjs
+node scripts/ieee-tokenization-research-preview.mjs fixtures/ieee-tokenization-synthetic-v1.json > /tmp/naft-ieee-tokenization-preview.json
 node tests/carboncredit-source-audit.test.mjs
 for script in src/*.js; do node --check "$script"; done
 for script in scripts/*.mjs; do node --check "$script"; done
