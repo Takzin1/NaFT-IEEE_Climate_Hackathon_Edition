@@ -36,11 +36,11 @@ function canonical(x){
   return JSON.stringify(x);
 }
 function sha(x){return createHash('sha256').update(canonical(x)).digest('hex');}
-function parseMicroTonnes(value){
+function parseMicroTonnes(value,allowZero=false){
   check(typeof value==='string'&&DECIMAL.test(value),'INVALID_EXACT_DECIMAL');
   const [whole,part='']=value.split('.');
   const number=BigInt(whole)*1000000n+BigInt((part+'000000').slice(0,6));
-  check(number>0n,'NONPOSITIVE_UNIT');
+  check(number>=0n&&(allowZero||number>0n),'NONPOSITIVE_UNIT');
   return number;
 }
 function formatMicroTonnes(num){
@@ -86,7 +86,7 @@ function wrapReceipt(body){
 function researchPreview(input){
   strictKeys(input,['schema','mode','source_package_hash','formal_certification',
     'certified_tco2e','research_estimate_tco2e'],'RESEARCH_FIELDS');
-  const micro=parseMicroTonnes(input.research_estimate_tco2e);
+  const micro=parseMicroTonnes(input.research_estimate_tco2e,true);
   return wrapReceipt({
     schema:TOKEN_PREVIEW_SCHEMA,mode:'RESEARCH_ESTIMATE',
     source_package_hash:input.source_package_hash,
@@ -137,7 +137,7 @@ function mockRegistryPreview(input){
       source_serial:item.serial,source_registry:'NAFT-SYNTHETIC-REGISTRY',
       input_order:index,source_evidence_digest:item.evidence_digest,
       denomination_tco2e:formatMicroTonnes(micro),
-      eligibility:'SIMULATED_CANDIDATE_ONLY',
+      eligibility:candidate?'SIMULATED_CANDIDATE_ONLY':'BLOCKED',
       scenario_candidate: candidate,
       block_reasons:reasons,
       hypothetical_erc1155_token_id: candidate?sha({
