@@ -1,0 +1,171 @@
+{
+  "schema": "naft-ieee-core-theory-bridge-v1",
+  "as_of": "2026-11-08",
+  "copyright_policy": "Only cite metadata, author concepts and independent compatibility checks; never commit uploaded PDFs, full text, figures or data without separate rights verification.",
+  "local_file_count": 7,
+  "unique_paper_count": 6,
+  "duplicate_uploaded_local_sha256": {
+    "Incremental Computation with Names.pdf": "61e92e9369560a2ec92a2694f5046323e5aaa698fc660b35ee074e2e2543e72d",
+    "Incremental Computation with Names(1).pdf": "61e92e9369560a2ec92a2694f5046323e5aaa698fc660b35ee074e2e2543e72d"
+  },
+  "sources": [
+    {
+      "id": "HAMMER_ET_AL_2015",
+      "title": "Incremental Computation with Names",
+      "doi": "10.1145/2814270.2814305",
+      "year": 2015,
+      "source_url": "https://doi.org/10.1145/2814270.2814305",
+      "uploaded_local_pdf_sha256": "61e92e9369560a2ec92a2694f5046323e5aaa698fc660b35ee074e2e2543e72d",
+      "domain": "NOMINAL_DEPENDENCY_NAMES",
+      "priority": "P0",
+      "limits": "Stable names are an approach to incremental computation; NaFT from-scratch consistency is not formally proven by citation.",
+      "paper_pdf_committed": false,
+      "third_party_licence_not_transferred": true,
+      "implementation_in_ieee": "RESEARCH_REFERENCE_AND_CONTRACT_CHECK_ONLY"
+    },
+    {
+      "id": "MOKHOV_ET_AL_2018",
+      "title": "Build Systems à la Carte",
+      "doi": "10.1145/3236774",
+      "year": 2018,
+      "source_url": "https://doi.org/10.1145/3236774",
+      "uploaded_local_pdf_sha256": "d0896073aaa5ded648c931490d25660759830fea2064fc691280209c88507dda",
+      "domain": "REBUILD_POLICY_AND_SCHEDULING",
+      "priority": "P0",
+      "limits": "Compare static/dynamic dependencies and rebuild policies; do not claim an optimal scheduler already exists.",
+      "paper_pdf_committed": false,
+      "third_party_licence_not_transferred": true,
+      "implementation_in_ieee": "RESEARCH_REFERENCE_AND_CONTRACT_CHECK_ONLY"
+    },
+    {
+      "id": "GREEN_ET_AL_2007",
+      "title": "Provenance Semirings",
+      "doi": "10.1145/1265530.1265535",
+      "year": 2007,
+      "source_url": "https://doi.org/10.1145/1265530.1265535",
+      "uploaded_local_pdf_sha256": "74e092702db58518afeaf909e1d3380848165b2cb9ae75dc6822b04f66aa5be0",
+      "domain": "ALTERNATIVE_AND_JOINT_DERIVATIONS",
+      "priority": "P1",
+      "limits": "Semiring additions/multiplications describe provenance, not arithmetic addition of carbon tonnes; full how-provenance remains unimplemented.",
+      "paper_pdf_committed": false,
+      "third_party_licence_not_transferred": true,
+      "implementation_in_ieee": "RESEARCH_REFERENCE_AND_CONTRACT_CHECK_ONLY"
+    },
+    {
+      "id": "KRAFCZYK_ET_AL_2021",
+      "title": "Learning from Reproducing Computational Results: Introducing Three Principles and the Reproduction Package",
+      "doi": "10.1098/rsta.2020.0069",
+      "year": 2021,
+      "source_url": "https://doi.org/10.1098/rsta.2020.0069",
+      "uploaded_local_pdf_sha256": "88ae1926e8f4d432d6eb3e9cbf0b330beaf508675278df9542aee67cf7e8b31c",
+      "domain": "THIRD_PARTY_REPRODUCTION_PACKAGE",
+      "priority": "P1",
+      "limits": "Repeatability of identical inputs/code does not establish independent scientific truth.",
+      "paper_pdf_committed": false,
+      "third_party_licence_not_transferred": true,
+      "implementation_in_ieee": "RESEARCH_REFERENCE_AND_CONTRACT_CHECK_ONLY"
+    },
+    {
+      "id": "BATJES_ET_AL_2024",
+      "title": "Towards a modular, multi-ecosystem monitoring, reporting and verification (MRV) framework for soil organic carbon stock change assessment",
+      "doi": "10.1080/17583004.2024.2410812",
+      "year": 2024,
+      "source_url": "https://doi.org/10.1080/17583004.2024.2410812",
+      "uploaded_local_pdf_sha256": "8d9d072f254f3e79785124933bef42cf0e6e7785e6359a0fcf99b08e16df7d1e",
+      "domain": "CROSS_ECOSYSTEM_MRV_BOUNDARIES",
+      "priority": "P1",
+      "limits": "Ecosystem monitoring, soil pools, and applicability constraints require domain-specific review; no approved coastal methodology is inferred.",
+      "paper_pdf_committed": false,
+      "third_party_licence_not_transferred": true,
+      "implementation_in_ieee": "RESEARCH_REFERENCE_AND_CONTRACT_CHECK_ONLY"
+    },
+    {
+      "id": "KORNER_ET_AL_2025",
+      "title": "Digital Measuring, Reporting, and Verification (dMRV) for Decarbonization",
+      "doi": "10.1007/s12599-025-00953-3",
+      "year": 2025,
+      "source_url": "https://doi.org/10.1007/s12599-025-00953-3",
+      "uploaded_local_pdf_sha256": "b77ebe2ae692093658de4a0e1f79731cada24b60e682340fc1b298aebb269cb8",
+      "domain": "END_TO_END_MRV_GOVERNANCE",
+      "priority": "P2",
+      "limits": "Data collection, reporting, verification and governance must not be collapsed into one automatic crediting decision.",
+      "paper_pdf_committed": false,
+      "third_party_licence_not_transferred": true,
+      "implementation_in_ieee": "RESEARCH_REFERENCE_AND_CONTRACT_CHECK_ONLY"
+    }
+  ],
+  "core": {
+    "repository": "Takzin1/NaFT",
+    "pinned_commit": "9d1b316b9599945fcd9c135d695b4f8899be7c62",
+    "module_refs": [
+      {
+        "path": "src/provenance-why-where.js",
+        "capability": "CONSERVATIVE_WHY_AND_DIRECT_COPY_WHERE"
+      },
+      {
+        "path": "src/opm-fair-interop.js",
+        "capability": "OPM_FAIR_RESEARCH_EXPORT"
+      },
+      {
+        "path": "src/incremental-compiler-research.js",
+        "capability": "PER_CLAIM_RESEARCH_CACHE_WITH_FULL_ORACLE"
+      },
+      {
+        "path": "src/edition-bridge.mjs",
+        "capability": "BLUE_CARBON_READ_ONLY_RESEARCH_IMPORT"
+      }
+    ]
+  },
+  "integration": {
+    "mode": "OFFLINE_JSON_RECEIPT_CHECK_WITH_GITHUB_ACTIONS_PINNED_CORE_REPLAY",
+    "source_receipt_schema": "naft-research-interop-receipt-1",
+    "on_chain_write": false,
+    "automated_issuance": false,
+    "certified_tco2e": null,
+    "independent_field_observation_verified": false,
+    "regulatory_methodology_approved": false,
+    "schema_migration_supported": false
+  },
+  "work_queue": [
+    {
+      "id": "P0_1",
+      "task": "IEEE source PRs #58 and #59: merge after full CI and audit",
+      "state": "COMPLETED_2026_11_08"
+    },
+    {
+      "id": "P0_2",
+      "task": "Core selective replay performance issue #78; profile root/document hash overhead; compare to independent full oracle",
+      "state": "OPEN"
+    },
+    {
+      "id": "P1_1",
+      "task": "Nominal stable computation node names and minimal rebuild policy; tests with inserted/removed evidence",
+      "state": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "P1_2",
+      "task": "Reproduction package with pinned data, code, environment and expected output",
+      "state": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "P1_3",
+      "task": "Provenance semiring alternative/joint witness expressions; independent positive-query oracle",
+      "state": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "P2_1",
+      "task": "Agriculture, IEEE and Blue Carbon schema interoperability and ecosystem-level scientific boundaries",
+      "state": "PARTIAL_RESEARCH_ONLY"
+    },
+    {
+      "id": "P2_2",
+      "task": "Independent source QC and scientific validation on permitted real observations",
+      "state": "OPEN"
+    },
+    {
+      "id": "P2_3",
+      "task": "MRV time/cost/sensitivity study and practitioner evidence",
+      "state": "OPEN"
+    }
+  ]
+}
