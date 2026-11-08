@@ -68,6 +68,8 @@ function safeTree(x,depth=0){
 }
 function commonInput(input){
   check(obj(input),'INPUT_REQUIRED');
+  check(input.formal_certification===false&&input.certified_tco2e===null,
+    'NO_PRODUCTION_CARBON_CERTIFICATION_ALLOWED');
   safeTree(input);
   check(Buffer.byteLength(JSON.stringify(input))<=65536,'INPUT_SIZE');
   check(input.schema==='naft-tokenization-preview-input/1','INPUT_SCHEMA');
