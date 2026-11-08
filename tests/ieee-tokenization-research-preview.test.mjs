@@ -99,12 +99,12 @@ test('unknown carbon certification fields and a positive credited amount fail cl
 test('must reject numeric floats, exponent forms, negative amounts and excess precision',()=>{
   for(const invalid of [1.2,'1e2','-1','0.0000001','01','NaN']){
     const v=synthetic();v.items[0].denomination_tco2e=invalid;
-    deny(v,'INVALID_EXACT_DECIMAL');
+    deny(v,typeof invalid==='number'?'UNSAFE_JSON_VALUE':'INVALID_EXACT_DECIMAL');
   }
   const v=synthetic();v.items[0].denomination_tco2e='0';
   deny(v,'NONPOSITIVE_UNIT');
   const p=synthetic();p.quote.price_per_unit_jpy=1.1;
-  deny(p,'INVALID_PRICE_JPY');
+  deny(p,'UNSAFE_JSON_VALUE');
   const q=synthetic();q.quote.fee_bps=10001;
   deny(q,'FEE_BPS_RANGE');
 });
