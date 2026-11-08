@@ -6,9 +6,9 @@
 
 > **Release gate:** Original IEEE history remains preserved. This repository is Public and Pages/Chrome smoke passed on the preceding final release SHA. Re-run the same-SHA CI before final Devpost submission. See [submission freeze](submission-freeze.md).
 
-**Independent public demo URL:** https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain
+**Independent public demo URL:** https://takzin1.github.io/NaFT-IEEE_Climate_Hackathon_Edition/#/climatechain
 
-**Public independent repository:** https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/tree/main
+**Public independent repository:** https://github.com/Takzin1/NaFT-IEEE_Climate_Hackathon_Edition/tree/main
 
 **Devpost-ready draft:** [Submission text](devpost-submission-draft.md)
 

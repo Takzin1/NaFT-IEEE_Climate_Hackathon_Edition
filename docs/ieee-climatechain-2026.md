@@ -4,7 +4,7 @@
 
 **Carbon markets need evidence that survives methodology change.**
 
-**Public demo:** https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain
+**Public demo:** https://takzin1.github.io/NaFT-IEEE_Climate_Hackathon_Edition/#/climatechain
 
 **Submission pack:** [Judge-ready final evidence and video path](ieee-submission-pack.md)
 

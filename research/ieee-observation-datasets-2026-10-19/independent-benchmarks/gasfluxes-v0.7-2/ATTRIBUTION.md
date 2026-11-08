@@ -14,7 +14,10 @@ source file. The original CRLF line endings and source values are preserved.
 `License: GPL (>= 2)` (SPDX `GPL-2.0-or-later`).
 Its separate benchmark CSV excerpt is distributed with the original
 package licence, and is **not relicensed** under NaFT terms.
+GPL license text for the excerpt is included in [`COPYING.GPL-2.0.txt`](COPYING.GPL-2.0.txt) (GPL-2.0-or-later under upstream `GPL (>= 2)` declaration).
 GPL licence: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+
+**License scope:** the benchmark excerpt is separately GPL-licensed; NaFT's own independent Python and JavaScript implementations are not copied from upstream R code.
 Original CRAN package: https://cran.r-project.org/package=gasfluxes
 
 **Independent expectations:** Upstream

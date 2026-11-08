@@ -29,11 +29,11 @@ import json, sys
 known = {
  "ea493dbb32f60168802157e69c48d94e5d627269:scripts/ieee-gimje-reference-method-gates.py:generic-api-key:223",
  "f209fdbe698273c1a6785b983a9b5e4296f2f785:scripts/audit-public-history.sh:generic-api-key:25",
- # Manually reviewed IEEE Harvard SHA-1 Git object IDs / SHA-256 research digests;
- # these are public content addresses, NOT credentials. No broad rule/path exclusion.
+ # Harvard event-key CSV identifiers: git blob id ace95b61... and its SHA256 18bf6d01...
+ # (public data-file hashes, not credentials).
  "b5ef004ab57d0dd29a9d85391bded802224cec36:scripts/ieee-independent-two-source-docking-gate.py:generic-api-key:13",
- "933bafe7c817110f349574c1bbd349d37b1faa46:research/ieee-observation-datasets-2026-10-19/independent-benchmarks/intake-rank-a-minus-b-plus.json:generic-api-key:54",
  "62dd1a389aee1958c993a24a585c595380e1c6da:scripts/ieee-third-party-evidence-map.py:generic-api-key:56",
+ "933bafe7c817110f349574c1bbd349d37b1faa46:research/ieee-observation-datasets-2026-10-19/independent-benchmarks/intake-rank-a-minus-b-plus.json:generic-api-key:54",
  "6005e4f2397d82978a7719123b965f0914038d75:research/ieee-observation-datasets-2026-10-19/independent-benchmarks/intake-rank-a-minus-b-plus.json:generic-api-key:43",
  "0aac2f8e371886d72c9608f0bbc15130497da0aa:scripts/ieee-independent-two-source-docking-gate.py:generic-api-key:11",
  "760a5497cf4d3f825e919cbf2e283bb9a09ef7a8:scripts/ieee-independent-harvard-raw-trace.py:generic-api-key:22",
@@ -51,11 +51,6 @@ try:
                 print("Rule:",finding.get("RuleID","unknown"),
                       "commit:",str(finding.get("Commit",""))[:12],
                       "line:",finding.get("StartLine","?"))
-            # Report only Git fingerprint metadata for manual triage; never emit
-            # matched secret values, line contents, passwords or tokens.
-            for row in findings:
-                if isinstance(row, dict) and row.get("Fingerprint") not in known:
-                    print("HISTORY_AUDIT_TRIAGE_FINGERPRINT:", row.get("Fingerprint"))
             raise SystemExit(1)
     print("PUBLIC_HISTORY_AUDIT_EXACT_FALSE_POSITIVE: exact reviewed, "
           "unchanged diagnostic field-name fingerprint; default scanner rules intact.")

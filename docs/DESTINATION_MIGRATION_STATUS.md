@@ -5,15 +5,15 @@
 - Original repository: https://github.com/Takzin1/NaFT
 - Exact source IEEE HEAD: `c87b534877293133ad92ac398b95936608bfd91b`
 - Original branch: `hackathon/ieee-climatechain-2026`
-- Destination repository: https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition
+- Destination repository: https://github.com/Takzin1/NaFT-IEEE_Climate_Hackathon_Edition
 - Destination default branch: `main`
 - Commit preservation: destination merge commit has original IEEE HEAD as **second parent**, and existing destination bootstrap lineage as first parent. Verify with `git merge-base --is-ancestor c87b534877293133ad92ac398b95936608bfd91b main`.
 - File integrity: the initial **80 source blobs matched 80/80** before destination-only landing/CI/documentation edits.
-- Historical security: Gitleaks scan of fetched repository history using `gitleaks git --log-opts="--all"` reported **no leaks found** in GitHub Actions audit run [#4](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38187476478). Earlier passes aborted before pushing because of tool CLI or permissions limitations; they are not climate-code defects.
-- Tests: **destination main core-and-security CI #10 succeeded on `847b626e931c4305116dcd32559bcc69a4a637e1`**, including the original **1,234 assertions**, four additional Ethereum Keccak-256 vectors, Solidity compilation, local EVM, real Chrome and reproducible reports. [CI #10](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189397298).
-- Blockchain: **independent source-bound live RPC verification `VERIFIED_TESTNET_RPC` succeeded on destination `847b626e931c4305116dcd32559bcc69a4a637e1`** using `https://sepolia.drpc.org`: chain ID, deployed creation/runtime bytecode, original deployment source `fb9016c6c3041ec0e77098e631d62138fbae582e`, writer, P1/P2 calldata/events and final head verified. [Sepolia verification #4](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189397313). No signing or redeployment.
+- Historical security: Gitleaks scan of fetched repository history using `gitleaks git --log-opts="--all"` reported **no leaks found** in GitHub Actions audit run [#4](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackathon_Edition/actions/runs/38187476478). Earlier passes aborted before pushing because of tool CLI or permissions limitations; they are not climate-code defects.
+- Tests: **destination main core-and-security CI #10 succeeded on `847b626e931c4305116dcd32559bcc69a4a637e1`**, including the original **1,234 assertions**, four additional Ethereum Keccak-256 vectors, Solidity compilation, local EVM, real Chrome and reproducible reports. [CI #10](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackathon_Edition/actions/runs/38189397298).
+- Blockchain: **independent source-bound live RPC verification `VERIFIED_TESTNET_RPC` succeeded on destination `847b626e931c4305116dcd32559bcc69a4a637e1`** using `https://sepolia.drpc.org`: chain ID, deployed creation/runtime bytecode, original deployment source `fb9016c6c3041ec0e77098e631d62138fbae582e`, writer, P1/P2 calldata/events and final head verified. [Sepolia verification #4](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackathon_Edition/actions/runs/38189397313). No signing or redeployment.
 - Google API: no Google API key has been configured or committed. Never place a secret in GitHub Pages JavaScript; use a backend or serverless secret store.
-- Public Pages: **deployed October 15, 2026**; final browser smoke retry pending; URL: https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain
+- Public Pages: **deployed October 15, 2026**; final browser smoke retry pending; URL: https://takzin1.github.io/NaFT-IEEE_Climate_Hackathon_Edition/#/climatechain
 - Video / Devpost entry: **not completed**.
 - Original NaFT `main`, IEEE PR #20 and freeze branches: unchanged.
 
@@ -34,8 +34,8 @@ verifier** on the existing Ethereum Sepolia deployment and P1 → P2 witnesses.
 The independent verification concluded `VERIFIED_TESTNET_RPC` on
 `https://sepolia.drpc.org`:
 
-- [First complete successful read-only verification #4](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189397313) — commit `847b626e931c4305116dcd32559bcc69a4a637e1`.
-- [Latest successful read-only verification #6](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189786240) — commit `051514e84bff01b7a8f71dc83dd5593b00e0a1d0`.
+- [First complete successful read-only verification #4](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackathon_Edition/actions/runs/38189397313) — commit `847b626e931c4305116dcd32559bcc69a4a637e1`.
+- [Latest successful read-only verification #6](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackathon_Edition/actions/runs/38189786240) — commit `051514e84bff01b7a8f71dc83dd5593b00e0a1d0`.
 
 Earlier public providers could not return certain archived receipts or did not
 support `web3_sha3`. The implementation now computes Ethereum Keccak-256

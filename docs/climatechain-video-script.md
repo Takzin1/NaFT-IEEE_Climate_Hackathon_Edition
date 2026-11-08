@@ -2,7 +2,7 @@
 
 **Target:** 3:55–4:15. Real screen recording with English narration and readable captions. The short automated preview has been recorded and validated, but the final full/narrated video has **not yet** been confirmed.
 
-**Entry (deployed and public-browser-verified Pages URL):** https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain
+**Entry (deployed and public-browser-verified Pages URL):** https://takzin1.github.io/NaFT-IEEE_Climate_Hackathon_Edition/#/climatechain
 
 ## 0:00–0:25 — Problem (show hero)
 

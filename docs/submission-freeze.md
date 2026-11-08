@@ -51,8 +51,8 @@ Copy these values into a private submission note before pressing Devpost submit:
 
 ```text
 Final repository SHA:
-Public demo URL (verify before claiming published): https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain
-Repository URL: https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition
+Public demo URL (verify before claiming published): https://takzin1.github.io/NaFT-IEEE_Climate_Hackathon_Edition/#/climatechain
+Repository URL: https://github.com/Takzin1/NaFT-IEEE_Climate_Hackathon_Edition
 Devpost project URL:
 Video URL:
 Track:

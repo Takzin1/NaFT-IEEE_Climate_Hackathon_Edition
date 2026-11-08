@@ -17,3 +17,7 @@ NAFT-SYNTHETIC 1/2 are invented engineering protocols under a separate methodolo
 ## 2026-09-21 repair re-check boundary
 
 AG-005の現行制度版は本repositoryに登録していない。e-Gov一次資料でVer.3.3は確認でき、第三者資料では2025年9月のVer.3.4参照が確認できるが、現行最新版の原文byte snapshot / SHA-256 / effective statusを本repositoryでは独立固定していない。したがって`AG-005@3.1-reference`から実在版へのinstitutional diffをNaFTの実証結果として扱わない。
+
+## Related DMRV literature (2026-10-25)
+
+Five papers/reports are indexed as [source-bound research references](dmrv-literature-2026-10-25.md) with a [machine-readable, hash-pinned literature manifest](../research/literature-2026-10-25/source-register.json): IEEE Access carbon trading review, PACT carbon assets, blockchain oracles, privacy-preserving emissions claims, and the ICVCM 2026 DMRV exploration. **No emission factors, raw observations, formal certification or executable methodology are inferred.** Check with `node tests/dmrv-literature-register.test.mjs`.

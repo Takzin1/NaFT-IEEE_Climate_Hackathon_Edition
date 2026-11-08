@@ -10,7 +10,7 @@
 | Original repository | [Takzin1/NaFT](https://github.com/Takzin1/NaFT) |
 | Exact IEEE source branch | `hackathon/ieee-climatechain-2026` |
 | Exact IEEE source HEAD | `c87b534877293133ad92ac398b95936608bfd91b` |
-| Destination | [Takzin1/NaFT-IEEE_Climate_Hackthon_Edition](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition) |
+| Destination | [Takzin1/NaFT-IEEE_Climate_Hackathon_Edition](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackathon_Edition) |
 | Destination integration commit | `2d4e86020a4bfaa1f9655ce8bb6a940bc0844c64` |
 | First independently verified destination SHA | `847b626e931c4305116dcd32559bcc69a4a637e1` |
 | Verified private candidate | `release/ieee-independent-verified-private-candidate` |
@@ -26,14 +26,14 @@ A GitHub Actions migration audit fetched the source history and ran Gitleaks:
 - **257 reachable source commits scanned**
 - Approximately **1.82 MB** scanned
 - Result: **`no leaks found`** in the audited patterns
-- Audit log: [migration Actions #4](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38187476478)
+- Audit log: [migration Actions #4](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackathon_Edition/actions/runs/38187476478)
 - Note: that workflow's **overall status was failure due to its GitHub App lacking permission to update a workflow file**; the scanner step itself passed, and the preserved-history merge was completed separately.
 
 This scan does **not** prove that no secret could ever exist: before changing visibility, retain normal human review. No Google API key, wallet secret, access token, or new RPC secret is embedded in the destination's configuration. Never put secrets into public GitHub Pages JS.
 
 ## 3. Destination regression: full core CI
 
-**[GitHub Actions core CI #10 — SUCCESS](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189397298)**
+**[GitHub Actions core CI #10 — SUCCESS](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackathon_Edition/actions/runs/38189397298)**
 
 At verified SHA `847b626e931c4305116dcd32559bcc69a4a637e1`:
 
@@ -53,7 +53,7 @@ The 100-claim result (30 require re-verification, 70 unaffected, 15 automatic, 1
 
 ## 4. Independent Ethereum Sepolia read-only verification
 
-**[Destination Sepolia workflow #4 — SUCCESS](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189397313)**
+**[Destination Sepolia workflow #4 — SUCCESS](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackathon_Edition/actions/runs/38189397313)**
 **Result: `VERIFIED_TESTNET_RPC`**
 **Successful provider:** `https://sepolia.drpc.org`
 
@@ -74,15 +74,15 @@ Keccak-256 signature hashing is performed locally using tested Ethereum vectors.
 
 ### Latest confirmation on private release candidate
 
-- [Core CI #12 — SUCCESS](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189786229)
-- [Independent real-Sepolia verification #6 — SUCCESS](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/actions/runs/38189786240)
+- [Core CI #12 — SUCCESS](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackathon_Edition/actions/runs/38189786229)
+- [Independent real-Sepolia verification #6 — SUCCESS](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackathon_Edition/actions/runs/38189786240)
 - Exact verified destination SHA: `051514e84bff01b7a8f71dc83dd5593b00e0a1d0`.
 - Publication is still blocked: `deploy-pages` is skipped while the repository is Private.
 
 ## 5. Still incomplete — publication gate
 
 - [ ] Repository visibility changed from **Private** to **Public** after final visibility approval/review
-- [ ] Main GitHub Pages deployed and confirmed anonymously at `https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain`
+- [ ] Main GitHub Pages deployed and confirmed anonymously at `https://takzin1.github.io/NaFT-IEEE_Climate_Hackathon_Edition/#/climatechain`
 - [ ] Browser direct-link and console errors checked against the **actual new public URL**
 - [ ] Exact final release SHA frozen after public deployment success
 - [ ] English real-screen demo video recorded, uploaded, playback tested without login

@@ -43,7 +43,7 @@ assert 'src/reviewer-demo.js' in html and '#/reviewer-demo' in (root / 'src/mrv-
 print('local document, favicon/script references and reviewer route wiring: OK')
 
 # Destination-release regression: prevent stale source-branch and testnet claims.
-expected_demo = 'https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain'
+expected_demo = 'https://takzin1.github.io/NaFT-IEEE_Climate_Hackathon_Edition/#/climatechain'
 for path in ['README.md','docs/ieee-submission-pack.md','docs/submission-freeze.md']:
     data = (root / path).read_text()
     assert expected_demo in data, f'{path}: destination demo URL missing'

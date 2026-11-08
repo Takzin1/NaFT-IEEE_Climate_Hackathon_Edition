@@ -4,7 +4,7 @@ Use this checklist for the standalone repository's **main** branch, after its ow
 
 ## 1. Repository state
 
-- [ ] Destination repository is `Takzin1/NaFT-IEEE_Climate_Hackthon_Edition` and default branch is `main`.
+- [ ] Destination repository is `Takzin1/NaFT-IEEE_Climate_Hackathon_Edition` and default branch is `main`.
 - [ ] Source IEEE commit `c87b534877293133ad92ac398b95936608bfd91b` is a real ancestor of destination `main`.
 - [ ] Source PR #20 remains Draft and unchanged (source history is not rebased or squashed).
 - [ ] Destination GitHub Actions **main push CI** is green on the exact intended SHA.
@@ -18,7 +18,7 @@ Use this checklist for the standalone repository's **main** branch, after its ow
 
 ## 2. Demo integrity
 
-- [ ] The independent public URL `https://takzin1.github.io/NaFT-IEEE_Climate_Hackthon_Edition/#/climatechain` opens anonymously and redirects to the correct English demo without horizontal overflow at mobile width.
+- [ ] The independent public URL `https://takzin1.github.io/NaFT-IEEE_Climate_Hackathon_Edition/#/climatechain` opens anonymously and redirects to the correct English demo without horizontal overflow at mobile width.
 - [ ] The real-world agricultural MRV context is clearly separated from the synthetic methodology experiment.
 - [ ] Running the methodology update computes 100 / 30 / 70 / 15 / 15 from the existing analyzer.
 - [ ] The 30 / 70 ratio is explicitly described as fixture-derived, not a performance result.
