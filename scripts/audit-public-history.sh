@@ -43,6 +43,11 @@ try:
                 print("Rule:",finding.get("RuleID","unknown"),
                       "commit:",str(finding.get("Commit",""))[:12],
                       "line:",finding.get("StartLine","?"))
+            # Report only Git fingerprint metadata for manual triage; never emit
+            # matched secret values, line contents, passwords or tokens.
+            for row in findings:
+                if isinstance(row, dict) and row.get("Fingerprint") not in known:
+                    print("HISTORY_AUDIT_TRIAGE_FINGERPRINT:", row.get("Fingerprint"))
             raise SystemExit(1)
     print("PUBLIC_HISTORY_AUDIT_EXACT_FALSE_POSITIVE: exact reviewed, "
           "unchanged diagnostic field-name fingerprint; default scanner rules intact.")
