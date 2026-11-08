@@ -48,6 +48,12 @@ GIMJE_HASH = "719b148d1a4f08e31bc146f412c920ae1472ca1a3a4d6dd81d882c1ef79fe813"
 GASFLUXES_SAMPLE_SHA = "b5ec601059dab6949a2ae5db8ebb741349ddd3e37a687fe4c4415df40b886f31"
 GASFLUXES_SAMPLE_PATH = ("research/ieee-observation-datasets-2026-10-19/"
   "independent-benchmarks/gasfluxes-v0.7-2/fluxmeas-first-five.csv")
+HARVARD_RAW_PATH = ("research/ieee-observation-datasets-2026-10-19/"
+  "independent-benchmarks/harvard-forest-raw-2023/Picarro_CH4_20230630_160808.dat")
+HARVARD_KEY_PATH = ("research/ieee-observation-datasets-2026-10-19/"
+  "independent-benchmarks/harvard-forest-raw-2023/times_key2.csv")
+HARVARD_RAW_SHA = "f6e65ff4b655db059edae321282b5641a4b5786be99bbac1739e629c007ba92a"
+HARVARD_KEY_SHA = "18bf6d01c9dcd1a25f01e8b64990f3d5924fb4b8fb533c9d577014bf99701bd5"
 
 
 def fail(code):
@@ -84,6 +90,15 @@ def validate_source(record):
                 record.get("imported_fixture_path") != GASFLUXES_SAMPLE_PATH or
                 record.get("independent_reference_results_compared") is not False):
             fail("GASFLUXES_PINNED_SUBSET_IMPORT_INVALID")
+    elif record["id"] == "HARVARD_FOREST_CHAMBER_FLUX":
+        if (record.get("verification_state") !=
+                "PINNED_RAW_INSTRUMENT_SAMPLE_AND_EVENT_KEY_IMPORTED_NO_CHAMBER_FLUX" or
+                record.get("external_bytes_imported") is not True or
+                record.get("source_data_download_sha256") != HARVARD_RAW_SHA or
+                record.get("event_key_download_sha256") != HARVARD_KEY_SHA or
+                record.get("imported_fixture_path") != HARVARD_RAW_PATH or
+                record.get("imported_event_key_path") != HARVARD_KEY_PATH):
+            fail("HARVARD_RAW_SOURCE_IMPORT_INVALID")
     else:
         if (record.get("verification_state") != "LANDING_PAGE_VERIFIED_NOT_REPRODUCED" or
                 record.get("external_bytes_imported") is not False or
@@ -130,7 +145,7 @@ def validate_source(record):
 def validate_registry(registry):
     if (not isinstance(registry,dict) or
             registry.get("schema") != "naft-ieee-independent-validation-candidate-registry-v1" or
-            registry.get("policy") != "ONE_PINNED_GASFLUXES_BENCHMARK_SUBSET_IMPORTED_NO_UPSTREAM_CODE_EXECUTED" or
+            registry.get("policy") != "TWO_INDEPENDENT_ORIGIN_RAW_SUBSETS_IMPORTED_NO_UPSTREAM_CODE_EXECUTED" or
             registry.get("reference_dataset",{}).get("id") != SOURCE_ID_GIMJE or
             registry.get("reference_dataset",{}).get("sha256_chamber_original") != GIMJE_HASH):
         fail("INVALID_INDEPENDENCE_REGISTRY")
@@ -216,11 +231,18 @@ def make_map(registry,readiness):
         fail("IMPORTED_BENCHMARK_NOT_REGULAR")
     if hashlib.sha256(fixture.read_bytes()).hexdigest()!=GASFLUXES_SAMPLE_SHA:
         fail("IMPORTED_BENCHMARK_SOURCE_DRIFT")
+    for rel, expected in ((HARVARD_RAW_PATH,HARVARD_RAW_SHA),
+                          (HARVARD_KEY_PATH,HARVARD_KEY_SHA)):
+        path=ROOT/rel
+        if path.is_symlink() or not path.is_file() or path.stat().st_size>25000:
+            fail("HARVARD_IMPORTED_FILE_UNSAFE")
+        if hashlib.sha256(path.read_bytes()).hexdigest()!=expected:
+            fail("HARVARD_IMPORTED_BYTES_DRIFT")
     # This mapper checks physical source bytes but does NOT itself execute
     # reference R software or independent replay; those have separate CI.
     return {
         "schema":"naft-ieee-independent-corrob-candidates-v1",
-        "status":"ONE_LICENSED_THIRD_PARTY_BENCHMARK_SUBSET_IMPORTED_REPLAY_VERIFIED_SEPARATELY",
+        "status":"TWO_THIRD_PARTY_RAW_SUBSETS_IMPORTED_REPLAY_AND_QC_ASSESSED_SEPARATELY",
         "gimje_source_doi":"10.5281/zenodo.17111992",
         "source_file_sha256":readiness["original_file_sha256"],
         "catalog_sha256":hashlib.sha256(
@@ -228,7 +250,10 @@ def make_map(registry,readiness):
         ).hexdigest(),
         "third_party_references_count":len(registry["sources"]),
         "evidence_link_count":sum(len(x["source_ids"]) for x in registry["claim_connections"]),
-        "external_dataset_files_downloaded":1,
+        "external_dataset_files_downloaded":3,
+        "distinct_external_source_origins_with_raw_data":2,
+        "Harvard_analyzer_sha256":HARVARD_RAW_SHA,
+        "Harvard_event_key_sha256":HARVARD_KEY_SHA,
         "imported_subset_sha256":GASFLUXES_SAMPLE_SHA,
         "imported_subset_records":20,
         "third_party_algorithms_executed":0,

@@ -369,3 +369,34 @@ concentration/time units and chamber calibration are verified. It does
 **not** validate Gimje's original static chamber sensor values, assign
 Gimje missing observation time, integrate seasonal methane, establish
 mitigation effects, or issue carbon credits.
+
+## Actual third-party evidence docking, ranked A− / B+ (internal, not certification)
+
+Two distinct, externally authored original research source subsets are now
+part of the immutable research suite:
+
+| Engineering intake rank | External source | Bytes/data imported | Computation | Release boundary |
+|---|---|---|---|---|
+| A− | Thünen Institute/CRAN `gasfluxes` | 20 observations, five published test series; source SHA pinned | Python Decimal + JS OLS vs **external published R golden values**, tolerance 1e−10 | Only independent algorithmic arithmetic. Does not establish Gimje CH4 QC or mass conversion |
+| B+ | Harvard Forest Picarro raw data | One 35-record source-original timestamped CH4 analyzer log and its 24-entry time key, verified **byte-for-byte matching source Git blobs** | Independent Decimal regression of **dry CH4 concentration vs elapsed seconds**, plus literal QC/status and event-window overlap audit | No overlap with supplied source chamber key; literal alarm code 2 for all rows; raw-data-specific reuse rights, time-zone and alarm semantics unresolved — **no approved chamber flux** |
+
+The complete rank evidence and source SHAs are recorded in
+[`independent-benchmarks/intake-rank-a-minus-b-plus.json`](independent-benchmarks/intake-rank-a-minus-b-plus.json).
+These are **NaFT-internal source intake priority labels**. They are not
+third-party peer-review grades, validated MRV outcomes or carbon credits.
+
+### Harvard Forest raw trace execution
+
+```sh
+python3 tests/ieee-independent-harvard-raw-trace.test.py
+python3 scripts/ieee-independent-harvard-raw-trace.py \
+  --output /tmp/naft-ieee-harvard-independent-raw-trace.json
+```
+
+The archived JSON retains exact imported SHA-256 identities, source commit,
+literal status-code distribution, event timing mismatch, and concentration
+slope. Numeric slopes are **not** calibrated methane mass flux. An event
+cannot be inferred from proximity or a silent time-zone shift. The
+original repo is labelled MIT but the separate licensing of analyzer
+recordings and downstream redistribution remains **unconfirmed**.
+See `independent-benchmarks/harvard-forest-raw-2023/ATTRIBUTION.md`.
