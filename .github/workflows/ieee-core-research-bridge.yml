@@ -1,0 +1,74 @@
+name: IEEE Research Bridge to Pinned NaFT Core
+on:
+  pull_request:
+    paths:
+      - 'scripts/ieee-core-receipt-intake.mjs'
+      - 'tests/ieee-core-receipt-intake.test.mjs'
+      - 'research/ieee-core-theory-2026-11-08/**'
+      - '.github/workflows/ieee-core-research-bridge.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/ieee-core-receipt-intake.mjs'
+      - 'tests/ieee-core-receipt-intake.test.mjs'
+      - 'research/ieee-core-theory-2026-11-08/**'
+      - '.github/workflows/ieee-core-research-bridge.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pinned-core-readonly-interop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout IEEE research edition
+        uses: actions/checkout@v4
+        with:
+          path: ieee
+          persist-credentials: false
+      - name: Checkout pinned public NaFT Core
+        uses: actions/checkout@v4
+        with:
+          repository: Takzin1/NaFT
+          ref: 9d1b316b9599945fcd9c135d695b4f8899be7c62
+          path: naft-core
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Validate six-paper source registry and IEEE-side adapter
+        run: |
+          cd ieee
+          node --test tests/ieee-core-receipt-intake.test.mjs
+      - name: Run selected core theory and Blue Carbon bridge regression tests
+        run: |
+          cd naft-core
+          node tests/provenance-why-where.test.js
+          node tests/opm-fair-interop.test.js
+          node tests/incremental-compiler-research.test.js
+          node --test tests/edition-bridge.test.mjs
+      - name: Generate a real synthetic OPM/FAIR research receipt with pinned Core
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs'),vm=require('node:vm');
+          for(const name of ['mrv-core','methodology-packs','mrv-compiler','compiler-demo','opm-fair-interop']) {
+            vm.runInThisContext(fs.readFileSync('naft-core/src/'+name+'.js','utf8'),{filename:name+'.js'});
+          }
+          const input=syntheticClaim('IEEE-CORE-RESEARCH-ONLY');
+          const pack=COMPILER_REGISTRY['NAFT-SYNTHETIC@1'];
+          const pkg=compileEvidence(input,pack);
+          const receipt=naftResearchInteropReceipt(pkg,input,pack);
+          fs.writeFileSync(process.env.RUNNER_TEMP+'/naft-core-interop.json',JSON.stringify(receipt));
+          NODE
+      - name: Validate the authentic Core-generated research receipt in IEEE, offline
+        run: |
+          node ieee/scripts/ieee-core-receipt-intake.mjs "$RUNNER_TEMP/naft-core-interop.json" > "$RUNNER_TEMP/ieee-core-bridge-result.json"
+          node --input-type=module -e '
+          import {readFileSync} from "node:fs";
+          const r=JSON.parse(readFileSync(process.env.RUNNER_TEMP+"/ieee-core-bridge-result.json"));
+          if(r.schema!=="naft-ieee-core-research-bridge-1" ||
+             r.formal_certification!==false || r.certified_tco2e!==null ||
+             r.transaction_submitted!==false || r.source_authenticity_verified!==false ||
+             !/^[a-f0-9]{64}$/.test(r.receipt_hash)) process.exit(1);
+          console.log("IEEE_CORE_RESEARCH_E2E_PASS: pinned real Core research receipt verified without chain writes");
+          '

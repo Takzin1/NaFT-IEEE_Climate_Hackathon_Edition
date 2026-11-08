@@ -162,4 +162,6 @@ IEEE ClimateChain Global Hackathon 2026 submission materials. Public Devpost pro
 
 **Research literature update (2026-10-25):** [Five-source DMRV evidence register](docs/dmrv-literature-2026-10-25.md) — provenance, licensing, ICVCM change-governance recommendations and clear non-certification limits; reference-only, not executable MRV data.
 
+**IEEE ↔ NaFT Core research bridge (2026-11-08):** [Six-paper theory map and next-step roadmap](docs/ieee-core-research-integration-2026-11-08.md) · [machine-readable DOI/sha256 registry](research/ieee-core-theory-2026-11-08/source-and-work-queue.json) · [read-only Core OPM/FAIR receipt importer](scripts/ieee-core-receipt-intake.mjs). Research-only; no certification or automatic chain write.
+
 **Carbon-credit source audit (25 Oct 2026):** [32 source links checked, with access and license caveats](docs/carboncredit-source-audit-2026-10-25.md) / [machine-readable row-by-row provenance audit](research/carboncredit-link-audit-2026-10-25/source-audit.json). These are reference pointers, not verified emissions or certified credits.
