@@ -1,0 +1,72 @@
+{
+  "schema": "naft-ieee-gasfluxes-linear-oracle-v1",
+  "dataset": {
+    "title": "gasfluxes documented chamber-series fixture (first five IDs)",
+    "published_source": "CRAN gasfluxes 0.7-2; author Roland Fuss, contributor Roman Hueppi",
+    "source_repo": "https://github.com/cran/gasfluxes",
+    "pinned_commit": "0a50f94bc7c1d6560bb5f32a596c7092d35c079c",
+    "full_source_path": "vignettes/fluxmeas.csv",
+    "full_source_blob_sha": "ff5e9982b5c24583342ce6e358aae368b6a710ea",
+    "selection": "exact original first 21 text lines (header plus ID1..ID5, 20 records), original CRLF retained",
+    "fixture_path": "research/ieee-observation-datasets-2026-10-19/independent-benchmarks/gasfluxes-v0.7-2/fluxmeas-first-five.csv",
+    "fixture_sha256": "b5ec601059dab6949a2ae5db8ebb741349ddd3e37a687fe4c4415df40b886f31",
+    "count_rows": 20,
+    "count_series": 5,
+    "source_license": "GPL-2.0-or-later",
+    "license_evidence": "cran/gasfluxes DESCRIPTION (Git blob 7c6bdac52f154939087620020134608eaddccf88)",
+    "source_doi": "10.32614/CRAN.package.gasfluxes"
+  },
+  "reference": {
+    "type": "upstream package testthat golden values",
+    "test_path": "tests/testthat/test_gasfluxes.R",
+    "test_blob_sha": "410dd826565f137fc5c7abfff16c3d06b935aa51",
+    "code_path": "R/linear.R",
+    "code_blob_sha": "b5421f70da55ab12dea51e1dfa40cfcb95b545a2",
+    "quantity": "linear.f0 = ordinary least squares slope(C~time) * V / A",
+    "data_scale": "unknown concentration and time units; no greenhouse-gas mass conversion approved",
+    "reference_upstream_algorithm_executed_in_naft": false,
+    "expected_linear_f0_by_series": [
+      {
+        "id": "ID1",
+        "f0": "0.0555669866740785",
+        "C0": "0.308970790118557"
+      },
+      {
+        "id": "ID2",
+        "f0": "-0.0611626095687461",
+        "C0": "0.475855538008889"
+      },
+      {
+        "id": "ID3",
+        "f0": "-0.0428897148924301",
+        "C0": "0.465418448020012"
+      },
+      {
+        "id": "ID4",
+        "f0": "-0.0111793261413552",
+        "C0": "0.385341651037846"
+      },
+      {
+        "id": "ID5",
+        "f0": "0.041840210297243",
+        "C0": "0.333253184107449"
+      }
+    ]
+  },
+  "safety": {
+    "source_and_golden_results_reproduced_offline": true,
+    "third_party_reference_values_independent_of_naft": true,
+    "independent_python_and_node_implementations": true,
+    "raw_Gimje_CH4_inputs_available": false,
+    "method_applied_to_Gimje": false,
+    "seasonal_CH4_integrals_computed": false,
+    "official_MRV_method_approved": false,
+    "certified_tco2e": null
+  },
+  "conditions": [
+    "Do not claim the upstream R package executed: source code used as published golden oracle only",
+    "These are separate package examples not source-matched Gimje data",
+    "GPL-2.0-or-later subset remains separately attributed; do not silently relicense",
+    "Absence of missing data in 5 fixture series does not validate Gimje sampling interval or QC"
+  ]
+}

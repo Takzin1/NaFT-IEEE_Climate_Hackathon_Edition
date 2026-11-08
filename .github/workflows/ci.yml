@@ -76,6 +76,16 @@ jobs:
           path: /tmp/naft-ieee-third-party-evidence-map.json
           if-no-files-found: error
           retention-days: 21
+      - name: Archive independently replayed licensed gasfluxes benchmark (not Gimje validation)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ieee-independent-gasfluxes-three-way-replay
+          path: |
+            /tmp/naft-ieee-gasfluxes-decimal.json
+            /tmp/naft-ieee-gasfluxes-node.json
+            /tmp/naft-ieee-gasfluxes-three-way.json
+          if-no-files-found: error
+          retention-days: 21
       - name: Execute ClimateChain contract behavior on local EVM
         run: node tests/climatechain-contract-behavior.test.mjs
       - name: Browser Reviewer, Evidence file, six-route and Compiler role-flow checks

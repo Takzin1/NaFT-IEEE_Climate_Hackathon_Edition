@@ -8,10 +8,10 @@
     "source_authors": "Hyoung Seok Lee et al.",
     "sha256_chamber_original": "719b148d1a4f08e31bc146f412c920ae1472ca1a3a4d6dd81d882c1ef79fe813"
   },
-  "policy": "EXTERNAL_CANDIDATES_ONLY_NO_DATA_IMPORTED_NO_EXTERNAL_CODE_EXECUTED",
+  "policy": "ONE_PINNED_GASFLUXES_BENCHMARK_SUBSET_IMPORTED_NO_UPSTREAM_CODE_EXECUTED",
   "independence_definition": "Different collection team/site or external method provider, explicitly distinct from original author; not a third-party attestation, same-scale field validation or certified audit",
   "rules": {
-    "all_sources_meta_only": true,
+    "all_sources_meta_only": false,
     "third_party_peer_review_does_not_certify_input": true,
     "raw_observation_data_required_for_independent_replay": true,
     "ec_and_chamber_not_directly_identical": true,
@@ -100,12 +100,15 @@
         "Gimje daily-flux CSV lacks raw chamber concentration; direct identical-input replay currently impossible",
         "GPL source not vendored into NaFT"
       ],
-      "external_bytes_imported": false,
+      "external_bytes_imported": true,
       "external_code_executed": false,
       "analysis_reproduced": false,
-      "source_data_download_sha256": null,
+      "source_data_download_sha256": "b5ec601059dab6949a2ae5db8ebb741349ddd3e37a687fe4c4415df40b886f31",
       "reviewed_by_independent_human": false,
-      "verification_state": "LANDING_PAGE_VERIFIED_NOT_REPRODUCED"
+      "verification_state": "PINNED_FIXTURE_SUBSET_IMPORTED_REPLAY_CHECKED_IN_SEPARATE_CI_ARTIFACT",
+      "imported_fixture_path": "research/ieee-observation-datasets-2026-10-19/independent-benchmarks/gasfluxes-v0.7-2/fluxmeas-first-five.csv",
+      "imported_scope": "20 source measurement records, 5 testthat golden-series; not the full original file",
+      "independent_reference_results_compared": false
     },
     {
       "id": "HARVARD_FOREST_CHAMBER_FLUX",

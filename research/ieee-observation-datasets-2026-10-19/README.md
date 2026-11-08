@@ -321,3 +321,51 @@ cross-dataset validation requires comparable field-level data, method
 and QC protocols, units, sampling support, per-site rights and
 independent reviewer decisions. No seasonal integration, validated
 field effect or certified credit is enabled by this link.
+
+## Imported *independent* third-party data: gasfluxes five-series benchmark
+
+A new separately attributed folder
+[`independent-benchmarks/gasfluxes-v0.7-2/`](independent-benchmarks/gasfluxes-v0.7-2/)
+contains the **unaltered first 20 observations plus header** from CRAN
+`gasfluxes` v0.7-2, `vignettes/fluxmeas.csv`, upstream commit
+`0a50f94bc7c1d6560bb5f32a596c7092d35c079c`.
+The source's entire original Git blob hash and the imported 20-record
+fixture's SHA-256 `b5ec601059dab6949a2ae5db8ebb741349ddd3e37a687fe4c4415df40b886f31`
+are pinned in `oracle.json`. The separately licensed excerpt is
+GPL-2.0-or-later; attribution is included in `ATTRIBUTION.md`.
+**This is not the full source file.** The other eight third-party candidates
+(including FLUXNET and PANGAEA) remain metadata-only and unacquired.
+
+For each of the first five distinct source series `ID1`–`ID5`, upstream
+`tests/testthat/test_gasfluxes.R` publishes golden `linear.f0`
+and intercept (`linear.C0`) values. We **actually execute** two
+source-independent algorithms on the imported raw numerical fixture:
+a Python `Decimal` centered-covariance least-squares calculation,
+and a Node `Number` OLS normal-equations calculation. Both compare
+against independently published upstream R golden numeric results,
+and a separate strict comparator cross-checks the two outputs.
+
+```sh
+python3 tests/ieee-independent-gasfluxes.test.py
+node tests/ieee-independent-gasfluxes.test.cjs
+python3 scripts/ieee-independent-gasfluxes-decimal.py --output /tmp/naft-ieee-gasfluxes-decimal.json
+node scripts/ieee-independent-gasfluxes-node.cjs --output /tmp/naft-ieee-gasfluxes-node.json
+python3 scripts/ieee-independent-gasfluxes-compare.py \
+  --decimal /tmp/naft-ieee-gasfluxes-decimal.json \
+  --node /tmp/naft-ieee-gasfluxes-node.json \
+  --output /tmp/naft-ieee-gasfluxes-three-way.json
+```
+
+All five reference series must independently match the upstream expected
+`f0` and `C0` within `1e-10` in original fixture units. Source byte
+tampering, geometry mismatches, duplicate observation time, forged approvals,
+missing series, and disagreement across independently implemented
+algorithms are **fatal CI errors**. Artifacts are saved under
+`ieee-independent-gasfluxes-three-way-replay` for 21 days.
+
+This **verifies numerical reproduction of a separate published benchmark**,
+not that original R source was run here, nor that the raw fixture's
+concentration/time units and chamber calibration are verified. It does
+**not** validate Gimje's original static chamber sensor values, assign
+Gimje missing observation time, integrate seasonal methane, establish
+mitigation effects, or issue carbon credits.

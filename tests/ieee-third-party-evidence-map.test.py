@@ -29,19 +29,21 @@ class TestIndependentEvidence(unittest.TestCase):
         self.assertEqual(result,self.make())
         self.assertEqual(result["third_party_references_count"],9)
         self.assertEqual(result["source_primary_evidence_gaps"],9)
-        self.assertEqual(result["external_dataset_files_downloaded"],0)
+        self.assertEqual(result["external_dataset_files_downloaded"],1)
         self.assertEqual(result["third_party_algorithms_executed"],0)
         self.assertEqual(result["independent_human_reviewer_signoffs"],0)
         self.assertEqual(result["status"],
-                         "THIRD_PARTY_CITATIONS_CONNECTED_DATA_AND_CALCULATIONS_NOT_REPRODUCED")
+                         "ONE_LICENSED_THIRD_PARTY_BENCHMARK_SUBSET_IMPORTED_REPLAY_VERIFIED_SEPARATELY")
         self.assertEqual(result["source_file_sha256"]["ch4.zip"],m.GIMJE_HASH)
         self.assertIs(result["strict_boundaries"]["independent_field_level_validation"],False)
         self.assertIs(result["strict_boundaries"]["cross_ec_chamber_value_equivalence"],False)
         self.assertIsNone(result["strict_boundaries"]["certified_tco2e"])
         self.assertTrue(all(claim["independently_validated"] is False
                             for claim in result["independent_claims"]))
-        self.assertTrue(all(ref["source_acquired"] is False
-                            for ref in result["external_references"]))
+        acquired=[x["id"] for x in result["external_references"] if x["source_acquired"]]
+        self.assertEqual(acquired,["GASFLUXES_CRAN_2026"])
+        self.assertEqual(result["imported_subset_records"],20)
+        self.assertEqual(result["imported_subset_sha256"],m.GASFLUXES_SAMPLE_SHA)
         for ref in result["external_references"]:
             self.assertTrue(ref["primary_url"].startswith("https://"))
             if ref["github_repo"]:
@@ -70,6 +72,18 @@ class TestIndependentEvidence(unittest.TestCase):
             modifier(case)
             with self.assertRaisesRegex(ValueError,reason):
                 self.make(case)
+
+    def test_third_party_fixture_import_fingerprint_cannot_be_forged(self):
+        forged=copy.deepcopy(self.registry)
+        imported=next(x for x in forged["sources"] if x["id"]=="GASFLUXES_CRAN_2026")
+        imported["source_data_download_sha256"]="0"*64
+        with self.assertRaisesRegex(ValueError,"GASFLUXES_PINNED_SUBSET_IMPORT_INVALID"):
+            self.make(forged)
+        forged=copy.deepcopy(self.registry)
+        other=next(x for x in forged["sources"] if x["id"]=="HARVARD_FOREST_CHAMBER_FLUX")
+        other["external_bytes_imported"]=True
+        with self.assertRaisesRegex(ValueError,"FORGED_EXTERNAL_VALIDATION_STATUS"):
+            self.make(forged)
 
     def test_tower_data_are_not_substituted_for_chamber_raw_flux(self):
         fake=copy.deepcopy(self.registry)
