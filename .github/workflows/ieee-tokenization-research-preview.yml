@@ -1,0 +1,55 @@
+name: IEEE Tokenization Research Preview (NO MINT)
+on:
+  pull_request:
+    paths:
+      - "scripts/ieee-tokenization-research-preview.mjs"
+      - "tests/ieee-tokenization-research-preview.test.mjs"
+      - "fixtures/ieee-tokenization-synthetic-v1.json"
+      - "research/web3-tokenization-2026-11-08/**"
+      - "docs/ieee-web3-tokenization-preview-v1-ja.md"
+      - "tests/run.sh"
+      - ".github/workflows/ieee-tokenization-research-preview.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/ieee-tokenization-research-preview.mjs"
+      - "tests/ieee-tokenization-research-preview.test.mjs"
+      - "fixtures/ieee-tokenization-synthetic-v1.json"
+      - ".github/workflows/ieee-tokenization-research-preview.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-no-mint-calculation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Exact JPY and synthetic registry invalidation tests
+        run: node --test tests/ieee-tokenization-research-preview.test.mjs
+      - name: Produce no-mint synthetic token preview
+        run: |
+          node scripts/ieee-tokenization-research-preview.mjs fixtures/ieee-tokenization-synthetic-v1.json > /tmp/naft-token-preview.json
+          node --input-type=module -e '
+          import {readFileSync} from "node:fs";
+          const r=JSON.parse(readFileSync("/tmp/naft-token-preview.json","utf8"));
+          if(r.tokenization_status!=="SIMULATED_REFERENCE_ONLY"||
+             r.simulated_token_reference_count!==2||
+             r.simulated_eligible_tco2e!=="2.5"||
+             r.scenario_quote.gross_jpy!=="6000"||
+             r.scenario_quote.fee_jpy!=="150"||
+             r.scenario_quote.net_jpy!=="5850"||
+             r.production_mint_authorized!==false||
+             r.transaction_submitted!==false||
+             r.issued_credits!==null)process.exit(1);
+          console.log("TOKEN_PREVIEW_E2E_PASS_NO_MINT");
+          '
+      - name: Archive only the synthetic preview (no transaction, no wallet)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ieee-tokenization-research-synthetic-preview
+          path: /tmp/naft-token-preview.json
+          retention-days: 14

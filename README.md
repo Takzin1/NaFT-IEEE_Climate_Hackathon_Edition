@@ -20,6 +20,12 @@ No sign-in, wallet, or installation is required to explore the public demo. The 
 
 *Click the preview image to watch the 3-minute-31-second English walkthrough. The player opens on YouTube; GitHub READMEs do not embed interactive YouTube players.*
 
+## Web3 tokenization research preview — NO MINT (2026-11-08)
+
+NaFT now includes an **offline synthetic-only registry/rights-gated calculation** for hypothetical ERC-1155 serial references, exact decimal tCO2e aggregates and scenario JPY quotes. **Research estimates always produce zero token candidates**; no actual carbon credits, token rights, mint/burn/transfer, wallets, transactions or external registry permissions are created. The original Sepolia evidence anchor remains a provenance witness only.
+
+Read the [Japanese technical and legal boundary notes](docs/ieee-web3-tokenization-preview-v1-ja.md) and the two non-peer-reviewed working-paper drafts: [Evidence-to-Token Gate](research/web3-tokenization-2026-11-08/working-paper-a-evidence-to-token-ja.md) / [registry and rights governance](research/web3-tokenization-2026-11-08/working-paper-b-governance-ja.md). Run the synthetic preview with Node.js 24: `node scripts/ieee-tokenization-research-preview.mjs fixtures/ieee-tokenization-synthetic-v1.json`. This is not a claim of eligibility to tokenize Verra, Gold Standard or J-Credit units.
+
 ## The problem in one minute
 
 Carbon MRV (measurement, reporting and verification) is not static. Requirements, calculation parameters and source evidence change. An operator then needs to answer:

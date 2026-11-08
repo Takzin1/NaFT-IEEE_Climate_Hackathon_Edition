@@ -1,0 +1,39 @@
+{
+  "schema": "naft-tokenization-preview-input/1",
+  "mode": "SYNTHETIC_REGISTRY",
+  "source_package_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "formal_certification": false,
+  "certified_tco2e": null,
+  "registry_id": "NAFT-SYNTHETIC-REGISTRY",
+  "registry_permission": "SIMULATION_ONLY_NOT_LEGAL_CONSENT",
+  "items": [
+    {
+      "serial": "SYN-001",
+      "registry_state": "MOCK_ISSUED",
+      "custody": "MOCK_LOCKED",
+      "duplicate_claim_flag": false,
+      "denomination_tco2e": "1",
+      "evidence_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+      "serial": "SYN-002",
+      "registry_state": "MOCK_ISSUED",
+      "custody": "MOCK_LOCKED",
+      "duplicate_claim_flag": false,
+      "denomination_tco2e": "1.5",
+      "evidence_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    {
+      "serial": "SYN-003",
+      "registry_state": "MOCK_RETIRED",
+      "custody": "MOCK_LOCKED",
+      "duplicate_claim_flag": false,
+      "denomination_tco2e": "1",
+      "evidence_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    }
+  ],
+  "quote": {
+    "price_per_unit_jpy": "3000",
+    "fee_bps": 250
+  }
+}

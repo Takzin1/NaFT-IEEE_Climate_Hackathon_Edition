@@ -1,0 +1,132 @@
+{
+  "schema": "naft-web3-carbon-token-research-register/1",
+  "as_of": "2026-11-08",
+  "analysis_only": true,
+  "legal_advice": false,
+  "real_token_issuance_supported": false,
+  "production_registry_integrations": 0,
+  "third_party_pdfs_committed": false,
+  "source_boundary": "URLs and author/source metadata only; do not redistribute full texts or infer actual legal permission from policy statements.",
+  "standards": [
+    {
+      "id": "ERC1155",
+      "title": "Multi Token Standard",
+      "url": "https://eips.ethereum.org/EIPS/eip-1155",
+      "role": "Candidate multi-token interface, not a carbon registry entitlement mechanism."
+    },
+    {
+      "id": "ERC721",
+      "title": "Non-Fungible Token Standard",
+      "url": "https://eips.ethereum.org/EIPS/eip-721",
+      "role": "Alternative for unique serial-specific assets; no legal rights arise merely by minting."
+    },
+    {
+      "id": "EIP712",
+      "title": "Typed structured data hashing and signing",
+      "url": "https://eips.ethereum.org/EIPS/eip-712",
+      "role": "Future human-approved attestation signing; signature standard alone is not replay protection or registry authorization."
+    },
+    {
+      "id": "ICVCM_CCP",
+      "title": "Core Carbon Principles",
+      "url": "https://www.icvcm.org/core-carbon-principles/",
+      "role": "Program registry tracking, robust quantification, independent verification, avoidance of double counting."
+    }
+  ],
+  "institutional_policies": [
+    {
+      "id": "VERRA_2022",
+      "title": "Verra Addresses Crypto Instruments and Tokens",
+      "published": "2022-05-25",
+      "url": "https://verra.org/verra-addresses-crypto-instruments-and-tokens/",
+      "scope": "Retired credits cannot be tokenized as environmental credits under announced policy; current contract-specific requirements require separate written registry review."
+    },
+    {
+      "id": "GOLD_STANDARD_CONSENT",
+      "title": "Conditions for consenting to tokenisation of Gold Standard-issued credits",
+      "url": "https://www.goldstandard.org/consultations/conditions-for-consenting-to-tokenisation-of-gold-standard-issued-credits",
+      "scope": "Registry terms require express written consent for issuing carbon-credit-related tokens; verify current operative version before implementation."
+    },
+    {
+      "id": "ICVCM_CCP_2024",
+      "title": "ICVCM Assessment Framework",
+      "url": "https://www.icvcm.org/assessment-framework/",
+      "scope": "No double issuance, double claiming or double use."
+    },
+    {
+      "id": "J_CREDIT_JAPAN_2025",
+      "title": "J-クレジットのトークン化に関する分析：公表案内",
+      "published": "2025-09-25",
+      "url": "https://www.nishimura.com/ja/knowledge/newsletters/finance_law_web3_metaverse_251111",
+      "scope": "Rights representation, registry legal control, fractional units and potential pre-certification designs must be analysed separately; not a blanket ban."
+    },
+    {
+      "id": "JAPAN_FSA_CARBON",
+      "title": "金融庁 カーボン・クレジット取引に関する金融インフラのあり方等に係る検討会",
+      "published": "2024-06-04",
+      "url": "https://www.fsa.go.jp/news/r5/singi/20240604.html",
+      "scope": "Transparency, market integrity, fair access and legal characterisation; no conclusion that all carbon tokens belong to a single financial instrument category."
+    },
+    {
+      "id": "J_CREDIT_MRV_SYSTEM",
+      "title": "環境省 J-クレジット制度MRV支援システム運営者の採択",
+      "url": "https://www.env.go.jp/press/press_04626.html",
+      "scope": "Official digital MRV exists; no claim that NaFT is an approved operator."
+    }
+  ],
+  "academic_papers": [
+    {
+      "id": "SWINKELS_2024",
+      "title": "Trading carbon credit tokens on the blockchain",
+      "author": "Laurens Swinkels",
+      "year": 2024,
+      "doi": "10.1016/j.iref.2024.01.012",
+      "url": "https://doi.org/10.1016/j.iref.2024.01.012",
+      "research_role": "Empirical market, liquidity and retirement comparison; 2021-2022 results are historical, not NaFT performance."
+    },
+    {
+      "id": "LIU_ET_AL_2026",
+      "title": "A blockchain-based carbon registry platform for credible climate action in transportation",
+      "year": 2026,
+      "doi": "10.1038/s44168-026-00342-w",
+      "url": "https://doi.org/10.1038/s44168-026-00342-w",
+      "research_role": "Stakeholder-aligned tokenized carbon registry architecture, not evidence of approval of NaFT."
+    },
+    {
+      "id": "KORNER_ET_AL_2025",
+      "title": "Digital Measuring, Reporting, and Verification (dMRV) for Decarbonization",
+      "year": 2025,
+      "doi": "10.1007/s12599-025-00953-3",
+      "url": "https://doi.org/10.1007/s12599-025-00953-3",
+      "research_role": "Whole-chain MRV information architecture."
+    },
+    {
+      "id": "KRAFCZYK_ET_AL_2021",
+      "title": "Learning from reproducing computational results: introducing three principles and the Reproduction Package",
+      "year": 2021,
+      "doi": "10.1098/rsta.2020.0069",
+      "url": "https://doi.org/10.1098/rsta.2020.0069",
+      "research_role": "Reproducible experiment package, pinned sources and expected outcomes."
+    },
+    {
+      "id": "RE_FI_2026",
+      "title": "From promise to practice: Decentralization in ReFi transaction networks and on-chain carbon credit retirement",
+      "year": 2026,
+      "doi": "10.1016/j.bcra.2026.100551",
+      "url": "https://doi.org/10.1016/j.bcra.2026.100551",
+      "research_role": "Retirement network analysis and evidence that tokenization alone is not decentralization/impact."
+    }
+  ],
+  "unresolved_requirements": [
+    "Registry-specific written authorization",
+    "Legal rights attached to every token",
+    "Registry lock and actual custody confirmation",
+    "Registry serial uniqueness across operators and chains",
+    "Live offchain-onchain retirement reconciliation",
+    "Reversal/fraud response and dispute processes",
+    "Third-party legal and financial regulatory review",
+    "Formal rights to source data and signed operator approval",
+    "Independent audit of smart contract and token supply controls"
+  ],
+  "v1_scope": "Offline synthetic registry unit and yen quote simulator only; actual_token_issued=0; transaction_submitted=false"
+}
